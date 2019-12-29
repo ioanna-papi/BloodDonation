@@ -2,11 +2,17 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.*;
 
+/**
+ * This class implemets hospitals. Specifically, 
+ * each hospital can update its blood bank stock fro every blood type, 
+ * ask for blood borrow from another hospital or create a donation day. */
 public class Hospital {
 
 	String[] bloodtype = {"A+","A-","AB+","AB-","B+","B-","0+","O-"};
-
-    public void bloodBankStock() {
+   	/**
+	 * Method bloodBankStock asks hospitals to
+	 * update their blodd bank stock for each blood type.*/
+	public void bloodBankStock() {
 
 		//εξαιρεση για null ********* σε όλα τα παραθυράκια
 
@@ -23,11 +29,11 @@ public class Hospital {
 			String[] kind = {"INCOME", "OUTCOME"};
 			int option = JOptionPane.showOptionDialog(null,"Choose the kind of the update", null, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, kind, kind[0]);
 
-			//Asking for the blood-amound
-			double amound;
+			//Asking for the blood-amount
+			double amount;
 			do {
-				amound = Double.parseDouble(JOptionPane.showInputDialog("Insert the amound of blood in liters: "));
-			} while (amound < 0);
+				amount = Double.parseDouble(JOptionPane.showInputDialog("Insert the amount of blood in liters: "));
+			} while (amount < 0);
 
 			//Updating the bloodStock
 			for (int i=0; i<=7; i++) {
@@ -35,9 +41,9 @@ public class Hospital {
 				if (bloodtype[i]  == type_update) {
 
 					if (option == 0) {
-						bloodStock[i] += amound;
+						bloodStock[i] += amount;
 					} else {
-						bloodStock[i] -= amound;
+						bloodStock[i] -= amount;
 					}
 
 					//Checking if the bloodStock is under the allowed limit of its bloodType

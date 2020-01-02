@@ -2,14 +2,15 @@
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 public class BloodDonor {
+	static String fullname;
 	private static String username;
 	static String gender;
 	static String bloodtype;
-	static String AMKA;
+	static String SSN;
 	private static String region;
 	static String[]  bloodtypes = {"O+", "O-", "A+", "A-" ,"B+" ,"B-" ,"AB+" ,"AB-"}; 
 	private static String password;
@@ -18,16 +19,12 @@ public class BloodDonor {
 	static String password_login;
 	static Object CurrentBloodDonorData[] = new Object[6];
 	
-	final static Scanner input = new Scanner(System.in);
-	
-	
-	
-	
+	final static Scanner input = new Scanner(System.in);	
 	
 	//custom exceptions for bloodtype&gender
 	public static boolean correctGender(String gender) throws GenderException{
 		
-		if ((gender.equals("male")) || (gender.equals("female"))) {
+		if ((gender.toLowerCase().equals("male")) || (gender.toLowerCase().equals("female"))) {
 			return true;
 		}
 		else {
@@ -50,79 +47,54 @@ public class BloodDonor {
 		}
 
 
-
+	/** This method lets users sign up to the application*/
 	public static void signUp()  {
-		
-		
-		
-		//donor's username
-		boolean flag = false;
-		do {
-				System.out.println("Enter your full name:");
-				username = input.nextLine();
-				flag = BloodDonors.contains(username);
-				if (flag)
-					System.err.println("The username is already used.");
-				else
-					flag = false;
-		}while (flag == true);
-			
-			
-		
-			
-		
-		
-		
-		
-		//donor's gender
+		//donor's full name
+		 boolean flag = true;
+                do {
+			try{
+				  String fullname = JOptionPane.showInputDialog(null,"Enter your full name: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
+			} catch (InputMismatchException e) {
+		         	JOptionPane.showMessageDialog(null, "Please enter a valid name.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
 				flag = false;
-				do {
-					try {
-						System.out.println("Gender:");
-						gender = input.nextLine();
-						flag = correctGender(gender);
-					}
-					catch (GenderException e1) {
-						System.out.println(e1.getMessage());
-					}
-				}while (flag == false);
-				
-					
-			
-		//donor's bloodtype
-		boolean ifloopneeded = false;
-		//ifloopneeded is a boolean variable used to determine whether user gave valid data
-		//or they need to give new data because they were wrong
-		do {
-			try {
-				System.out.println("Please type your bloodtype choosing one of the following:");
-				for (int i=0; i<=7; i++) {
-					System.out.println(bloodtypes[i]);		
-				 }
-				 bloodtype = input.nextLine();
-				 ifloopneeded = correctBloodType(bloodtype,bloodtypes);
-							
-			 }
-			 catch(BloodTypeException e2) {
-				System.out.println(e2.getMessage());
-			 }
-		}while (ifloopneeded == false);
-					
-		
-		
-		
-		//donor's AMKA
+                	}
+		}while (flag == true);
+
+		//donor's username
 		flag = false;
 		do {
-			System.out.println("Enter your AMKA:");
-			Scanner input3 = new Scanner(System.in);
-			AMKA = input.nextLine();
-			if (AMKA.length() == 11) {
+			String fullname = JOptionPane.showInputDialog(null,"Enter your username: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
+				if (flag) {
+					JOptionPane.showMessageDialog(null, "The username is already used.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+				} else {
+					flag = false;
+				}	
+		}while (flag == true);
+		
+		//donor's gender
+		flag = false;
+		do {
+			try {
+				String gender = JOptionPane.showInputDialog(null,"Enter your gender: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
+				flag = correctGender(gender);
+			} catch (GenderException e1) {
+				JOptionPane.showMessageDialog(null, e1.getMessage(), "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+			}
+		}while (flag == false);
+			
+		//donor's bloodtype
+		bloodtype = (String) JOptionPane.showInputDialog(null, "Blood Types", "Choose your blood type", JOptionPane.PLAIN_MESSAGE, null, bloodtypes, "O+" );		
+		
+		
+		//donor's SSN
+		flag = false;
+		do {
+			String SSN = JOptionPane.showInputDialog(null,"Enter your SSN: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
+			if (SSN.length() == 11) {
 				break;
-			}	
-			else {
+			} else {
+				 JOptionPane.showMessageDialog(null, "Please enter a valid SSN (11 digits)", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
 				flag = true;
-				System.err.println("Please enter a valid AMKA (11 digits)");
 			}
 		}while (flag);
 		
@@ -133,28 +105,26 @@ public class BloodDonor {
 		do {
 			try {
 				System.out.println("Enter your region:");
-				Scanner input4 = new Scanner(System.in);
-				region = input4.nextLine();
+				region = JOptionPane.showInputDialog(null,"Enter your region:", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
+				flag = false;
 			}
 			catch (InputMismatchException e4) {
-				System.err.println("Please enter a valid region.");
+				JOptionPane.showMessageDialog(null, "Please enter a valid region", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
 			}
 				
-		}while(flag == false);			
+		}while(flag);			
 		
 		//donor's password
 		flag = false;
 		do {
-			System.out.println("Enter a new password:");
-			Scanner input1 = new Scanner(System.in);
-			String password = input1.nextLine();
+			String password = JOptionPane.showInputDialog(null,"Enter your password: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
 			if (password.matches("^.*(?=.{4,10})(?=.*\\d)(?=.*[a-zA-Z]).*$")) {
 				flag = true;
 				break;
 			
 			} else {
+				JOptionPane.showMessageDialog(null, "Your password must contain both numbers and letters.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
 				flag = false;
-				System.err.println("Your password must contain both numbers and letters");
 			}
 			
 		}while(flag == false);
@@ -178,28 +148,20 @@ public class BloodDonor {
 		
 		boolean flag = false;
 		do {
-			System.out.println("Welcome!Please type your username. ");
-			username_login = input.nextLine();
+			String username_login = JOptionPane.showInputDialog(null,"Welcome! Please type your username", "LOG IN", JOptionPane.INFORMATION_MESSAGE);
 			flag = ((String) BloodDonors).contains(username_login);
 			if (flag) {
 				boolean flag1 = false;
 				do {
-					System.out.println("Enter your password.");
-					password_login = input.nextLine();
+					String password_login = JOptionPane.showInputDialog(null,"Enter your password", "LOG IN", JOptionPane.INFORMATION_MESSAGE);
 					flag1 = ((String) BloodDonors).contains(password_login);
 					if (flag1 == false)
-						System.err.println("Wrong Password!");
+						JOptionPane.showMessageDialog(null, "Wrong password.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
 				}while (flag1 == false);
-			}
-				
-			else {
-				System.err.println("This username is not registered!");
+			} else {
+				JOptionPane.showMessageDialog(null, "This username is not registered!", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
 			}
 		}while (flag == false);
-		
-		
-		
-		
 	}
 		
 	
@@ -208,9 +170,6 @@ public static void main(String args[]) {
 	logIn(BloodDonors);
 }
 }
-		
-		
-		
 	
 		 
 =======

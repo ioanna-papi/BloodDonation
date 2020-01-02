@@ -83,7 +83,19 @@ public class BloodDonor {
 		}while (flag == false);
 			
 		//donor's bloodtype
-		bloodtype = (String) JOptionPane.showInputDialog(null, "Blood Types", "Choose your blood type", JOptionPane.PLAIN_MESSAGE, null, bloodtypes, "O+" );		
+		flag = true;
+		while (flag) {
+		bloodtype = (String) JOptionPane.showInputDialog(null, "Blood Types", "Choose your blood type", JOptionPane.PLAIN_MESSAGE, null, bloodtypes, "O+" );
+			try {
+				if (bloodtype.equals(null)) {
+					JOptionPane.showMessageDialog(null, "Please choose your blood type.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+				} else {
+					flag = false;
+				}
+			} catch (NullPointerException e) {
+				JOptionPane.showMessageDialog(null, "Please choose your blood type.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+			}
+		}
 		
 		
 		//donor's SSN

@@ -4,6 +4,20 @@ public class Messages{
 	public Messages() {
 		super();
 	}
+	public void donationDay(String date) {
+		try {
+			String url = "jdbc:sqlserver://195.251.249.161:1433;databaseName = DB56;user = G520;password = 94we99494";
+			//String driver = "com.mysql.cj.jdbc.Driver";
+			Connection dbcon ;
+			dbcon = DriverManager.getConnection(url);
+			Statement stmt = dbcon.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM BloodDonor" );
+			rs.close();
+			stmt.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	public void donationCalendar() {
 		try {
 			//get a connection to db

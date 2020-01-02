@@ -15,7 +15,6 @@ public class Messages{
 			Statement stmt = dbcon.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM DonationDays");
 			ResultSet RS = stmt.executeQuery("SELECT * FROM BloodDonor");
-			stmt.close();
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 			Date date = new Date();
 			int i = 1;
@@ -55,6 +54,9 @@ public class Messages{
 					JOptionPane.showMessageDialog(null, day, strDate, JOptionPane.INFORMATION_MESSAGE);					
 				}
 				i++;
+				rs.close();
+				RS.close();
+				stmt.close();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -7,34 +7,56 @@ public class Messages{
 	public void donationCalendar() {
 		try {
 			//get a connection to db
-		    String url = "jdbc:sqlserver://195.251.249.161:1433;";
+		    String url = "jdbc:sqlserver://195.251.249.161:1433;databaseName = DB56;user = G520;password = 94we99494";
 		    //String driver = "com.mysql.cj.jdbc.Driver";
-		   String databaseName = "DB56";
-		   String user = "G520";
-		   String password = "94we99494";
+
 			Connection dbcon ;
-			dbcon = DriverManager.getConnection(url, user, password);
+			dbcon = DriverManager.getConnection(url);
 			Statement stmt = dbcon.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM DonationDays");
-			rs.close();
-			stmt.close();SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+			ResultSet RS = stmt.executeQuery("SELECT * FROM BloodDonor");
+			stmt.close();
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = new Date();
+			int i = 1;
+			int d ,m;
 			while ((rs.next())) {
-				Date d_date = rs.getDate("D_Date");
-				if (formatter.format(d).equals(d_date)){
-					Date date = rs.getDate("D_Date");
-					String day = rs.getString("D_Day");
-					SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");  
-					String strDate = dateFormat.format(date);  
-					JOptionPane.showMessageDialog(null,day, strDate, JOptionPane.INFORMATION_MESSAGE);					
+				Date d_date = rs.getDate(i);
+				String strDate = formatter.format(d_date);
+				String strDateDay = strDate.substring(8);
+				String strDateMonth = strDate.substring(5,6);
+				String strDateYear = strDate.substring(0,3);
+				d = Integer.parseInt(strDateDay);
+				m = Integer.parseInt(strDateMonth);
+				if (d-5 <= 0) {
+					if(m == 2 || m == 4 || m == 6 || m == 9 || m == 11) {
+						d = 30 + (d-5);
+						m -= 1;
+					} else {
+						d = 31 + (d-5);
+						if(m == 1){
+							m = 12;
+						}
+					}
 				}
-			
-				//System.out.println(rs.getString("D_Date"));
-					//System.out.println(rs.getString("D_Day"));
+				String strd = Integer.toString(d); 
+				String strm = Integer.toString(m);
+				if (d < 10) {
+					 strd = "0" + d;	 
 				}
+				if (m < 10) {
+					 strm = "0" + m;
+				}   
+				String messageDate = strDateYear + "-" + strm + "-" + strd;
+				if (formatter.format(date).equals(messageDate)) {
+					String day = rs.getString(i);
+					JOptionPane.showMessageDialog(null, day, strDate, JOptionPane.INFORMATION_MESSAGE);					
+				}
+				i++;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		
 	}
 }

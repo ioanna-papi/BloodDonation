@@ -36,6 +36,8 @@ public class Messages{
 						d = 31 + (d-5);
 						if(m == 1){
 							m = 12;
+						}else{
+							m -= 1;
 						}
 					}
 				}

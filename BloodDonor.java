@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.ArrayList;
@@ -25,12 +23,12 @@ public class BloodDonor {
 	final static Scanner input = new Scanner(System.in);	
 	
 	//custom exception for gender
-	public static boolean correctGender(String gender) throws GenderException{
+	public static boolean correctGender(String gender) throws Exception{
 		
 		if ((gender.toLowerCase().equals("male")) || (gender.toLowerCase().equals("female"))) {
 			return true;
 		} else {
-			throw new GenderException("Please type male or female.");
+			throw new Exception("Please type male or female.");
 		}
 	}
 
@@ -138,22 +136,18 @@ public class BloodDonor {
 			}
 			
 		}while(flag == false);
-		Messages.connect();
-		Statement stmt = dbcon.createStatement();
-		ResultSet rs = stmt.executeUpdate("INSERT INTO BloodDonor (B_Name, B_Username, B_email, B_password, Gender, BloodType, SSN, Region) VALUES (fullname, username, email, gender, bloodtype, AMKA, region)");
-		rs.close();
-		stmt.close();
+		Messages.connect().executeUpdate("INSERT INTO BloodDonor (B_Name, B_Username, B_email, B_password, Gender, BloodType, SSN, Region) VALUES (fullname, username, email, gender, bloodtype, AMKA, region)");
+
+		Messages.connect().close();
 	}
 	
 	
 	public static void logIn(Object BloodDonors) {
-		Messages.connect();
-		Statement stmt = dbcon.createStatement();
 		boolean flag;
 		do {
 			flag = false;
 			try {
-				ResultSet rs = stmt.executeQuery("SELECT B_Username, B_Password FROM BloodDonor");
+				ResultSet rs = Messages.connect().executeQuery("SELECT B_Username, B_Password FROM BloodDonor");
 				String username_login = JOptionPane.showInputDialog(null,"Welcome! Please type your username", "LOG IN", JOptionPane.INFORMATION_MESSAGE);
 				String password_login = JOptionPane.showInputDialog(null,"Enter your password", "LOG IN", JOptionPane.INFORMATION_MESSAGE);
 				while(rs.next()){
@@ -174,7 +168,6 @@ public class BloodDonor {
 	}
 		
 }
-
 
 =======
 

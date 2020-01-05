@@ -94,7 +94,6 @@ public class BloodDonor {
 			}
 		}
 		
-		
 		//donor's SSN
 		flag = false;
 		do {
@@ -106,9 +105,7 @@ public class BloodDonor {
 				flag = true;
 			}
 		}while (flag);
-		
-		
-		
+			
 		//donor's region
 		flag = true;
 		Object[] possibilities = {"Attica","South Aegean Sea","North Aegean Sea","Central Greece","West Greece",

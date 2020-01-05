@@ -21,15 +21,16 @@ public class BloodDonor {
 	private static String password;
 	static String username_login;
 	static String password_login;
-	final static Scanner input = new Scanner(System.in);	
+	final static Scanner input = new Scanner(System.in);
+	private static String[] answers = new String[51];
 	
 	//custom exception for gender
-	public static boolean correctGender(String gender) throws GenderException{
+	public static boolean correctGender(String gender) throws Exception{
 		
 		if ((gender.toLowerCase().equals("male")) || (gender.toLowerCase().equals("female"))) {
 			return true;
 		} else {
-			throw new GenderException("Please type male or female.");
+			throw new Exception("Please type male or female.");
 		}
 	}
 
@@ -137,23 +138,25 @@ public class BloodDonor {
 			}
 			
 		}while(flag == false);
+
 		Messages.connect();
 		Statement stmt = dbcon.createStatement();
 		ResultSet rs = stmt.executeUpdate("INSERT INTO BloodDonor (B_Name, B_Username, B_email, B_password, Gender, BloodType, SSN, Region)" + 
 				"VALUES (fullname, username, email, gender, bloodtype, AMKA, region)");
 		rs.close();
 		stmt.close();
+		Messages.connect().executeUpdate("INSERT INTO BloodDonor (B_Name, B_Username, B_email, B_password, Gender, BloodType, SSN, Region)" +
+				"VALUES (fullname, username, email, gender, bloodtype, AMKA, region)");
+		Messages.connect().close();
 	}
 	
 	
 	public static void logIn(Object BloodDonors) {
-		Messages.connect();
-		Statement stmt = dbcon.createStatement();
 		boolean flag;
 		do {
 			flag = false;
 			try {
-				ResultSet rs = stmt.executeQuery("SELECT B_Username, B_Password FROM BloodDonor");
+				ResultSet rs = Messages.connect().executeQuery("SELECT B_Username, B_Password FROM BloodDonor");
 				String username_login = JOptionPane.showInputDialog(null,"Welcome! Please type your username", "LOG IN", JOptionPane.INFORMATION_MESSAGE);
 				String password_login = JOptionPane.showInputDialog(null,"Enter your password", "LOG IN", JOptionPane.INFORMATION_MESSAGE);
 				while(rs.next()){
@@ -172,14 +175,6 @@ public class BloodDonor {
 	
 		}while (flag == false);
 	}
-		
-}
-
-
-=======
-
-public class BloodDonor {
-	private static String[] answers = new String[51];
 	
 	/**
 	 * This method shows all the questions of the questionnaire*/
@@ -285,9 +280,6 @@ public class BloodDonor {
                          }
 			answers[a-1] = a2;
 			return;
-		}
-		
+		}		
 }
- 
->>>>>>> 2681ec26951b30a7980868e67a7051d03fd7c180
 

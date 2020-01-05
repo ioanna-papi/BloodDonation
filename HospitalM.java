@@ -7,18 +7,18 @@ public class HospitalM {
 	
 	//declaring the variables
 	static String username;
+	static String fullname;
 	static String phonenumber;
 	static double LimitInLiters;
 	static String password;
 	static String Address;
+	static String region;
 	public static ArrayList<Object> Hospitals = new ArrayList<Object>();
 	static Double[] bloodtypeLimit = new Double[8]; //a list with the minimum blood amount the current hospital needs
 	static String[]  bloodtype = {"O+", "O-", "A+", "A-" ,"B+" ,"B-" ,"AB+" ,"AB-"}; 
-	static Scanner input = new Scanner(System.in);
 	public static Object getList;
 	static String hospital_login;
-	static String password_login;
-	static String fullname; 
+	static String password_login; 
 	
 	public static boolean Answer() {
 		int answer = JOptionPane.showConfirmDialog(null, "Are you sure this is the correct amount?");
@@ -115,7 +115,7 @@ public class HospitalM {
 
 		// Hospital's phone number
 			flag = true;
-			String phonenumber = JOptionPane.showInputDialog(null,"Enter your hospital's phone number: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
+			phonenumber = JOptionPane.showInputDialog(null,"Enter your hospital's phone number: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
 			do {
 				try {
 					int p = 0;
@@ -131,7 +131,7 @@ public class HospitalM {
 		
 		// Hospital's address	
 		flag = true;
-		String Address = JOptionPane.showInputDialog(null,"Enter your hospital's address: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
+		Address = JOptionPane.showInputDialog(null,"Enter your hospital's address: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
 		do {
 			if (Address.matches("^.*(?=.{4,10})(?=.*\\d)(?=.*[a-zA-Z]).*$")) {
 				flag = false;
@@ -143,6 +143,24 @@ public class HospitalM {
 		}while(flag);
 				
 		
+		 //Hospital's region
+                flag = true;
+                Object[] possibilities = {"Attica","South Aegean Sea","North Aegean Sea","Central Greece","West Greece",
+                         "Ionian Islands","Thessaly","Peloponnese","Epirus","Eastern Macedonia and Thrace",
+                         "Central Macedonia","West Macedonia","Crete"};
+                while (flag) {
+                        region = (String)JOptionPane.showInputDialog(null, "Choose your region", "SIGN UP", JOptionPane.PLAIN_MESSAGE, null, possibilities, "Attica" );
+                        try {
+                                if (bloodtype.equals(null)) {
+                                        JOptionPane.showMessageDialog(null, "Please choose your region.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+                                } else {
+                                        flag = false;
+                                }
+                        } catch (NullPointerException e) {
+                                JOptionPane.showMessageDialog(null, "Please choose your region.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+                        }
+                }
+
 		
 		// Hospital's blood limit
 		for (int i = 0;i<=7; i++) {

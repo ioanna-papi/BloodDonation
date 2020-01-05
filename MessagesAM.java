@@ -11,20 +11,31 @@ public class Messages{
 		Connection dbcon;
 		dbcon = DriverManager.getConnection(url);
 	}
-	
 	public void donationDay(String date){
 		try {
-			connect();
-			dbcon = DriverManager.getConnection(url);
-			Statement stmt = dbcon.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM BloodDonor");
+			ResultSet rs = Messages.connect().executeQuery("SELECT * FROM BloodDonor");
+			for (;;) {
+				try {
+					String day_name = JOptionPane.showInputDialog(null,
+					                "Enter the Donation Day Name", "MAKE NEW DONATION DAY",
+					                JOptionPane.PLAIN_MESSAGE);
+					String don_date = JOptionPane.showInputDialog(null, "Enter the Donation Date",
+					                "MAKE NEW DONATION DAY", JOptionPane.PLAIN_MESSAGE);
+					SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+					Date newdate = formatter.parse(don_date);
+					break;
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "Please enter a date yyyy-MM-dd.",
+					                "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+				}
+			}
 			rs.close();
-			stmt.close();
+			Messages.connect().close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void donationCalendar() {
 		try {
 			Messages.connect();

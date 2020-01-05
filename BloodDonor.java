@@ -4,6 +4,12 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import java.io.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.ResultSet;
 
 public class BloodDonor {
 	static String fullname;
@@ -14,11 +20,8 @@ public class BloodDonor {
 	private static String region;
 	static String[]  bloodtypes = {"O+", "O-", "A+", "A-" ,"B+" ,"B-" ,"AB+" ,"AB-"}; 
 	private static String password;
-	static ArrayList<Object> BloodDonors = new ArrayList<Object>();
 	static String username_login;
 	static String password_login;
-	static Object CurrentBloodDonorData[] = new Object[6];
-	
 	final static Scanner input = new Scanner(System.in);	
 	
 	//custom exception for gender
@@ -37,7 +40,7 @@ public class BloodDonor {
 		boolean flag = true;
                 do {
 			try{
-				  String fullname = JOptionPane.showInputDialog(null,"Enter your full name: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
+				String fullname = JOptionPane.showInputDialog(null,"Enter your full name: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
 			} catch (InputMismatchException e) {
 		         	JOptionPane.showMessageDialog(null, "Please enter a valid name.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
 				flag = false;
@@ -47,7 +50,7 @@ public class BloodDonor {
 		//donor's username
 		flag = false;
 		do {
-			String fullname = JOptionPane.showInputDialog(null,"Enter your username: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
+			String username = JOptionPane.showInputDialog(null,"Enter your username: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
 				if (flag) {
 					JOptionPane.showMessageDialog(null, "The username is already used.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
 				} else {
@@ -55,6 +58,16 @@ public class BloodDonor {
 				}	
 		}while (flag == true);
 		
+ 	        flag = false;
+                do {
+                        String email = JOptionPane.showInputDialog(null,"Enter your email: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
+                                if (flag) {
+                                        JOptionPane.showMessageDialog(null, "The email is already used.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+                                } else {
+                                        flag = false;
+                                }
+                }while (flag == true);
+
 		//donor's gender
 		flag = false;
 		do {
@@ -69,7 +82,7 @@ public class BloodDonor {
 		//donor's bloodtype
 		flag = true;
 		while (flag) {
-		bloodtype = (String) JOptionPane.showInputDialog(null, "Choose your blood type", "SIGN UP", JOptionPane.PLAIN_MESSAGE, null, bloodtypes, "O+" );
+			bloodtype = (String) JOptionPane.showInputDialog(null, "Choose your blood type", "SIGN UP", JOptionPane.PLAIN_MESSAGE, null, bloodtypes, "O+" );
 			try {
 				if (bloodtype.equals(null)) {
 					JOptionPane.showMessageDialog(null, "Please choose your blood type.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
@@ -128,39 +141,38 @@ public class BloodDonor {
 			}
 			
 		}while(flag == false);
-	
-		
-	
-		CurrentBloodDonorData[0] = username; 
-		CurrentBloodDonorData[1] = gender;
-		CurrentBloodDonorData[2] = bloodtype;
-		CurrentBloodDonorData[3] = AMKA;
-		CurrentBloodDonorData[4] = region;
-		CurrentBloodDonorData[5] = password;
-		
-		
-		BloodDonors.add(CurrentBloodDonorData);
-		logIn(BloodDonors);
+		Messages.connect();
+		Statement stmt = dbcon.createStatement();
+		ResultSet rs = stmt.executeUpdate("INSERT INTO BloodDonor (B_Name, B_Username, B_email, B_password, Gender, BloodType, SSN, Region) VALUES (fullname, username, email, gender, bloodtype, AMKA, region)");
+		rs.close();
+		stmt.close();
 	}
 	
 	
 	public static void logIn(Object BloodDonors) {
 		Messages.connect();
-		boolean flag = false;
+		Statement stmt = dbcon.createStatement();
+		boolean flag;
 		do {
-			String username_login = JOptionPane.showInputDialog(null,"Welcome! Please type your username", "LOG IN", JOptionPane.INFORMATION_MESSAGE);
-			flag = ((String) BloodDonors).contains(username_login);
-			if (flag) {
-				boolean flag1 = false;
-				do {
-					String password_login = JOptionPane.showInputDialog(null,"Enter your password", "LOG IN", JOptionPane.INFORMATION_MESSAGE);
-					flag1 = ((String) BloodDonors).contains(password_login);
-					if (flag1 == false)
-						JOptionPane.showMessageDialog(null, "Wrong password.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
-				}while (flag1 == false);
-			} else {
-				JOptionPane.showMessageDialog(null, "This username is not registered!", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
-			}
+			flag = false;
+			try {
+				ResultSet rs = stmt.executeQuery("SELECT B_Username, B_Password FROM BloodDonor");
+				String username_login = JOptionPane.showInputDialog(null,"Welcome! Please type your username", "LOG IN", JOptionPane.INFORMATION_MESSAGE);
+				String password_login = JOptionPane.showInputDialog(null,"Enter your password", "LOG IN", JOptionPane.INFORMATION_MESSAGE);
+				while(rs.next()){
+					if(rs.getString("B_Username").equals(username_login) && rs.getString("B_password").equals(password_login)){
+						flag = true;
+						break;
+					}
+				}	
+				if(flag == false){
+					JOptionPane.showMessageDialog(null, "Invalid username or password. Please try again.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+				}
+			 } catch (InputMismatchException e) {
+                                JOptionPane.showMessageDialog(null, "Please enter a valid username or password.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+                                flag = false;
+                         }
+	
 		}while (flag == false);
 	}
 		
@@ -168,13 +180,6 @@ public class BloodDonor {
 	
 		 
 =======
-import java.io.*;
-import java.util.InputMismatchException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.ResultSet;
 
 public class BloodDonor {
 	private static String[] answers = new String[51];

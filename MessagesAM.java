@@ -1,41 +1,42 @@
-import java.sql.*;
-public class Messages{
+import ava.sql.*;
 
-	public Messages() {
+public class Messages{
+	
+	public Messages(){
 		super();
 	}
-	public void donationDay(String date) {
+
+	public static void connect() {
+		String url = "jdbc:sqlserver://195.251.249.161:1433;databaseName = DB56;user = G520;password = 94we99494;
+		Connection dbcon;
+		dbcon = DriverManager.getConnection(url);
+	}
+	
+	public void donationDay(String date){
 		try {
-			String url = "jdbc:sqlserver://195.251.249.161:1433;databaseName = DB56;user = G520;password = 94we99494";
-			//String driver = "com.mysql.cj.jdbc.Driver";
-			Connection dbcon ;
+			connect();
 			dbcon = DriverManager.getConnection(url);
 			Statement stmt = dbcon.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM BloodDonor" );
+			ResultSet rs = stmt.executeQuery("SELECT * FROM BloodDonor");
 			rs.close();
 			stmt.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	
 	public void donationCalendar() {
 		try {
-			//get a connection to db
-		    String url = "jdbc:sqlserver://195.251.249.161:1433;databaseName = DB56;user = G520;password = 94we99494";
-		    //String driver = "com.mysql.cj.jdbc.Driver";
-
-			Connection dbcon ;
-			dbcon = DriverManager.getConnection(url);
+			Messages.connect();
 			Statement stmt = dbcon.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM DonationDays");
 			ResultSet RS = stmt.executeQuery("SELECT * FROM BloodDonor");
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 			Date date = new Date();
-			int i = 1;
 			int d ,m;
 			while ((rs.next())) {
-				Date d_date = rs.getDate(i);
-				String strDate = formatter.format(d_date);
+				Date d_date = rs.getDate("D_Date");
+				String strDate = formatter.format(date);
 				String strDateDay = strDate.substring(8);
 				String strDateMonth = strDate.substring(5,6);
 				String strDateYear = strDate.substring(0,3);
@@ -67,7 +68,6 @@ public class Messages{
 					String day = rs.getString(i);
 					JOptionPane.showMessageDialog(null, day, strDate, JOptionPane.INFORMATION_MESSAGE);					
 				}
-				i++;
 				rs.close();
 				RS.close();
 				stmt.close();
@@ -78,4 +78,3 @@ public class Messages{
 		
 	}
 }
-	

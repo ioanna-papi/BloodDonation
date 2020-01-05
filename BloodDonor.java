@@ -145,7 +145,7 @@ public class BloodDonor {
 	
 	
 	public static void logIn(Object BloodDonors) {
-		
+		Messages.connect();
 		boolean flag = false;
 		do {
 			String username_login = JOptionPane.showInputDialog(null,"Welcome! Please type your username", "LOG IN", JOptionPane.INFORMATION_MESSAGE);
@@ -177,21 +177,14 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 
 public class BloodDonor {
-	
 	private static String[] answers = new String[51];
 	
-
 	/**
 	 * This method shows all the questions of the questionnaire*/
 	public static void questionnaire() {
 		String a;
-			try {
-				String url = "jdbc:mysql://localhost:3306/Donation?serverTimezone=UTC";
-			        	    String driver = "com.mysql.cj.jdbc.Driver";
-			            	String userName = "root";
-			            	String password = "";
-				Connection dbcon ;
-				dbcon = DriverManager.getConnection(url, userName, password);
+			try {   
+				Messages.connect();
 				Statement stmt = dbcon.createStatement();
 				int i = 0;
 				ResultSet rs = stmt.executeQuery("SELECT * FROM Questionnaire ");

@@ -6,7 +6,7 @@ public class Hospital {
 
 	String[] bloodtype = {"A+","A-","AB+","AB-","B+","B-","0+","O-"};
 
-    public void bloodBankStock() {
+	public void bloodBankStock() {
 
 		//Asking for BloodBank Update
 		int update;

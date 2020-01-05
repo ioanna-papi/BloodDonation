@@ -112,7 +112,7 @@ public class BloodDonor {
 		while (flag) {
 			String region = (String)JOptionPane.showInputDialog(null, "Choose your region", "SIGN UP", JOptionPane.PLAIN_MESSAGE, null, possibilities, "Attica" );
 			try {
-				if (bloodtype.equals(null)) {
+				if (region.equals(null)) {
 					JOptionPane.showMessageDialog(null, "Please choose your region.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
 				} else {
 					flag = false;

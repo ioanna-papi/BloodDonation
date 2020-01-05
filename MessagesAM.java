@@ -1,15 +1,21 @@
-import ava.sql.*;
-
+import java.sql.*;
+import javax.swing.JOptionPane;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 public class Messages{
-	
+	static Connection dbcon;
+	static String url;
 	public Messages(){
 		super();
 	}
 
 	public static void connect() {
-		String url = "jdbc:sqlserver://195.251.249.161:1433;databaseName = DB56;user = G520;password = 94we99494;
-		Connection dbcon;
-		dbcon = DriverManager.getConnection(url);
+		url = "jdbc:sqlserver://195.251.249.161:1433;databaseName = DB56;user = G520;password = 94we99494";
+		try {
+			dbcon = DriverManager.getConnection(url);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	public void donationDay(String date){
 		try {

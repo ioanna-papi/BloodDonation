@@ -1,6 +1,5 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import java.io.*;
 import java.sql.Connection;
@@ -9,6 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
 
+/**
+ *This class implements the volunteers of the application*/
 public class BloodDonor {
 	static String fullname;
 	private static String username;
@@ -20,7 +21,8 @@ public class BloodDonor {
 	private static String password;
 	static String username_login;
 	static String password_login;
-	final static Scanner input = new Scanner(System.in);	
+	final static Scanner input = new Scanner(System.in);
+	private static String[] answers = new String[51];
 	
 	//custom exception for gender
 	public static boolean correctGender(String gender) throws Exception{
@@ -136,8 +138,15 @@ public class BloodDonor {
 			}
 			
 		}while(flag == false);
-		Messages.connect().executeUpdate("INSERT INTO BloodDonor (B_Name, B_Username, B_email, B_password, Gender, BloodType, SSN, Region) VALUES (fullname, username, email, gender, bloodtype, AMKA, region)");
 
+		Messages.connect();
+		Statement stmt = dbcon.createStatement();
+		ResultSet rs = stmt.executeUpdate("INSERT INTO BloodDonor (B_Name, B_Username, B_email, B_password, Gender, BloodType, SSN, Region)" + 
+				"VALUES (fullname, username, email, gender, bloodtype, AMKA, region)");
+		rs.close();
+		stmt.close();
+		Messages.connect().executeUpdate("INSERT INTO BloodDonor (B_Name, B_Username, B_email, B_password, Gender, BloodType, SSN, Region)" +
+				"VALUES (fullname, username, email, gender, bloodtype, AMKA, region)");
 		Messages.connect().close();
 	}
 	
@@ -166,13 +175,6 @@ public class BloodDonor {
 	
 		}while (flag == false);
 	}
-		
-}
-
-=======
-
-public class BloodDonor {
-	private static String[] answers = new String[51];
 	
 	/**
 	 * This method shows all the questions of the questionnaire*/
@@ -278,9 +280,6 @@ public class BloodDonor {
                          }
 			answers[a-1] = a2;
 			return;
-		}
-		
+		}		
 }
- 
->>>>>>> 2681ec26951b30a7980868e67a7051d03fd7c180
 

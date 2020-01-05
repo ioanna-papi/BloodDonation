@@ -11,9 +11,9 @@ This is a Java application which can be used by both the blood donating departme
 	- Make new Donation Days in the Calendar
 
 - Blood Donor:
-        > Create account and Log In
-        > Fill out the questionnaire which checks the donor's suitability
-        > Update/change already answered questions
-        > Receive messages from Hospitals
-        > Receive alerts for Donation Days, a few days prior
+        - Create account and Log In
+        - Fill out the questionnaire which checks the donor's suitability
+        - Update/change already answered questions
+        - Receive messages from Hospitals
+        - Receive alerts for Donation Days, a few days prior
 

@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import java.io.*;
 import java.sql.Connection;
@@ -11,6 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
 
+/**
+ *This class implements the volunteers of the application*/
 public class BloodDonor {
 	static String fullname;
 	private static String username;
@@ -140,7 +139,8 @@ public class BloodDonor {
 		}while(flag == false);
 		Messages.connect();
 		Statement stmt = dbcon.createStatement();
-		ResultSet rs = stmt.executeUpdate("INSERT INTO BloodDonor (B_Name, B_Username, B_email, B_password, Gender, BloodType, SSN, Region) VALUES (fullname, username, email, gender, bloodtype, AMKA, region)");
+		ResultSet rs = stmt.executeUpdate("INSERT INTO BloodDonor (B_Name, B_Username, B_email, B_password, Gender, BloodType, SSN, Region)" + 
+				"VALUES (fullname, username, email, gender, bloodtype, AMKA, region)");
 		rs.close();
 		stmt.close();
 	}

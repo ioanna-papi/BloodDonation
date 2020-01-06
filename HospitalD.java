@@ -37,9 +37,12 @@ public class Hospital {
 
 			//Asking for the blood-amound
 			double amound;
-			do {
-				amound = Double.parseDouble(JOptionPane.showInputDialog("Insert the amound of blood in liters: "));
-			} while (amound <= 0);
+			try {
+				do {
+					amound = Double.parseDouble(JOptionPane.showInputDialog("Insert the amound of blood in liters: "));
+				} while (amound <= 0);
+			} catch () {
+			}
 
 			//Updating the bloodStock
 			for (int i=0; i<=7; i++) {

@@ -1,7 +1,6 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import java.util.ArrayList;
-import java.util.List;
+import javax.swing.JOptionPane;
 
 public class Hospital {
 	
@@ -9,16 +8,17 @@ public class Hospital {
 	static String username;
 	static String phonenumber;
 	static double LimitInLiters;
-    static String password;
+	static String password;
 	static String Address;
 	public static ArrayList<Object> Hospitals = new ArrayList<Object>();
-    static Double[] bloodtypeLimit = new Double[8]; //a list with the minimum blood amount the current hospital needs
+	static Double[] bloodtypeLimit = new Double[8]; //a list with the minimum blood amount the current hospital needs
 	static String[]  bloodtype = {"O+", "O-", "A+", "A-" ,"B+" ,"B-" ,"AB+" ,"AB-"}; 
 	static Scanner input = new Scanner(System.in);
 	public static Object getList;
 	static String hospital_login;
 	static String password_login;
 	static String fullname; 
+	
 	public static boolean Answer() {
 		System.out.println("Are you sure this is the correct amount?Type yes or no.");
 		Scanner sc = new Scanner(System.in);
@@ -30,10 +30,11 @@ public class Hospital {
 			return false;
 		}
 	}
-	public static double limitLiters(Scanner input,String b) {
+	
+	public static double limitLiters(String b) {
 		double temp;
 		do{
-			System.out.println("Please enter the limit amount of blood for blood type "+b+" :");
+			System.out.println("Please enter the limit amount of blood for blood type " + b + " :");
 			temp = input.nextDouble();
 			if (temp < 0)
 				System.err.println("Please enter a positive number");
@@ -41,24 +42,24 @@ public class Hospital {
 		return temp;
 			
 	}
-	public static double bloodLimit(Scanner input,int i) throws InputMismatchException{
+	
+	public static double bloodLimit(int i) throws InputMismatchException{
 		 	String b = bloodtype[i];
-		 	boolean flag = false;
-			
+		 	boolean flag = false;		
 		 	do {
 				try {
-			 		double temp = limitLiters(input,b);
+			 		double temp = limitLiters(b);
 					flag =  Answer();
 					if (flag == true)
 						LimitInLiters = temp;
 					if (flag == false) 
-						LimitInLiters = limitLiters(input,b);
+						LimitInLiters = limitLiters(b);
 					break;	
 				}
 				catch(final InputMismatchException e2) {
 					System.err.println("The input has to be a number!");
 					final Scanner input1 = new Scanner(System.in);
-					double temp = limitLiters(input1,b);
+					double temp = limitLiters(b);
 					flag =  Answer();
 					if (flag == false) { 
 						LimitInLiters =temp;
@@ -81,7 +82,6 @@ public class Hospital {
 	public static boolean correctPhonenumber(String phonenumber) throws HospitalPhoneNumberException{
 		boolean flag = false;
 		do {
-			
 			if (phonenumber.length() <= 11) {
 				break;
 			}	
@@ -202,11 +202,41 @@ public class Hospital {
 				}
 			}while (flag == false);
 	}
-
-		
-public static void main (String args[]) {
-	signUp();
 	
-}
+	/**This method lets hospitals create their own donation day*/
+	public String makeDonationDay() {
+
+                Object[] year = {"2019","2020","2021","2022", "2023","2024","2025","2026","2027","2028","2029"};
+                String y =(String)JOptionPane.showInputDialog(null, "Year", "Choose the year of the donation", JOptionPane.PLAIN_MESSAGE, null, year, "2019" );
+
+                Object[] month = {"January","February","March","April", "May","June","July","August","September","October","November","December"};
+                String m =(String)JOptionPane.showInputDialog(null, "Month", "Choose the month of the donation", JOptionPane.PLAIN_MESSAGE, null, month, "January" );
+                String d;
+                if (m == "January" || m == "January" || m == "March" || m == "May" || m == "July" || m == "August" || m == "October" || m == "December") {
+
+                        Object[] day = {"1","2","3","4", "5","6","7","8","9","10", "11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"};
+                        d =(String)JOptionPane.showInputDialog(null, "Day", "Choose the day of the donation", JOptionPane.PLAIN_MESSAGE, null, day, "1" );
+
+                } else if (m == "April" || m == "June" || m == "September" || m == "November") {
+
+                        Object[] day = {"1","2","3","4", "5","6","7","8","9","10", "11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30"};
+                        d =(String)JOptionPane.showInputDialog(null, "Day", "Choose the day of the donation", JOptionPane.PLAIN_MESSAGE, null, day, "1" );
+
+                } else if (y == "2020" || y == "2024" || y == "2028") {
+
+                        Object[] day = {"1","2","3","4", "5","6","7","8","9","10", "11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29"};
+                        d =(String)JOptionPane.showInputDialog(null, "Day", "Choose the day of the donation", JOptionPane.PLAIN_MESSAGE, null, day, "1" );
+
+                } else {
+                        Object[] day = {"1","2","3","4", "5","6","7","8","9","10", "11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28"};
+                        d =(String)JOptionPane.showInputDialog(null, "Day", "Choose the day of the donation", JOptionPane.PLAIN_MESSAGE, null, day, "1" );
+                }
+
+                String date = String.join(d, "/", m, "/", y);
+
+                return date;
+
+        }
+	
 }	
 			

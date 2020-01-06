@@ -18,11 +18,14 @@ public class Hospital {
 	static String hospital_login;
 	static String password_login;
 	static String fullname; 
+	//b = JOptionPane.showConfirmDialog(null, "Are you sure this is the correct amount?" , "Blood Bank Update", JOptionPane.PLAIN_MESSAGE);
+	//JOptionPane.showMessageDialog(null, e1.getMessage(), "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+	//a = JOptionPane.showInputDialog(null, qid + ". " + r, "QUESTIONNAIRE", JOptionPane.PLAIN_MESSAGE);
 	
 	public static boolean Answer() {
-		System.out.println("Are you sure this is the correct amount?Type yes or no.");
-		Scanner sc = new Scanner(System.in);
-		String answer = sc.nextLine();
+		String answer = JOptionPane.showConfirmDialog(null, "Are you sure this is the correct amount?" , "Blood Bank Update", JOptionPane.PLAIN_MESSAGE);
+		System.out.println(answer);
+		
 		if (answer.equals("yes")) {
 			return true;
 		}	
@@ -34,8 +37,7 @@ public class Hospital {
 	public static double limitLiters(String b) {
 		double temp;
 		do{
-			System.out.println("Please enter the limit amount of blood for blood type " + b + " :");
-			temp = input.nextDouble();
+			temp = JOptionPane.showInputDialog(null,"Please enter the limit amount of blood for blood type " + b + " :", "Blood Bakn Update", JOptionPane.PLAIN_MESSAGE);
 			if (temp < 0)
 				System.err.println("Please enter a positive number");
 		}while (temp<0);
@@ -205,38 +207,65 @@ public class Hospital {
 	
 	/**This method lets hospitals create their own donation day*/
 	public String makeDonationDay() {
-
-                Object[] year = {"2019","2020","2021","2022", "2023","2024","2025","2026","2027","2028","2029"};
-                String y =(String)JOptionPane.showInputDialog(null, "Year", "Choose the year of the donation", JOptionPane.PLAIN_MESSAGE, null, year, "2019" );
-
-                Object[] month = {"January","February","March","April", "May","June","July","August","September","October","November","December"};
-                String m =(String)JOptionPane.showInputDialog(null, "Month", "Choose the month of the donation", JOptionPane.PLAIN_MESSAGE, null, month, "January" );
-                String d;
-                if (m == "January" || m == "January" || m == "March" || m == "May" || m == "July" || m == "August" || m == "October" || m == "December") {
-
-                        Object[] day = {"1","2","3","4", "5","6","7","8","9","10", "11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"};
-                        d =(String)JOptionPane.showInputDialog(null, "Day", "Choose the day of the donation", JOptionPane.PLAIN_MESSAGE, null, day, "1" );
-
-                } else if (m == "April" || m == "June" || m == "September" || m == "November") {
-
-                        Object[] day = {"1","2","3","4", "5","6","7","8","9","10", "11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30"};
-                        d =(String)JOptionPane.showInputDialog(null, "Day", "Choose the day of the donation", JOptionPane.PLAIN_MESSAGE, null, day, "1" );
-
-                } else if (y == "2020" || y == "2024" || y == "2028") {
-
-                        Object[] day = {"1","2","3","4", "5","6","7","8","9","10", "11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29"};
-                        d =(String)JOptionPane.showInputDialog(null, "Day", "Choose the day of the donation", JOptionPane.PLAIN_MESSAGE, null, day, "1" );
-
-                } else {
-                        Object[] day = {"1","2","3","4", "5","6","7","8","9","10", "11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28"};
-                        d =(String)JOptionPane.showInputDialog(null, "Day", "Choose the day of the donation", JOptionPane.PLAIN_MESSAGE, null, day, "1" );
+		boolean flag = true;
+		String d = null;
+		String m = null;
+		String y = null;
+		Object[] year = {"2019","2020","2021","2022", "2023","2024","2025","2026","2027","2028","2029"};
+		Object[] month = {"01","02","03","04", "05","06","07","08","09","10","11","12"};
+		do {
+			try {
+				y =(String)JOptionPane.showInputDialog(null, "Year", "Choose the year of the donation", JOptionPane.PLAIN_MESSAGE, null, year, "2019" );
+	            if (y.equals("null")) {
+	            	throw new NullPointerException();
+	            }
+	            flag = false;
+			} catch (NullPointerException e) {
+				JOptionPane.showMessageDialog(null, "Please choose a year!", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+				flag = true;
+           }
+		} while(flag);
+		
+		do {
+			try {
+				m =(String)JOptionPane.showInputDialog(null, "Month", "Choose the month of the donation", JOptionPane.PLAIN_MESSAGE, null, month, "01" );
+				if (m.equals("null")) {
+					throw new NullPointerException();
+	             }
+				 flag = false;
+			} catch (NullPointerException e) {
+				JOptionPane.showMessageDialog(null, "Please choose a month!", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+				flag = true;
+           }
+		} while(flag);
+		
+		do {
+			try {
+				if (m == "01" || m == "03" || m == "05" || m == "07" || m == "08" || m == "10" || m == "12") {
+					Object[] day = {"1","2","3","4", "5","6","7","8","9","10", "11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"};
+                    d =(String)JOptionPane.showInputDialog(null, "Day", "Choose the day of the donation", JOptionPane.PLAIN_MESSAGE, null, day, "1" );
+				} else if (m == "04" || m == "06" || m == "09" || m == "11") {
+                    Object[] day = {"1","2","3","4", "5","6","7","8","9","10", "11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30"};
+                    d =(String)JOptionPane.showInputDialog(null, "Day", "Choose the day of the donation", JOptionPane.PLAIN_MESSAGE, null, day, "1" );
+				} else if (y == "2020" || y == "2024" || y == "2028") {
+                    Object[] day = {"1","2","3","4", "5","6","7","8","9","10", "11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29"};
+                    d =(String)JOptionPane.showInputDialog(null, "Day", "Choose the day of the donation", JOptionPane.PLAIN_MESSAGE, null, day, "1" );
+				} else {
+                    Object[] day = {"1","2","3","4", "5","6","7","8","9","10", "11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28"};
+                    d =(String)JOptionPane.showInputDialog(null, "Day", "Choose the day of the donation", JOptionPane.PLAIN_MESSAGE, null, day, "1" );
+				}
+				if (d.equals("null")) {
+                	throw new NullPointerException();
                 }
-
-                String date = String.join(d, "/", m, "/", y);
-
+				flag = false;
+			} catch (NullPointerException e) {
+				JOptionPane.showMessageDialog(null, "Please choose a day!", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+				flag = true;
+           }
+		} while(flag);
+                String date = String.join("-",y, m , d);
                 return date;
-
-        }
+	}
 	
 }	
 			

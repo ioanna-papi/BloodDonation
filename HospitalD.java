@@ -5,7 +5,11 @@ import javax.swing.*;
 public class Hospital {
 
 	String[] bloodtype = {"A+","A-","AB+","AB-","B+","B-","0+","O-"};
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> 9a6e7836132d06847b879486bcc92c93488f58a1
 	public void bloodBankStock() {
 
 		//Asking for BloodBank Update

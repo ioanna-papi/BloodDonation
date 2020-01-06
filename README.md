@@ -6,7 +6,7 @@ This is a Java application which can be used by both the blood donating departme
 	- Update blood bank stock
 	- Check blood bank stock for blood shortage and alert Hospitals 
 	- Request volunteers through messages to donate blood
-	- Request other Hospitals to borrow blood units 
+	- Request other Hospitals for blood units 
 	- Receive requests from other Hospitals for giving blood units
 	- Make new Donation Days in the Calendar
 
@@ -14,6 +14,6 @@ This is a Java application which can be used by both the blood donating departme
 	- Create account and Log In
 	- Fill out the questionnaire which checks the donor's suitability
 	- Update/change already answered questions
-	- Receive messages from Hospitals
+	- Receive messages from Hospitals to donate blood
 	- Receive alerts for Donation Days, a few days prior
 

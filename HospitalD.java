@@ -5,11 +5,7 @@ import javax.swing.*;
 public class Hospital {
 
 	String[] bloodtype = {"A+","A-","AB+","AB-","B+","B-","0+","O-"};
-<<<<<<< HEAD
 	
-=======
-
->>>>>>> 9a6e7836132d06847b879486bcc92c93488f58a1
 	public void bloodBankStock() {
 
 		//Asking for BloodBank Update
@@ -41,9 +37,12 @@ public class Hospital {
 
 			//Asking for the blood-amound
 			double amound;
-			do {
-				amound = Double.parseDouble(JOptionPane.showInputDialog("Insert the amound of blood in liters: "));
-			} while (amound <= 0);
+			try {
+				do {
+					amound = Double.parseDouble(JOptionPane.showInputDialog("Insert the amound of blood in liters: "));
+				} while (amound <= 0);
+			} catch () {
+			}
 
 			//Updating the bloodStock
 			for (int i=0; i<=7; i++) {

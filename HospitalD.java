@@ -1,12 +1,14 @@
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.*;
+import java.lang.NullPointerException;
+import java.lang.NumberFormatException;
 
 public class Hospital {
 
 	String[] bloodtype = {"A+","A-","AB+","AB-","B+","B-","0+","O-"};
 
-    public void bloodBankStock() {
+	public void bloodBankStock() {
 
 		//Asking for BloodBank Update
 		int update;
@@ -22,7 +24,7 @@ public class Hospital {
 			String type_update;
 			do {
 				type_update = (String)JOptionPane.showInputDialog(null, "BLOOD TYPE UPDATE","Choose a blood-type stock to update", JOptionPane.PLAIN_MESSAGE, null, types, "A+");
-		    } while (type_update != "A+" && type_update != "A-" && type_update != "AB+" && type_update != "AB-" && type_update != "B+" && type_update != "B-" && type_update != "0+" && type_update != "0-");
+			} while (type_update != "A+" && type_update != "A-" && type_update != "AB+" && type_update != "AB-" && type_update != "B+" && type_update != "B-" && type_update != "0+" && type_update != "0-");
 
 			//Asking for blood INCOME or OUTCOME
 			String[] kind = {"INCOME", "OUTCOME"};

@@ -5,8 +5,8 @@ import javax.swing.*;
 public class Hospital {
 
 	String[] bloodtype = {"A+","A-","AB+","AB-","B+","B-","0+","O-"};
-
-    public void bloodBankStock() {
+	
+	public void bloodBankStock() {
 
 		//Asking for BloodBank Update
 		int update;
@@ -56,8 +56,7 @@ public class Hospital {
 				   	if(bloodStock[i] <= bloodtypeLimit[i]){ //Maria's part, connection with method signUp in class Hospital
 						// Showing WARNING message
 						Messages m = new Messages();
-						m.shortageOfBlood(type_update); //κλήση μεθόδου shortageOfBlood SOS SOS SOS
-					}
+						m.shortageOfBlood(type_update);					}
 				}
 			}
 

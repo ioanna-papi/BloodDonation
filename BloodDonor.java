@@ -228,15 +228,23 @@ public class BloodDonor {
 					String r = rs.getString("Question");
 					if (qid.equals("1")) {
 						flag = false;
-                				do {
-                        				try {
-                                				a = JOptionPane.showInputDialog(null,  qid + ". " +  r, "QUESTIONNAIRE", JOptionPane.PLAIN_MESSAGE);
-                                				flag = correctGender(gender);
-                        				} catch (GenderException e1) {
-                                				JOptionPane.showMessageDialog(null, e1.getMessage(), "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
-                        				}
-                				}while (flag == false);
-		
+ 	    					Object[] opt = {"Male", "Female"};
+						do {
+							try {
+								int g = JOptionPane.showOptionDialog(null,"Choose your gender: ", "SIGN UP", JOptionPane.YES_NO_OPTION,
+										JOptionPane.PLAIN_MESSAGE, null, opt, null);
+								if (g == 0) {
+									gender = "male";
+								} else if (g == 1){
+									gender = "female";
+								} else {
+									throw new NullPointerException();
+								}
+								flag = true;
+							} catch (NullPointerException e1) {
+								JOptionPane.showMessageDialog(null, "Please choose your gender", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+							}
+						}while (flag == false);
 					} else if ((qid.equals("2")) || (qid.equals("3")) || (qid.equals("4")) || 
 						(qid.equals("5")) || (qid.equals("6")) || (qid.equals("7")) || (qid.equals("8")) 
 						|| (qid.equals("9")) || (qid.equals("10")) || (qid.equals("11")) || 

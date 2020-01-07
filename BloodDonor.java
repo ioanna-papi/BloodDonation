@@ -296,28 +296,33 @@ public class BloodDonor {
 		/**
 		 * This method changes the answer of the given question*/
 		public static void changeQuestion(int qid) {
-			boolean flag;
+			boolean flag = false;
 			String a2;
-			 if (qid.equals("1")) {
-                         flag = false;
-                         	do {
-                                	try {
-                                        	a2 = JOptionPane.showInputDialog(null,  qid + ". " +  r, "QUESTIONNAIRE", JOptionPane.PLAIN_MESSAGE);
-                                                flag = correctGender(gender);
-                                        } catch (GenderException e1) {
-                                        	JOptionPane.showMessageDialog(null, e1.getMessage(), "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
-                                        }
-                                }while (flag == false);
-                         } else if ((qid.equals("2")) || (qid.equals("3")) || (qid.equals("4")) ||
-                         	(qid.equals("5")) || (qid.equals("6")) || (qid.equals("7")) || (qid.equals("8"))
-                                || (qid.equals("9")) || (qid.equals("10")) || (qid.equals("11")) ||
-                                (qid.equals("12")) || (qid.equals("14"))) {
-                                	a2 = JOptionPane.showInputDialog(null, qid + ". " + r, "QUESTIONNAIRE", JOptionPane.PLAIN_MESSAGE);
-                         } else {
-                         	a2 = JOptionPane.showConfirmDialog(null, qid + ". " + r, "QUESTIONNAIRE", JOptionPane.PLAIN_MESSAGE);
-                         }
-			answers[a-1] = a2;
-			return;
-		}		
+          		int d = 0;
+			do {
+				try {
+					if ((qid == 1) || (qid == 2) || (qid == 3) || (qid == 4) ||
+                              		(qid == 5) || (qid == 6) || (qid == 7) || (qid == 8)
+                                     	|| (qid == 9) || (qid == 10) || (qid == 11) ||
+                                     	(qid == 12) || (qid == 14)) {
+						a2 = JOptionPane.showInputDialog(null,  qid + " Update your answer", "QUESTIONNAIRE", JOptionPane.PLAIN_MESSAGE);
+                				flag = true;
+					} else {
+						d = JOptionPane.showConfirmDialog(null, qid + " Update your answer", "QUESTIONNAIRE", JOptionPane.YES_NO_OPTION,JOptionPane.PLAIN_MESSAGE);
+                				a2 = String.valueOf(d);
+                        			flag = true;
+                			} 
+                			if (a2.equals(null) || (d == -1)) {
+                				throw new NullPointerException();
+                			}
+                		} catch (NullPointerException e1) {
+                			JOptionPane.showMessageDialog(null, "Please insert your answer", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+                    			flag = false;
+                		}
+            		}while (flag == false);
+			 //create coonection to db and update table questionnaire
+			//answers[a-1] = a2;
+			return;	
+		}
 }
 

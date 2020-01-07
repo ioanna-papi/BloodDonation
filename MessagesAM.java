@@ -1,30 +1,32 @@
-import java.sql.*;
-import javax.swing.JOptionPane;
-import java.util.Date;
-import java.text.SimpleDateFormat;
+import ava.sql.*;
+
 public class Messages{
-	static Connection dbcon;
-	static String url;
+	
 	public Messages(){
 		super();
 	}
 
-	public static void connect() {
-		url = "jdbc:sqlserver://195.251.249.161:1433;databaseName = DB56;user = G520;password = 94we99494";
+	public static Statement connect() {
+		String url = "jdbc:sqlserver://195.251.249.161:1433;databaseName = DB56;user = G520;password = 94we99494;
+		Connection dbcon;
+		Statement stmt = null;
 		try {
 			dbcon = DriverManager.getConnection(url);
+			stmt = dbcon.createStatement();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return stmt;
 	}
+	
 	public void donationDay(String date){
 		try {
 			ResultSet rs = Messages.connect().executeQuery("SELECT * FROM BloodDonor");
+			ResultSet RS = Messages.connect().executeQuery("SELECT * FROM DonationDays");
+			String day_name = JOptionPane.showInputDialog(null, "Enter the Donation Day Name",
+			                "MAKE NEW DONATION DAY", JOptionPane.PLAIN_MESSAGE);
 			for (;;) {
 				try {
-					String day_name = JOptionPane.showInputDialog(null,
-					                "Enter the Donation Day Name", "MAKE NEW DONATION DAY",
-					                JOptionPane.PLAIN_MESSAGE);
 					String don_date = JOptionPane.showInputDialog(null, "Enter the Donation Date",
 					                "MAKE NEW DONATION DAY", JOptionPane.PLAIN_MESSAGE);
 					SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -36,18 +38,18 @@ public class Messages{
 				}
 			}
 			rs.close();
+			RS.close();
 			Messages.connect().close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	
 	}
-
+	
 	public void donationCalendar() {
 		try {
-			Messages.connect();
-			Statement stmt = dbcon.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM DonationDays");
-			ResultSet RS = stmt.executeQuery("SELECT * FROM BloodDonor");
+			ResultSet rs = Messages.connect().executeQuery("SELECT * FROM DonationDays");
+			ResultSet RS = Messages.connect().executeQuery("SELECT * FROM BloodDonor");
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 			Date date = new Date();
 			int d ,m;
@@ -87,7 +89,7 @@ public class Messages{
 				}
 				rs.close();
 				RS.close();
-				stmt.close();
+				Messages.connect().close();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

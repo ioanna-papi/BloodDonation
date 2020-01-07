@@ -23,59 +23,81 @@ public class BloodDonor {
 	static String password_login;
 	final static Scanner input = new Scanner(System.in);
 	private static String[] answers = new String[51];
-	
-	//custom exception for gender
-	public static boolean correctGender(String gender) throws Exception{
-		
-		if ((gender.toLowerCase().equals("male")) || (gender.toLowerCase().equals("female"))) {
-			return true;
-		} else {
-			throw new Exception("Please type male or female.");
-		}
-	}
 
 	/** This method lets users sign up to the application*/
 	public static void signUp()  {
 		//donor's full name
 		boolean flag = true;
-                do {
-			try{
-				String fullname = JOptionPane.showInputDialog(null,"Enter your full name: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
-			} catch (InputMismatchException e) {
-		         	JOptionPane.showMessageDialog(null, "Please enter a valid name.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
-				flag = false;
-                	}
-		}while (flag == true);
+        	do {
+        		try{
+        			String fullname = JOptionPane.showInputDialog(null,"Enter your full name: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
+        			if (fullname.equals("null")) {
+        				throw new NullPointerException();
+        			}
+        			flag = false;
+            		} catch (InputMismatchException e) {
+            			JOptionPane.showMessageDialog(null, "Please enter a valid name.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+                		flag = true;
+            		} catch (NullPointerException e) {
+            			JOptionPane.showMessageDialog(null, "Please enter your name.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+                		flag = true;
+            		}
+		}while (flag);
 
 		//donor's username
-		flag = false;
+		flag = true;
 		do {
-			String username = JOptionPane.showInputDialog(null,"Enter your username: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
-				if (flag) {
+			try {
+				String username = JOptionPane.showInputDialog(null,"Enter your username: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
+				if (flag == false) { //add connection to db and check if username is being used
 					JOptionPane.showMessageDialog(null, "The username is already used.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
 				} else {
 					flag = false;
-				}	
-		}while (flag == true);
+				}
+				if (username.equals("null")) {
+        			throw new NullPointerException();
+        		}
+        		flag = false;
+			} catch (NullPointerException e) {
+				JOptionPane.showMessageDialog(null, "Please enter a username.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+                		flag = true;
+			}	
+		}while (flag);
 		
- 	        flag = false;
-                do {
-                        String email = JOptionPane.showInputDialog(null,"Enter your email: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
-                                if (flag) {
-                                        JOptionPane.showMessageDialog(null, "The email is already used.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
-                                } else {
-                                        flag = false;
-                                }
-                }while (flag == true);
+		//donor's email
+ 	    	flag = true;
+ 	    	do {
+ 	    		try {
+ 	    			String email = JOptionPane.showInputDialog(null,"Enter your email: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
+ 	    			if (flag == false) { //create connection to db and check if given email is being used
+ 	    				JOptionPane.showMessageDialog(null, "The email is already used.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+ 	    			}
+ 	    			if (email.equals("null")) {
+        				throw new NullPointerException();
+        			}
+        			flag = false;
+ 	    		} catch (NullPointerException e) {
+ 	    			JOptionPane.showMessageDialog(null, "Please enter your email", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+ 	    		}	
+            	}while (flag);
 
-		//donor's gender
-		flag = false;
+	    	//donor's gender
+ 	    	flag = false;
+ 	    	Object[] opt = {"Male", "Female"};
 		do {
 			try {
-				String gender = JOptionPane.showInputDialog(null,"Enter your gender: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
-				flag = correctGender(gender);
-			} catch (GenderException e1) {
-				JOptionPane.showMessageDialog(null, e1.getMessage(), "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+				int g = JOptionPane.showOptionDialog(null,"Choose your gender: ", "SIGN UP", JOptionPane.YES_NO_OPTION,JOptionPane.PLAIN_MESSAGE, null, opt, null);
+				if (g == 0) {
+					gender = "male";
+				} else if (g == 1){
+					gender = "female";
+				} else {
+					throw new NullPointerException();
+				}
+				System.out.println(g + gender);
+				flag = true;
+			} catch (NullPointerException e1) {
+				JOptionPane.showMessageDialog(null, "Please choose your gender", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
 			}
 		}while (flag == false);
 			
@@ -85,7 +107,7 @@ public class BloodDonor {
 			bloodtype = (String) JOptionPane.showInputDialog(null, "Choose your blood type", "SIGN UP", JOptionPane.PLAIN_MESSAGE, null, bloodtypes, "O+" );
 			try {
 				if (bloodtype.equals(null)) {
-					JOptionPane.showMessageDialog(null, "Please choose your blood type.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+					throw new NullPointerException();
 				} else {
 					flag = false;
 				}
@@ -95,13 +117,22 @@ public class BloodDonor {
 		}
 		
 		//donor's SSN
-		flag = false;
+		flag = true;
 		do {
-			String SSN = JOptionPane.showInputDialog(null,"Enter your SSN: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
-			if (SSN.length() == 11) {
-				break;
-			} else {
-				 JOptionPane.showMessageDialog(null, "Please enter a valid SSN (11 digits)", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+			try {
+				String SSN = JOptionPane.showInputDialog(null,"Enter your SSN: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
+				if (SSN.length() == 11) {
+					flag = false;
+					break;
+				} else {
+					 JOptionPane.showMessageDialog(null, "Please enter a valid SSN (11 digits)", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+					flag = true;
+				}
+				if (SSN.equals(null)) {
+					throw new NullPointerException();
+				}
+			} catch (NullPointerException e) {
+				JOptionPane.showMessageDialog(null, "Please enter your SSN", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
 				flag = true;
 			}
 		}while (flag);
@@ -115,7 +146,7 @@ public class BloodDonor {
 			String region = (String)JOptionPane.showInputDialog(null, "Choose your region", "SIGN UP", JOptionPane.PLAIN_MESSAGE, null, possibilities, "Attica" );
 			try {
 				if (region.equals(null)) {
-					JOptionPane.showMessageDialog(null, "Please choose your region.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+					throw new NullPointerException();
 				} else {
 					flag = false;
 				}
@@ -125,19 +156,25 @@ public class BloodDonor {
 		}
 		
 		//donor's password
-		flag = false;
+		flag = true;
 		do {
-			String password = JOptionPane.showInputDialog(null,"Enter your password: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
-			if (password.matches("^.*(?=.{4,10})(?=.*\\d)(?=.*[a-zA-Z]).*$")) {
-				flag = true;
-				break;
-			
-			} else {
-				JOptionPane.showMessageDialog(null, "Your password must contain both numbers and letters.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
-				flag = false;
+			try {
+				String password = JOptionPane.showInputDialog(null,"Enter your password: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
+				if (password.matches("^.*(?=.{4,10})(?=.*\\d)(?=.*[a-zA-Z]).*$")) {
+					flag = false;
+					break;
+				} else {
+					JOptionPane.showMessageDialog(null, "Your password must contain both numbers and letters.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+					flag = true;
+				}
+				if (password.equals(null)) {
+					throw new NullPointerException();
+				}
+			} catch (NullPointerException e) {
+				JOptionPane.showMessageDialog(null, "Please enter your password", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
 			}
 			
-		}while(flag == false);
+		}while(flag);
 
 		Messages.connect();
 		Statement stmt = dbcon.createStatement();
@@ -179,6 +216,7 @@ public class BloodDonor {
 	/**
 	 * This method shows all the questions of the questionnaire*/
 	public static void questionnaire() {
+		boolean flag;
 		String a;
 			try {   
 				Messages.connect();
@@ -190,15 +228,23 @@ public class BloodDonor {
 					String r = rs.getString("Question");
 					if (qid.equals("1")) {
 						flag = false;
-                				do {
-                        				try {
-                                				a = JOptionPane.showInputDialog(null,  qid + ". " +  r, "QUESTIONNAIRE", JOptionPane.PLAIN_MESSAGE);
-                                				flag = correctGender(gender);
-                        				} catch (GenderException e1) {
-                                				JOptionPane.showMessageDialog(null, e1.getMessage(), "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
-                        				}
-                				}while (flag == false);
-		
+ 	    					Object[] opt = {"Male", "Female"};
+						do {
+							try {
+								int g = JOptionPane.showOptionDialog(null,"Choose your gender: ", "SIGN UP", JOptionPane.YES_NO_OPTION,
+										JOptionPane.PLAIN_MESSAGE, null, opt, null);
+								if (g == 0) {
+									gender = "male";
+								} else if (g == 1){
+									gender = "female";
+								} else {
+									throw new NullPointerException();
+								}
+								flag = true;
+							} catch (NullPointerException e1) {
+								JOptionPane.showMessageDialog(null, "Please choose your gender", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+							}
+						}while (flag == false);
 					} else if ((qid.equals("2")) || (qid.equals("3")) || (qid.equals("4")) || 
 						(qid.equals("5")) || (qid.equals("6")) || (qid.equals("7")) || (qid.equals("8")) 
 						|| (qid.equals("9")) || (qid.equals("10")) || (qid.equals("11")) || 
@@ -258,28 +304,33 @@ public class BloodDonor {
 		/**
 		 * This method changes the answer of the given question*/
 		public static void changeQuestion(int qid) {
-			boolean flag;
+			boolean flag = false;
 			String a2;
-			 if (qid.equals("1")) {
-                         flag = false;
-                         	do {
-                                	try {
-                                        	a2 = JOptionPane.showInputDialog(null,  qid + ". " +  r, "QUESTIONNAIRE", JOptionPane.PLAIN_MESSAGE);
-                                                flag = correctGender(gender);
-                                        } catch (GenderException e1) {
-                                        	JOptionPane.showMessageDialog(null, e1.getMessage(), "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
-                                        }
-                                }while (flag == false);
-                         } else if ((qid.equals("2")) || (qid.equals("3")) || (qid.equals("4")) ||
-                         	(qid.equals("5")) || (qid.equals("6")) || (qid.equals("7")) || (qid.equals("8"))
-                                || (qid.equals("9")) || (qid.equals("10")) || (qid.equals("11")) ||
-                                (qid.equals("12")) || (qid.equals("14"))) {
-                                	a2 = JOptionPane.showInputDialog(null, qid + ". " + r, "QUESTIONNAIRE", JOptionPane.PLAIN_MESSAGE);
-                         } else {
-                         	a2 = JOptionPane.showConfirmDialog(null, qid + ". " + r, "QUESTIONNAIRE", JOptionPane.PLAIN_MESSAGE);
-                         }
-			answers[a-1] = a2;
-			return;
-		}		
+          		int d = 0;
+			do {
+				try {
+					if ((qid == 1) || (qid == 2) || (qid == 3) || (qid == 4) ||
+                              		(qid == 5) || (qid == 6) || (qid == 7) || (qid == 8)
+                                     	|| (qid == 9) || (qid == 10) || (qid == 11) ||
+                                     	(qid == 12) || (qid == 14)) {
+						a2 = JOptionPane.showInputDialog(null,  qid + " Update your answer", "QUESTIONNAIRE", JOptionPane.PLAIN_MESSAGE);
+                				flag = true;
+					} else {
+						d = JOptionPane.showConfirmDialog(null, qid + " Update your answer", "QUESTIONNAIRE", JOptionPane.YES_NO_OPTION,JOptionPane.PLAIN_MESSAGE);
+                				a2 = String.valueOf(d);
+                        			flag = true;
+                			} 
+                			if (a2.equals(null) || (d == -1)) {
+                				throw new NullPointerException();
+                			}
+                		} catch (NullPointerException e1) {
+                			JOptionPane.showMessageDialog(null, "Please insert your answer", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+                    			flag = false;
+                		}
+            		}while (flag == false);
+			 //create coonection to db and update table questionnaire
+			//answers[a-1] = a2;
+			return;	
+		}
 }
 

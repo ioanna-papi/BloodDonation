@@ -1,21 +1,20 @@
-import java.util.Scanner;
+import javax.swing.JOptionPane;
 import java.util.InputMismatchException;
 public class HomeMenu {
 
 	public static void main(String[] args) throws InputMismatchException {
-		Scanner sc = new Scanner(System.in);
 		loadObjects();
 		while (true) {
 				try {
 					boolean f = true;
 					while (f) {
 						String[] kind = {"Donor", "Hospital"};
-						String ans = JOptionPane.showOptionDialog(null, "In which way would you like to use the application?",
+						int ans = JOptionPane.showOptionDialog(null, "In which way would you like to use the application?",
 								"MAIN MENU", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, kind, kind[0]);
-						if (ans.equals("0")) {
+						if (ans == 0) {
 							HomeMenu.printDonorMenu();
 							f = false;
-						} else if (ans.equals("1")) {
+						} else if (ans == 1) {
 							HomeMenu.printHospitalMenu();
 							f = false;
 						} else {
@@ -30,19 +29,18 @@ public class HomeMenu {
 	
 	
 	private static void printDonorMenu() {
-		Scanner sc = new Scanner(System.in);
 		JOptionPane.showMessageDialog(null,"Welcome to our application!");
 		String[] q = {"Fill out our questionnaire", "Update questionnaire", "Log in"};
-		String ans = JOptionPane.showOptionDialog(null, "Please choose one of the following",
+		int ans = JOptionPane.showOptionDialog(null, "Please choose one of the following",
                                                                 "DONOR'S MENU", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, q, q[0]);
 		switch (ans) {
-			case "1":
+			case 1:
 				BloodDonor.questionnaire();
 				JOptionPane.showMessageDialog(null, "Congratulations! You've already done the first step to become a Blood Donor");
 				JOptionPane.showMessageDialog(null, "Now press OK to sign up to our application");
 				BloodDonor.signUp();
 				printDonorMenu();
-			case "2":
+			case 2:
 				boolean f = true;
 				while (f) {
 					int choice = JOptionPane.showConfirmDialog(null, "Would you like to update your questionnaire?");
@@ -56,7 +54,7 @@ public class HomeMenu {
 							HomeMenu.printDonorMenu();
 						}
 						JOptionPane.showMessageDialog(null, "Press OK to log in");
-						BloodDonor.login();
+						BloodDonor.logIn();
 					} else {
 						f = true;
 					}
@@ -69,33 +67,32 @@ public class HomeMenu {
 	
 	
 	private static void printHospitalMenu() throws InputMismatchException {
-		Scanner sc = new Scanner(System.in);
 		JOptionPane.showMessageDialog(null, "Welcome to our application!");
 		String[] kind = {"Sign up", "Log in", "Create a new donation day"};
-		String ans = JOptionPane.showOptionDialog(null, "Please choose one of the following",
+		int ans = JOptionPane.showOptionDialog(null, "Please choose one of the following",
                                                                 "HOSPITAL MENU", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, kind, kind[0]);
 		switch (ans) {
-			case "1":
+			case 1:
 				Hospital.signUp();
 				JOptionPane.showMessageDialog(null, "Now we would like you to inform us about your blood bank stock");
 				Hospital.bloodBankStock();
 				printHospitalMenu();
-			case "2":
+			case 2:
 				Hospital.login();
-				JOptionPane.showMessageDialog(null, "Now we would like you to inform us about your blood bank stock");
-				System.out.print("Press 1 to inform us, or press another character if you have informed us recently");
-				String a = sc.nextLine();
-				if (a.equals("1")) {
+				Object[] opt = {"Update blood bank stock","Skip this step"};
+				int g = JOptionPane.showOptionDialog(null,"Now we would like you to inform us about your blood bank stock", "HOSPITAL MENU", JOptionPane.YES_NO_OPTION,
+						JOptionPane.PLAIN_MESSAGE, null, opt, null);
+				if (g == 0) {
 					Hospital.bloodBankStock();
 				}
 				String[] k = {"Borrow", "Cancel"};
-				String a2 = JOptionPane.showOptionDialog(null, "If you think you have shortage of stock, you can borrow blood from another hospital",
+				int a2 = JOptionPane.showOptionDialog(null, "If you think you have shortage of stock, you can borrow blood from another hospital",
                                                                 "BLOOD BORROW", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, k, k[0]);
-				if (a2.equals("0")) {
+				if (a2 == 0) {
 					Messages.bloodBorrow();
 				}
 				HomeMenu.printHospitalMenu();
-			case "3":
+			case 3:
 				Hospital.makeDonationDay();
 				JOptionPane.showMessageDialog(null, "Thank you! You help us to strengthen our action");
 				HomeMenu.printHospitalMenu();

@@ -11,19 +11,29 @@ public class Messages {
 		super();
 	}
 	
-	public static void main(String[] args) {
-		Messages m = new Messages();
-		m.bloodBorrow("Attiki");
-		//m.donationCalendar();
-		//m.shortageOfBlood("A+");
-	}
-	
 	/**This method informs a hospital about it's shortage of blood in a specific blood type*/
-	public void shortageOfBlood(String bloodtype) {
+	public void shortageOfBlood(String bloodtype) {//must have parametre username and region of hospital!!
 		JOptionPane.showMessageDialog(null, "SHORTAGE OF BLOOD TYPE " + bloodtype, "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
-		JOptionPane.showMessageDialog(null, "You can ask for blood borrow or create a blood donation day");
-		choice = Integer.parseInt(JOptionPane.showInputDialog("Type \"1\" for blood borrow or \"2\" for donation day"));
-		//exception
+		boolean flag = true;
+		while(flag) {
+			String[] options = {"Blood borrow ", "Create donation day "};
+			int choice = JOptionPane.showOptionDialog (null, "You can ask for blood borrow or create a blood donation day",
+					"Message",JOptionPane.YES_NO_CANCEL_OPTION,
+				    JOptionPane.QUESTION_MESSAGE,
+				    null,options,options[1]);
+			if (choice == 0) {
+				flag = false;
+				Messages mes = new Messages();
+	        	mes.bloodBorrow(region, bloodtype); 
+			} else if (choice == 1) {
+				flag = false;
+				Hospital h = new Hospital();
+	        		h.makeDonationDay();
+			} else {
+				JOptionPane.showMessageDialog(null, "You have to choose one of the above!", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+			}
+		}
+
 	}
 	
 	/**sends message to hospitals in order to borrow blood to a hospital in the same region*/

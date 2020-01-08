@@ -18,6 +18,7 @@ public class Messages {
 		//m.shortageOfBlood("A+");
 	}
 	
+	/**This method informs a hospital about it's shortage of blood in a specific blood type*/
 	public void shortageOfBlood(String bloodtype) {
 		JOptionPane.showMessageDialog(null, "SHORTAGE OF BLOOD TYPE " + bloodtype, "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
 		JOptionPane.showMessageDialog(null, "You can ask for blood borrow or create a blood donation day");
@@ -25,7 +26,7 @@ public class Messages {
 		//exception
 	}
 	
-	//sends message to hospitals in order to borrow blood to a hospital in the same region
+	/**sends message to hospitals in order to borrow blood to a hospital in the same region*/
 	public void bloodBorrow(String region) {
 		try {
 			String url = "jdbc:mysql://localhost:3306/Donation?serverTimezone=UTC";

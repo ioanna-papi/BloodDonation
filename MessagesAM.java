@@ -1,13 +1,14 @@
 import ava.sql.*;
-
+/**This class displays messages to blood donors and hospitals*/
 public class Messages{
 	
 	public Messages(){
 		super();
 	}
-
+	
+	/**This method creates a connection to the data base*/
 	public static Statement connect() {
-		String url = "jdbc:sqlserver://195.251.249.161:1433;databaseName = DB56;user = G520;password = 94we99494;
+		String url = "jdbc:sqlserver://195.251.249.161:1433;databaseName = DB20;user = G520;password = 94we99494;
 		Connection dbcon;
 		Statement stmt = null;
 		try {
@@ -19,6 +20,7 @@ public class Messages{
 		return stmt;
 	}
 	
+	/**This method informs volunteers about a specific donation day a hospital from thier region has created*/
 	public void donationDay(String date){
 		try {
 			ResultSet rs = Messages.connect().executeQuery("SELECT * FROM BloodDonor");
@@ -46,6 +48,7 @@ public class Messages{
 	
 	}
 	
+	/**This method informs all volunteers about the default donation days*/
 	public void donationCalendar() {
 		try {
 			ResultSet rs = Messages.connect().executeQuery("SELECT * FROM DonationDays");

@@ -45,16 +45,18 @@ public class HospitalDTest extends TestCase {
 						null, kind, kind[0]);
 			} while ((option != 0) && (option != 1));
 
-			//Asking for the blood-amound
-			double amound = 0;
+			//Asking for the blood-amount
+			double amount = 0;
 			do {
 				try {
-					amound = Double.parseDouble(JOptionPane.showInputDialog(
+					amount = Double.parseDouble(JOptionPane.showInputDialog(
 							"Insert the amound of blood in liters: "));
 				} catch (NullPointerException e1) {
+					JOptionPane.showMessageDialog(null, "Please enter the amount of blood","ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
 				} catch (NumberFormatException e2) {
+					JOptionPane.showMessageDialog(null, "Please enter a positive number","ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
 				}
-			} while (amound <= 0);
+			} while (amount <= 0);
 
 			//Updating the bloodStock
 			for (int i=0; i<=7; i++) {

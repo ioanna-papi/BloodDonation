@@ -214,7 +214,7 @@ public class BloodDonor {
 	}
 	
 	/**
-	 * This method shows all the questions of the questionnaire*/
+	 * This method lets users answer to the questions of the questionnaire*/
 	public static void questionnaire() {
 		boolean flag = true;
 		String a;
@@ -267,7 +267,11 @@ public class BloodDonor {
 							JOptionPane.showMessageDialog(null, "Please insert your answer", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
 							flag = true;
 						}
-					} while (flag);	
+					} while (flag);
+					if (checkQuestion(qid, a) == false) {
+						JOptionPane.showMessageDialog(null, "We regret to inform you that you are not compatible as a blood donor.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+						break;
+					}
 					//answers[i++] = a;
 				}
 				rs.close();
@@ -324,10 +328,7 @@ public class BloodDonor {
           		int d = 0;
 			do {
 				try {
-					if ((qid == 1) || (qid == 2) || (qid == 3) || (qid == 4) ||
-                              		(qid == 5) || (qid == 6) || (qid == 7) || (qid == 8)
-                                     	|| (qid == 9) || (qid == 10) || (qid == 11) ||
-                                     	(qid == 12) || (qid == 14)) {
+					if ((qid <= 12) || (qid == 14)) {
 						a2 = JOptionPane.showInputDialog(null,  qid + " Update your answer", "QUESTIONNAIRE", JOptionPane.PLAIN_MESSAGE);
                 				flag = true;
 					} else {
@@ -346,6 +347,40 @@ public class BloodDonor {
 			 //create coonection to db and update table questionnaire
 			//answers[a-1] = a2;
 			return;	
+		}
+
+		/**This method checks if the users is compatible as a blood donor by his answers*/
+
+		public static boolean checkQuestion (int qid, String an) {
+			boolean flag = false;
+			Date date1 = new Date();
+			if (qid == 14) {
+				try {
+					date1=new SimpleDateFormat("yyyy/MM/dd").parse(an);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd");
+				Date date = new Date(System.currentTimeMillis());
+				long diff = getDateDiff(date1,date,TimeUnit.DAYS);
+				if (diff >= 90){
+					flag = true;
+				}
+			} else if (qid > 14) {
+				if (an.equals("1")) {
+					flag = true; //if the users answers no, he is compatible
+				}
+			} else {
+				flag = true; //the rest of the answers don't need checking
+			}
+			return flag;
+		}
+
+
+		/**This method returns the difference between current date and given date*/
+		public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
+		    long diffInMillies = date2.getTime() - date1.getTime();
+		    return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
 		}
 }
 

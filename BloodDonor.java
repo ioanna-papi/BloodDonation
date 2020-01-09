@@ -332,5 +332,13 @@ public class BloodDonor {
 			//answers[a-1] = a2;
 			return;	
 		}
+
+
+		/**This method returns the difference between current date and given date*/
+
+		public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
+		    long diffInMillies = date2.getTime() - date1.getTime();
+		    return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
+		}
 }
 

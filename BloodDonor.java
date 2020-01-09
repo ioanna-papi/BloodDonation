@@ -187,7 +187,7 @@ public class BloodDonor {
 		Messages.connect().close();
 	}
 	
-	
+	/**This method allows users to log in to the appication*/
 	public static void logIn() {
 		boolean flag;
 		do {

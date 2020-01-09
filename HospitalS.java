@@ -31,7 +31,7 @@ public class HospitalS {
 			d =(String)JOptionPane.showInputDialog(null, "Day", "Choose the day of the donation", JOptionPane.PLAIN_MESSAGE, null, day, "1" );
 		}
 
-		String date = String.join(d, "/", m, "/", y);
+		String date = String.join("/", y, m, d);
 		return date;
 
 	}

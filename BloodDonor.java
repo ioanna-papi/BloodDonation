@@ -252,7 +252,9 @@ public class BloodDonor {
 						a = JOptionPane.showInputDialog(null, qid + ". " + r, "QUESTIONNAIRE", JOptionPane.PLAIN_MESSAGE);
 					} else {
 						 a = JOptionPane.showConfirmDialog(null, qid + ". " + r, "QUESTIONNAIRE", JOptionPane.PLAIN_MESSAGE);
+					
 					}
+			
 					answers[i++] = a;
 				}
 				rs.close();

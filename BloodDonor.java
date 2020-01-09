@@ -333,6 +333,34 @@ public class BloodDonor {
 			return;	
 		}
 
+		/**This method checks if the users is compatible as a blood donor by his answers*/
+
+		public static boolean checkQuestion (int qid, String an) {
+			boolean flag = false;
+			Date date1 = new Date();
+			if (qid == 14) {
+				try {
+					date1=new SimpleDateFormat("yyyy/MM/dd").parse(an);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd");
+				Date date = new Date(System.currentTimeMillis());
+				System.out.println(formatter.format(date));
+				long diff = getDateDiff(date1,date,TimeUnit.DAYS);
+				if (diff >= 90){
+					flag = true;
+				}
+			} else if (qid > 14) {
+				if (an.equals("1")) {
+					flag = true; //if the users answers no, he is compatible
+				}
+			} else {
+				flag = true; //the rest of the answers don't need checking
+			}
+			return flag;
+		}
+
 
 		/**This method returns the difference between current date and given date*/
 

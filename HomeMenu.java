@@ -28,7 +28,7 @@ public class HomeMenu {
 	}
 	
 	
-	private static void printDonorMenu() {
+	public static void printDonorMenu() {
 		JOptionPane.showMessageDialog(null,"Welcome to our application!");
 		String[] q = {"Fill out our questionnaire", "Update questionnaire", "Log in"};
 		int ans = JOptionPane.showOptionDialog(null, "Please choose one of the following",
@@ -66,7 +66,7 @@ public class HomeMenu {
 	
 	
 	
-	private static void printHospitalMenu() throws InputMismatchException {
+	public static void printHospitalMenu() throws InputMismatchException {
 		JOptionPane.showMessageDialog(null, "Welcome to our application!");
 		String[] kind = {"Sign up", "Log in", "Create a new donation day"};
 		int ans = JOptionPane.showOptionDialog(null, "Please choose one of the following",
@@ -104,11 +104,6 @@ public class HomeMenu {
 	
 	
 	
-	
-	
-	private static void loadObjects() {
-		//Δημιουργία αντικειμένων για όλες τις κλάσεις
-	}
 
 }
 

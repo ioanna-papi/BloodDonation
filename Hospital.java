@@ -179,7 +179,7 @@ public class Hospital {
                 //password
                 flag = true;
                 do {
-                        String password = JOptionPane.showInputDialog(null,"Enter your password: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
+                        password = JOptionPane.showInputDialog(null,"Enter your password: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
                         if (password.matches("^.*(?=.{4,10})(?=.*\\d)(?=.*[a-zA-Z]).*$")) {
                                 flag = false;
                                 break;
@@ -202,14 +202,12 @@ public class Hospital {
 		
 			boolean flag = true;
 			do {
-				System.out.println("Welcome!Please type your hospital's name. ");
-				hospital_login = input.nextLine();
+				hospital_login = JOptionPane.showInputDialog(null, "Welcome! Please type your hospital's username. ", "LOG IN", JOptionPane.PLAIN_MESSAGE);
 				flag = ((String) Hospitals).contains(hospital_login);
 				if (flag) {
 					boolean flag1 = true;
 					do {
-						System.out.println("Enter your password.");
-						password_login = input.nextLine();
+						password_login = JOptionPane.showInputDialog(null, "Enter your password.", "LOG IN", JOptionPane.PLAIN_MESSAGE);
 						flag1 = ((String) Hospitals).contains(password_login);
 						if (flag1 == false)
 							System.err.println("Wrong password!");
@@ -220,6 +218,7 @@ public class Hospital {
 					System.err.println("This username is not registered!");
 				}
 			}while (flag == false);
+
 	}
 	
 	/**This method lets hospitals create their own donation day*/

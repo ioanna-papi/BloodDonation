@@ -192,7 +192,20 @@ public class Hospital {
 
 
                 //Add hospital's credentials to the database
-                try{} catch (){}
+                try {
+			Messages.connect();
+			Connection dbcon = null;
+			Statement stmt = dbcon.createStatement();
+			int rs = stmt.executeUpdate("INSERT INTO Hospital (Username, H_name, H_pass, Telephone, Address, Region)" + 
+					"VALUES (username, fullname, password, phonenumber, Address , region)");
+			
+			stmt.close();
+			Messages.connect().executeUpdate("INSERT INTO Hospital (Username, H_name, H_pass, Telephone, Address, Region)" +
+                                        "VALUES ('" + username + "', '" +  fullname +"', '" + password +"', '" + phonenumber + "', '" + Address +"', '" + region)");
+			Messages.connect().close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
                 logIn();
         }
 	

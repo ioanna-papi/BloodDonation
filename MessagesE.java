@@ -1,5 +1,3 @@
-
-
 import java.sql.*;
 import javax.swing.JOptionPane;
 
@@ -11,7 +9,9 @@ public class Messages {
 		super();
 	}
 	
-	/**This method informs a hospital about it's shortage of blood in a specific blood type*/
+	/**
+	 * This method informs a hospital about it's shortage of blood in a specific blood type
+	 * @param bloodtype the specific blood type which is lacking in the specific hospital*/
 	public void shortageOfBlood(String bloodtype) {//must have parametre username and region of hospital!!
 		JOptionPane.showMessageDialog(null, "SHORTAGE OF BLOOD TYPE " + bloodtype, "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
 		boolean flag = true;
@@ -24,7 +24,7 @@ public class Messages {
 			if (choice == 0) {
 				flag = false;
 				Messages mes = new Messages();
-	        	mes.bloodBorrow(region, bloodtype); 
+	 		       	mes.bloodBorrow(region, bloodtype); 
 			} else if (choice == 1) {
 				flag = false;
 				Hospital h = new Hospital();
@@ -36,12 +36,13 @@ public class Messages {
 
 	}
 	
-	/**sends message to hospitals in order to borrow blood to a hospital in the same region*/
+	/**sends message to hospitals in order to borrow blood to a hospital in the same region
+	 * @param region the region the specific hospital belongs to*/
 	public void bloodBorrow(String region) {
 		try {
 			String url = "jdbc:mysql://localhost:3306/Donation?serverTimezone=UTC";
-            String userName = "root"; 
-            String password = "";
+            		String userName = "root"; 
+            		String password = "";
 			Connection dbcon ;
 			dbcon = DriverManager.getConnection(url, userName, password);
 			Statement stmt = dbcon.createStatement();

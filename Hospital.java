@@ -18,7 +18,9 @@ public class Hospital {
 	public static Object getList;
 	static String hospital_login;
 	static String password_login; 
-
+	
+	/**
+	 * This method asks for confirmation about the given blood limit*/
 	public static boolean Answer() {
 		int answer = JOptionPane.showConfirmDialog(null, "Are you sure this is the correct amount?" , "Blood Bank Update", JOptionPane.PLAIN_MESSAGE);
 		 if (answer == JOptionPane.YES_OPTION) {
@@ -29,7 +31,10 @@ public class Hospital {
 		}
 	}
 	
-	 public static double limitLiters(String b) {
+	/**
+	 * This method checks if the given blood limit is valid, meaning blood limit is apositive number
+	 * @param b is the given bloodtype*/
+	public static double limitLiters(String b) {
                 double temp;
                 do{
                         String t = JOptionPane.showInputDialog(null, "Please enter the limit amount of blood for blood type " + b + " :");
@@ -41,7 +46,9 @@ public class Hospital {
                 return temp;
 
         }
-        public static double bloodLimit(int i) throws InputMismatchException{
+	/**
+	 * This method checks if the given blood limit is a number*/
+        public static double bloodLimit(int i) {
                         String b = bloodtype[i];
                         boolean flag = true;
                         do {
@@ -55,7 +62,7 @@ public class Hospital {
                                                 break;
                                         }
                                 }
-                                catch(final InputMismatchException e2) {
+                                catch(InputMismatchException e2) {
                                         JOptionPane.showMessageDialog(null, "The input has to be a number!", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
                                         double temp = limitLiters(b);
                                         if (Answer() == true) {
@@ -70,7 +77,10 @@ public class Hospital {
                         return LimitInLiters;
         }
 
-	 public static boolean correctPhonenumber(String phonenumber) throws HospitalPhoneNumberException{
+	/**
+	 * This method checks if the given phone number is type int and up to 10 digits
+	 * @param phonenumber  the given phone number that the method checks*/
+	 public static boolean correctPhonenumber(String phonenumber) {
                 boolean flag = false;
                 while (flag == false) {
 
@@ -85,7 +95,8 @@ public class Hospital {
                 return flag;
         }
 
-        //sign up method
+        /**
+	 * This method allows users to sign up to the application*/
         public static void signUp(){
 
                 // Hospital's Name
@@ -141,7 +152,6 @@ public class Hospital {
                         }
                 }while(flag);
 
-
 		 //Hospital's region
                 flag = true;
                 Object[] possibilities = {"Attica","South Aegean Sea","North Aegean Sea","Central Greece","West Greece",
@@ -185,7 +195,9 @@ public class Hospital {
                 try{} catch (){}
                 logIn();
         }
-
+	
+	/**
+	 * This method lets hospitals log in to their account*/
 	public static void logIn() {
 		
 			boolean flag = true;

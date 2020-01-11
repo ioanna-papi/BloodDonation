@@ -1,5 +1,8 @@
 import javax.swing.JOptionPane;
-
+/**
+ * This class displays the main menu of the application
+ * and the custom menus of each category of user;
+ * Blood donor and Hospital*/
 public class HomeMenu {
 
 	public static void main(String[] args) {
@@ -24,7 +27,9 @@ public class HomeMenu {
 		}
 	}
 	
-	
+	/**
+	 * This method displays blood donors' main menu,
+	 * which includes sign up, log in fill out and update questionnaire*/
 	public static void printDonorMenu() {
 		JOptionPane.showMessageDialog(null,"Welcome to our application!", "DONOR'S MENU", JOptionPane.PLAIN_MESSAGE);
 		String[] q = {"Fill out our questionnaire", "Update questionnaire", "Log in"};
@@ -61,8 +66,10 @@ public class HomeMenu {
 		}
 	}
 	
-	
-	
+	/**
+	 * This method displays hospitals' main menu, 
+	 * which inclues sign up, log in, create new donation day,
+	 * borrow blood from another hospital and update blood bank stcok*/
 	public static void printHospitalMenu() {
 		JOptionPane.showMessageDialog(null, "Welcome to our application!");
 		String[] kind = {"Sign up", "Log in", "Create a new donation day"};

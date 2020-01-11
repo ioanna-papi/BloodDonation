@@ -26,7 +26,7 @@ public class Hospital {
 	}
 	
 	/**
-	 * This method checks if the given blood limit is valid, meaning blood limit is apositive number
+	 * This method checks if the given blood limit is valid, meaning blood limit is a positive number
 	 * @param b is the given bloodtype*/
 	public static double limitLiters(String b) {
          double temp = 0;
@@ -186,28 +186,6 @@ public class Hospital {
                         }
                 }
 
-
-                // Hospital's blood limit
-                flag = true;
-		String a = null;
-			try {   
-				Messages.connect();
-				Connection dbcon = null;
-				Statement stmt = dbcon.createStatement();
-				int i = 0;
-				ResultSet rs = stmt.executeQuery("SELECT * FROM Bloodtypes, BloodLimits WHERE" +
-						"Bloodlimits.BloodType = Bloodtypes.bloodtype AND BloodLimits.H_Username = '" + username +"'");
-				while (rs.next()) {
-					String b = rs.getString("bloodtype");
-					Double bloodLimit = rs.getDouble("BloodLimit");
-					bloodLimit(b, username);
-				}
-				rs.close();
-				stmt.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
                 //password
                 flag = true;
                 do {
@@ -236,6 +214,26 @@ public class Hospital {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+		 // Hospital's blood limit
+                flag = true;
+                String a = null;
+                        try {
+                                Messages.connect();
+                                Connection dbcon = null;
+                                Statement stmt = dbcon.createStatement();
+                                ResultSet rs = stmt.executeQuery("SELECT * FROM Bloodtypes, BloodLimits WHERE" +
+                                                "Bloodlimits.BloodType = Bloodtypes.bloodtype AND BloodLimits.H_Username = '" + username +"'");
+                                while (rs.next()) {
+                                        String b = rs.getString("bloodtype");
+                                        bloodLimit(b, username);
+                                }
+                                rs.close();
+                                stmt.close();
+                        } catch (Exception e) {
+                                e.printStackTrace();
+                        }
+
 		return;
         }
 	

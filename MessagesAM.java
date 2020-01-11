@@ -22,24 +22,15 @@ public class Messages{
 	
 	/**
 	 * This method informs volunteers about a specific donation day a hospital from thier region has created
-	 * @param date the donation day date the hospital has created*/
-	public void donationDay(String date){
+	 * @param date the donation day date the hospital has created
+	 * @param username is the hospital's username*/
+	public void donationDay(String date, username){
+		String region = null;
 		try {
-			ResultSet rs = Messages.connect().executeQuery("SELECT * FROM BloodDonor");
-			ResultSet RS = Messages.connect().executeQuery("SELECT * FROM DonationDays");
-			String day_name = JOptionPane.showInputDialog(null, "Enter the Donation Day Name",
-			                "MAKE NEW DONATION DAY", JOptionPane.PLAIN_MESSAGE);
-			for (;;) {
-				try {
-					String don_date = JOptionPane.showInputDialog(null, "Enter the Donation Date",
-					                "MAKE NEW DONATION DAY", JOptionPane.PLAIN_MESSAGE);
-					SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-					Date newdate = (Date) formatter.parse(don_date);
-					break;
-				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "Please enter a date yyyy-MM-dd.",
-					                "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
-				}
+			ResultSet rs = Messages.connect().executeQuery("SELECT Region, Username FROM Hospital WHERE Username = '" + username+ "'");
+			while (rs.next()) {
+				region = rs.getString("Region");
+				//dispaly message to volunteers
 			}
 			rs.close();
 			RS.close();

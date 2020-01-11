@@ -36,13 +36,13 @@ public class Hospital {
          do{
         	 do {
         		 try {
-        			 String t = JOptionPane.showInputDialog(null, "Please enter the limit amount of blood for blood type " + b + " :");
-                     temp = Double.valueOf(t);
-                     if (temp < 0) {
-                    	 flag = false;
-                         JOptionPane.showMessageDialog(null, "Please enter a positive number", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
-                         break;
-                     }
+        			String t = JOptionPane.showInputDialog(null, "Please enter the limit amount of blood for blood type " + b + " :");
+                     		temp = Double.valueOf(t);
+                     		if (temp < 0) {
+                    			flag = false;
+                         		JOptionPane.showMessageDialog(null, "Please enter a positive number", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+                         		break;
+                     		}
         		 } catch (InputMismatchException e) {
         			 JOptionPane.showMessageDialog(null,"Please enter a number","ALERT MESSAGE",JOptionPane.WARNING_MESSAGE);
         		 }
@@ -53,9 +53,9 @@ public class Hospital {
 	 }
 
 	/**
-	 * This method checks if the given blood limit is a number*/
-        public static double bloodLimit(int i) {
-                String b = bloodtype[i];
+	 * This method checks if the given blood limit is a number
+	 * @param b is the given blood type*/
+        public static double bloodLimit(String b) {
          	boolean flag = true;
          	do {
         		try {
@@ -175,9 +175,25 @@ public class Hospital {
 
 
                 // Hospital's blood limit
-                for (int i = 0;i<=7; i++) {
-                        bloodtypeLimit[i] = bloodLimit(i);
-                }
+                flag = true;
+		String a = null;
+			try {   
+				Messages.connect();
+				Connection dbcon = null;
+				Statement stmt = dbcon.createStatement();
+				int i = 0;
+				ResultSet rs = stmt.executeQuery("SELECT * FROM Bloodtypes, BloodLimits WHERE" +
+						"Bloodlimits.BloodType = Bloodtypes.bloodtype AND BloodLimits.H_Username = '" + username +"'");
+				while (rs.next()) {
+					String b = rs.getString("bloodtype");
+					Double bloodLimit = rs.getDouble("BloodLimit");
+					bloodLimit(b);
+				}
+				rs.close();
+				stmt.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
                 //password
                 flag = true;

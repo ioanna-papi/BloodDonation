@@ -185,7 +185,7 @@ public class BloodDonor {
 			Connection dcon = null;
 			Statement stmt = dbcon.createStatement(); //incorrect syntax of values
 			int rs = stmt.executeUpdate("INSERT INTO BloodDonor (B_Name, B_Username, B_email, B_password, Gender, BloodType, SSN, Region)" + 
-				"VALUES (fullname, username, email, gender, bloodtype, SSN, region)");
+				"VALUES ('" fullname + "', '" username + "', '" + email + "', '" + gender + "', '" + bloodtype + "', '" + SSN + "', '" + region"')");
 			stmt.close();
 			Messages.connect().close();
 		} catch (Exception e) {
@@ -222,7 +222,7 @@ public class BloodDonor {
 	
 	/**
 	 * This method lets users answer to the questions of the questionnaire*/
-	public static void questionnaire() {
+	public static void questionnaire(username) {
 		boolean flag = true;
 		String a = null;
 			try {   
@@ -280,7 +280,7 @@ public class BloodDonor {
 						JOptionPane.showMessageDialog(null, "We regret to inform you that you are not compatible as a blood donor.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
 						System.exit(0);
 					}
-					//answers[i++] = a;
+					insertAnswers(qid, username, a);
 				}
 				rs.close();
 				stmt.close();
@@ -290,6 +290,24 @@ public class BloodDonor {
 		
 		}
 	
+		/**
+		 * This method updates data base with the donor's answers to the questionnaire
+		 * @param qid is the id of the question
+		 * @param username is the donor's username
+		 * @param a is the answer to the question*/
+		public static void insertAnswers(int qid, String username, String a) {
+                	try {
+                        	Messages.connect();
+                        	Connection dcon = null;
+                        	Statement stmt = dbcon.createStatement();
+                        	int rs = stmt.executeUpdate("INSERT INTO Answers (Q_id, B_Username, Answer)" +
+                        	        "VALUES ('" qid + "', '" username +"', '" a+"')");
+                        	stmt.close();
+                        	Messages.connect().close();
+                	} catch (Exception e) {
+                        	e.printStackTrace();
+                	}
+		}
 
 		/**
 		 * This method takes the question that the user wants to change the answer to*/
@@ -330,8 +348,9 @@ public class BloodDonor {
 		
 		/**
 		 * This method changes the answer of the given question
-		 * @param qid is the id of the question*/
-		public static void changeQuestion(int qid) {
+		 * @param qid is the id of the question
+		 * @param username is the donor's username*/
+		public static void changeQuestion(int qid, username) {
 			boolean flag = false;
 			String a2;
           		int d = 0;
@@ -353,8 +372,7 @@ public class BloodDonor {
                     			flag = false;
                 		}
             		}while (flag == false);
-			 //create coonection to db and update table questionnaire
-			//answers[a-1] = a2;
+			insertAnswers(qid, username, a2);
 			return;	
 		}
 

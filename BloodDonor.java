@@ -7,6 +7,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
+import java.util.Date;
+import java.text.ParseException;
+import java.util.concurrent.TimeUnit;
+
 
 /**
  *This class implements the volunteers of the application*/
@@ -175,15 +179,20 @@ public class BloodDonor {
 			
 		}while(flag);
 
-		Messages.connect();
-		Statement stmt = dbcon.createStatement();
-		ResultSet rs = stmt.executeUpdate("INSERT INTO BloodDonor (B_Name, B_Username, B_email, B_password, Gender, BloodType, SSN, Region)" + 
+		//insert user's data into data base
+		try {
+			Messages.connect();
+			Connection dcon = null;
+			Statement stmt = dbcon.createStatement();
+			int rs = stmt.executeUpdate("INSERT INTO BloodDonor (B_Name, B_Username, B_email, B_password, Gender, BloodType, SSN, Region)" + 
 				"VALUES (fullname, username, email, gender, bloodtype, SSN, region)");
-		rs.close();
-		stmt.close();
-		Messages.connect().executeUpdate("INSERT INTO BloodDonor (B_Name, B_Username, B_email, B_password, Gender, BloodType, SSN, Region)" +
+			stmt.close();
+			Messages.connect().executeUpdate("INSERT INTO BloodDonor (B_Name, B_Username, B_email, B_password, Gender, BloodType, SSN, Region)" +
 				"VALUES (fullname, username, email, gender, bloodtype, SSN, region)");
-		Messages.connect().close();
+			Messages.connect().close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}	
 	}
 	
 	/**This method allows users to log in to the appication*/
@@ -204,7 +213,7 @@ public class BloodDonor {
 				if(flag == false){
 					JOptionPane.showMessageDialog(null, "Invalid username or password. Please try again.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
 				}
-			 } catch (InputMismatchException e) {
+			 } catch (InputMismatchException | SQLException e) {
                                 JOptionPane.showMessageDialog(null, "Please enter a valid username or password.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
                                 flag = false;
                          }
@@ -216,9 +225,10 @@ public class BloodDonor {
 	 * This method lets users answer to the questions of the questionnaire*/
 	public static void questionnaire() {
 		boolean flag = true;
-		String a;
+		String a = null;
 			try {   
 				Messages.connect();
+				Connection dbcon = null;
 				Statement stmt = dbcon.createStatement();
 				int i = 0;
 				ResultSet rs = stmt.executeQuery("SELECT * FROM Questionnaire ");

@@ -44,24 +44,31 @@ public class Messages {
 	 * @param username the hospital's username*/
 	public void bloodBorrow(String region, String bloodtype, String username) {
 		try {
-			String url = "jdbc:mysql://localhost:3306/Donation?serverTimezone=UTC";
-            		String userName = "root"; 
-            		String password = "";
-			Connection dbcon ;
-			dbcon = DriverManager.getConnection(url, userName, password);
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		String url = "jdbc:sqlserver://sqlserver.dmst.aueb.gr:1433;"
+		    		+ "databaseName=DB20;user=G520;password=94we99494";
+			
+		Connection dbcon ;
+		try {
+			dbcon = DriverManager.getConnection(url);
 			Statement stmt = dbcon.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM Hospital ");
-				while (rs.next()) {
-					String r = rs.getString("Region");
-						if (r.equals(region)) {
-							System.out.println(rs.getInt("H_id"));
-						}
-				}
-			rs.close();
-			stmt.close();
+			ResultSet rs = stmt.executeQuery("SELECT Region, Username, H_name FROM Hospital  WHERE region = '" + region+ "' and Username='" +username +"'");
+			while (rs.next()) {
+				String name = rs.getString("H_name");
+				String r = rs.getString("Region");
+					if (r.equals(region)) {
+						JOptionPane.showMessageDialog(null, name + " has blood type " + bloodtype+ " shortage.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+					}
+			}
+		rs.close();
+		stmt.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 	}
 }
 

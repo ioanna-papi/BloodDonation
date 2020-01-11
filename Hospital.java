@@ -1,5 +1,4 @@
 import java.util.InputMismatchException;
-import java.util.Scanner;
 import javax.swing.JOptionPane;
 
 public class Hospital {
@@ -11,11 +10,8 @@ public class Hospital {
 	static double LimitInLiters;
 	static String password;
 	static String Address;
-	public static ArrayList<Object> Hospitals = new ArrayList<Object>();
 	static Double[] bloodtypeLimit = new Double[8]; //a list with the minimum blood amount the current hospital needs
 	static String[]  bloodtype = {"O+", "O-", "A+", "A-" ,"B+" ,"B-" ,"AB+" ,"AB-"}; 
-	static Scanner input = new Scanner(System.in);
-	public static Object getList;
 	static String hospital_login;
 	static String password_login; 
 	
@@ -197,11 +193,11 @@ public class Hospital {
 			Connection dbcon = null;
 			Statement stmt = dbcon.createStatement();
 			int rs = stmt.executeUpdate("INSERT INTO Hospital (Username, H_name, H_pass, Telephone, Address, Region)" + 
-					"VALUES (username, fullname, password, phonenumber, Address , region)");
+					"VALUES ('" + username + "', '" + fullname + "', '" + password + "', '" + phonenumber + "', '" + Address + "', '" + region +  "')");
 			
 			stmt.close();
 			Messages.connect().executeUpdate("INSERT INTO Hospital (Username, H_name, H_pass, Telephone, Address, Region)" +
-                                        "VALUES ('" + username + "', '" +  fullname +"', '" + password +"', '" + phonenumber + "', '" + Address +"', '" + region)");
+                                        "VALUES ('" + username + "', '" +  fullname + "', '" + password +"', '" + phonenumber + "', '" + Address +"', '" + region + "')");
 			Messages.connect().close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -211,26 +207,30 @@ public class Hospital {
 	
 	/**
 	 * This method lets hospitals log in to their account*/
-	public static void logIn() {
-		
-			boolean flag = true;
-			do {
-				hospital_login = JOptionPane.showInputDialog(null, "Welcome! Please type your hospital's username. ", "LOG IN", JOptionPane.PLAIN_MESSAGE);
-				flag = ((String) Hospitals).contains(hospital_login);
-				if (flag) {
-					boolean flag1 = true;
-					do {
-						password_login = JOptionPane.showInputDialog(null, "Enter your password.", "LOG IN", JOptionPane.PLAIN_MESSAGE);
-						flag1 = ((String) Hospitals).contains(password_login);
-						if (flag1 == false)
-							System.err.println("Wrong password!");
-					}while (flag1 == false);
-				}
-					
-				else {
-					System.err.println("This username is not registered!");
-				}
-			}while (flag == false);
+	public static String logIn() {
+		boolean flag;
+                do {
+                        flag = false;
+                        try {
+                                ResultSet rs = Messages.connect().executeQuery("SELECT Username, H_Pass FROM Hospital");
+                                hospital_login = JOptionPane.showInputDialog(null,"Welcome! Please type your username", "LOG IN", JOptionPane.INFORMATION_MESSAGE);
+                                password_login = JOptionPane.showInputDialog(null,"Enter your password", "LOG IN", JOptionPane.INFORMATION_MESSAGE);
+                                while (rs.next()){
+                                        if (rs.getString("Username").equals(hospital_login) && rs.getString("H_pass").equals(password_login)){
+                                                flag = true;
+                                                break;
+                                        }
+                                }
+                                if (flag == false){
+                                        JOptionPane.showMessageDialog(null, "Invalid username or password. Please try again.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+                                }
+                         } catch (InputMismatchException | SQLException e) {
+                                JOptionPane.showMessageDialog(null, "Please enter a valid username or password.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+                                flag = false;
+                         }
+
+                }while (flag == false);
+                return hospital_login;
 
 	}
 	

@@ -11,8 +11,10 @@ public class Messages {
 	
 	/**
 	 * This method informs a hospital about it's shortage of blood in a specific blood type
-	 * @param bloodtype the specific blood type which is lacking in the specific hospital*/
-	public void shortageOfBlood(String bloodtype) {//must have parametre username and region of hospital!!
+	 * @param region the hospital's region
+	 * @param bloodtype the specific blood type which is lacking in the specific hospital
+	 * @param username the hospital's username*/
+	public void shortageOfBlood(String region, String bloodtype, username) {//must have parametre username and region of hospital!!
 		JOptionPane.showMessageDialog(null, "SHORTAGE OF BLOOD TYPE " + bloodtype, "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
 		boolean flag = true;
 		while(flag) {
@@ -24,7 +26,7 @@ public class Messages {
 			if (choice == 0) {
 				flag = false;
 				Messages mes = new Messages();
-	 		       	mes.bloodBorrow(region, bloodtype); 
+	 		       	mes.bloodBorrow(region, bloodtype, username); 
 			} else if (choice == 1) {
 				flag = false;
 				Hospital h = new Hospital();
@@ -37,8 +39,10 @@ public class Messages {
 	}
 	
 	/**sends message to hospitals in order to borrow blood to a hospital in the same region
-	 * @param region the region the specific hospital belongs to*/
-	public void bloodBorrow(String region) {
+	 * @param region the region the specific hospital belongs to
+	 * @param bloodtype the type of blood the hospital is lacking
+	 * @param username the hospital's username*/
+	public void bloodBorrow(String region, String bloodtype, String username) {
 		try {
 			String url = "jdbc:mysql://localhost:3306/Donation?serverTimezone=UTC";
             		String userName = "root"; 

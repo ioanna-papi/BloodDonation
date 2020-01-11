@@ -187,8 +187,6 @@ public class BloodDonor {
 			int rs = stmt.executeUpdate("INSERT INTO BloodDonor (B_Name, B_Username, B_email, B_password, Gender, BloodType, SSN, Region)" + 
 				"VALUES (fullname, username, email, gender, bloodtype, SSN, region)");
 			stmt.close();
-			Messages.connect().executeUpdate("INSERT INTO BloodDonor (B_Name, B_Username, B_email, B_password, Gender, BloodType, SSN, Region)" +
-				"VALUES (fullname, username, email, gender, bloodtype, SSN, region)");
 			Messages.connect().close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -280,7 +278,7 @@ public class BloodDonor {
 					} while (flag);
 					if (checkQuestion(qid, a) == false) {
 						JOptionPane.showMessageDialog(null, "We regret to inform you that you are not compatible as a blood donor.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
-						break;
+						System.exit(0);
 					}
 					//answers[i++] = a;
 				}
@@ -331,7 +329,8 @@ public class BloodDonor {
 		}
 		
 		/**
-		 * This method changes the answer of the given question*/
+		 * This method changes the answer of the given question
+		 * @param qid is the id of the question*/
 		public static void changeQuestion(int qid) {
 			boolean flag = false;
 			String a2;
@@ -359,8 +358,9 @@ public class BloodDonor {
 			return;	
 		}
 
-		/**This method checks if the users is compatible as a blood donor by his answers*/
-
+		/**This method checks if the users is compatible as a blood donor by his answers
+		 * @param qid is the id of the question
+		 * @param an is the answer to the question*/
 		public static boolean checkQuestion (int qid, String an) {
 			boolean flag = false;
 			Date date1 = new Date();
@@ -387,7 +387,10 @@ public class BloodDonor {
 		}
 
 
-		/**This method returns the difference between current date and given date*/
+		/**This method returns the difference between current date and given date
+		 * @param date1 is the given date
+		 * @param date2 is the current date
+		 * @param timeUnit is the selected timeUnit*/
 		public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
 		    long diffInMillies = date2.getTime() - date1.getTime();
 		    return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);

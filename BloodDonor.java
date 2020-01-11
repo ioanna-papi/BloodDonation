@@ -176,12 +176,6 @@ public class BloodDonor {
 			
 		}while(flag);
 
-		Messages.connect();
-		Statement stmt = dbcon.createStatement();
-		ResultSet rs = stmt.executeUpdate("INSERT INTO BloodDonor (B_Name, B_Username, B_email, B_password, Gender, BloodType, SSN, Region)" + 
-				"VALUES (fullname, username, email, gender, bloodtype, AMKA, region)");
-		rs.close();
-		stmt.close();
 		Messages.connect().executeUpdate("INSERT INTO BloodDonor (B_Name, B_Username, B_email, B_password, Gender, BloodType, SSN, Region)" +
 				"VALUES (fullname, username, email, gender, bloodtype, AMKA, region)");
 		Messages.connect().close();

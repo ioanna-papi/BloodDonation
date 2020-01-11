@@ -42,7 +42,7 @@ public class HospitalM {
 		return temp;
 			
 	}
-	public static double bloodLimit(int i) throws InputMismatchException{
+	public static double bloodLimit(int i) { 
 		 	String b = bloodtype[i];
 		 	boolean flag = true;			
 		 	do {
@@ -56,7 +56,7 @@ public class HospitalM {
 						break;
 					}
 				}
-				catch(final InputMismatchException e2) {
+				catch(InputMismatchException e2) {
 					JOptionPane.showMessageDialog(null, "The input has to be a number!", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
 					double temp = limitLiters(b);
 					if (Answer() == true) { 
@@ -71,7 +71,7 @@ public class HospitalM {
 			return LimitInLiters;
 	}
 
-	public static boolean correctPhonenumber(String phonenumber) throws HospitalPhoneNumberException{
+	public static boolean correctPhonenumber(String phonenumber){
 		boolean flag = false;
 		while (flag == false) {
 			

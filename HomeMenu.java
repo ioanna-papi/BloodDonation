@@ -1,35 +1,32 @@
 import javax.swing.JOptionPane;
-import java.util.InputMismatchException;
+
 public class HomeMenu {
 
-	public static void main(String[] args) throws InputMismatchException {
+	public static void main(String[] args) {
 		loadObjects();
 		while (true) {
-				try {
-					boolean f = true;
-					while (f) {
-						String[] kind = {"Donor", "Hospital"};
-						int ans = JOptionPane.showOptionDialog(null, "In which way would you like to use the application?",
-								"MAIN MENU", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, kind, kind[0]);
-						if (ans == 0) {
-							HomeMenu.printDonorMenu();
-							f = false;
-						} else if (ans == 1) {
-							HomeMenu.printHospitalMenu();
-							f = false;
-						} else {
-							f = true;
-						}
-					}
-			} catch (NullPointerException ex) {
-				System.out.println(ex);
-			}
+				boolean f = true;
+				while (f) {
+					String[] kind = {"Donor", "Hospital"};
+					int ans = JOptionPane.showOptionDialog(null, "In which way would you like to use the application?",
+							"MAIN MENU", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, kind, kind[0]);
+					if (ans == 0) {
+						HomeMenu.printDonorMenu();
+						f = false;
+					} else if (ans == 1) {
+						HomeMenu.printHospitalMenu();
+						f = false;
+					} else {
+						f = true;
+						JOptionPane.showMessageDialog(null, "Please choose one of the options", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+					}	
+				}
 		}
 	}
 	
 	
 	public static void printDonorMenu() {
-		JOptionPane.showMessageDialog(null,"Welcome to our application!");
+		JOptionPane.showMessageDialog(null,"Welcome to our application!", "DONOR'S MENU", JOptionPane.PLAIN_MESSAGE);
 		String[] q = {"Fill out our questionnaire", "Update questionnaire", "Log in"};
 		int ans = JOptionPane.showOptionDialog(null, "Please choose one of the following",
                                                                 "DONOR'S MENU", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, q, q[0]);
@@ -66,7 +63,7 @@ public class HomeMenu {
 	
 	
 	
-	public static void printHospitalMenu() throws InputMismatchException {
+	public static void printHospitalMenu() {
 		JOptionPane.showMessageDialog(null, "Welcome to our application!");
 		String[] kind = {"Sign up", "Log in", "Create a new donation day"};
 		int ans = JOptionPane.showOptionDialog(null, "Please choose one of the following",
@@ -101,9 +98,5 @@ public class HomeMenu {
 		}	
 		
 	}
-	
-	
-	
-
 }
 

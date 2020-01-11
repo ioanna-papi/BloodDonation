@@ -77,7 +77,8 @@ public class HomeMenu {
                                                                 "HOSPITAL MENU", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, kind, kind[0]);
 		switch (ans) {
 			case 1:
-				username = (Hospital.signUp());
+				Hospital.signUp();
+				username = (Hospital.logIn());
 				JOptionPane.showMessageDialog(null, "Now we would like you to inform us about your blood bank stock");
 				Hospital.bloodBankStock(username);
 				printHospitalMenu();

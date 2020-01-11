@@ -6,7 +6,6 @@ import javax.swing.JOptionPane;
 public class HomeMenu {
 
 	public static void main(String[] args) {
-		loadObjects();
 		while (true) {
 				boolean f = true;
 				while (f) {
@@ -82,7 +81,7 @@ public class HomeMenu {
 				Hospital.bloodBankStock();
 				printHospitalMenu();
 			case 2:
-				Hospital.login();
+				Hospital.logIn();
 				Object[] opt = {"Update blood bank stock","Skip this step"};
 				int g = JOptionPane.showOptionDialog(null,"Now we would like you to inform us about your blood bank stock", "HOSPITAL MENU", JOptionPane.YES_NO_OPTION,
 						JOptionPane.PLAIN_MESSAGE, null, opt, null);

@@ -52,12 +52,14 @@ public class Hospital {
 
 	/**
 	 * This method checks if the given blood limit is a number
-	 * @param b is the given blood type*/
-        public static double bloodLimit(String b) {
+	 * @param b is the given blood type
+	 * @param username is the hospital's username*/
+        public static void bloodLimit(String b, String username) {
          	boolean flag = true;
+		double temp = 0;
          	do {
         		try {
-        			double temp = limitLiters(b);
+        			temp = limitLiters(b);
                  		if (Answer() == true) {
                 			LimitInLiters = temp;
                      			flag = false;
@@ -75,7 +77,20 @@ public class Hospital {
                 		flag = true;
              		}
          	}while (flag);
-         	return LimitInLiters;
+         	 //Add hospital's blood type limit to the database
+                try {
+                        Messages.connect();
+                        Connection dbcon = null;
+                        Statement stmt = dbcon.createStatement();
+                        int rs = stmt.executeUpdate("INSERT INTO BloodLimits (H_Username, BloodType, BloodLimit)" +
+                                        "VALUES ('" + username + "', '" + b + "', '" + limitInLiters +  "')");
+
+                        stmt.close();
+                        Messages.connect().close();
+                } catch (Exception e) {
+                        e.printStackTrace();
+                }
+                return;
         }
 
 	/**
@@ -185,7 +200,7 @@ public class Hospital {
 				while (rs.next()) {
 					String b = rs.getString("bloodtype");
 					Double bloodLimit = rs.getDouble("BloodLimit");
-					bloodLimit(b);
+					bloodLimit(b, username);
 				}
 				rs.close();
 				stmt.close();

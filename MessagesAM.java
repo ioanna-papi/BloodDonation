@@ -1,15 +1,14 @@
+import javax.swing.JOptionPane;
 import java.sql.*;
-/**This class displays messages to blood donors and hospitals*/
+import java.text.SimpleDateFormat;
+/**
+ * This class displays messages to blood donors and hospitals*/
 public class Messages{
-	
-	public Messages(){
-		super();
-	}
 	
 	/**
 	 * This method creates a connection to the data base*/
 	public static Statement connect() {
-		String url = "jdbc:sqlserver://195.251.249.161:1433;databaseName = DB20;user = G520;password = 94we99494;
+		String url = "jdbc:sqlserver://195.251.249.161:1433;databaseName = DB20;user = G520;password = 94we99494";
 		Connection dbcon;
 		Statement stmt = null;
 		try {
@@ -35,7 +34,7 @@ public class Messages{
 					String don_date = JOptionPane.showInputDialog(null, "Enter the Donation Date",
 					                "MAKE NEW DONATION DAY", JOptionPane.PLAIN_MESSAGE);
 					SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-					Date newdate = formatter.parse(don_date);
+					Date newdate = (Date) formatter.parse(don_date);
 					break;
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, "Please enter a date yyyy-MM-dd.",

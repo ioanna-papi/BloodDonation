@@ -100,7 +100,7 @@ public class Hospital {
 
         /**
 	 * This method allows users to sign up to the application*/
-        public static String signUp(){
+        public static void signUp(){
 
                 // Hospital's Name
                 boo lean flag = true;
@@ -219,13 +219,11 @@ public class Hospital {
 					"VALUES ('" + username + "', '" + fullname + "', '" + password + "', '" + phonenumber + "', '" + Address + "', '" + region +  "')");
 			
 			stmt.close();
-			Messages.connect().executeUpdate("INSERT INTO Hospital (Username, H_name, H_pass, Telephone, Address, Region)" +
-                                        "VALUES ('" + username + "', '" +  fullname + "', '" + password +"', '" + phonenumber + "', '" + Address +"', '" + region + "')");
 			Messages.connect().close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-                logIn();
+		return;
         }
 	
 	/**

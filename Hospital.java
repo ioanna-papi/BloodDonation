@@ -10,8 +10,6 @@ public class Hospital {
 	static double LimitInLiters;
 	static String password;
 	static String Address;
-	static Double[] bloodtypeLimit = new Double[8]; //a list with the minimum blood amount the current hospital needs
-	static String[]  bloodtype = {"O+", "O-", "A+", "A-" ,"B+" ,"B-" ,"AB+" ,"AB-"}; 
 	static String hospital_login;
 	static String password_login; 
 	

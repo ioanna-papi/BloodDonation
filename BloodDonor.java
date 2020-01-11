@@ -183,7 +183,7 @@ public class BloodDonor {
 		try {
 			Messages.connect();
 			Connection dcon = null;
-			Statement stmt = dbcon.createStatement();
+			Statement stmt = dbcon.createStatement(); //incorrect syntax of values
 			int rs = stmt.executeUpdate("INSERT INTO BloodDonor (B_Name, B_Username, B_email, B_password, Gender, BloodType, SSN, Region)" + 
 				"VALUES (fullname, username, email, gender, bloodtype, SSN, region)");
 			stmt.close();
@@ -196,21 +196,21 @@ public class BloodDonor {
 	}
 	
 	/**This method allows users to log in to the appication*/
-	public static void logIn() {
+	public static String logIn() {
 		boolean flag;
 		do {
 			flag = false;
 			try {
 				ResultSet rs = Messages.connect().executeQuery("SELECT B_Username, B_Password FROM BloodDonor");
-				String username_login = JOptionPane.showInputDialog(null,"Welcome! Please type your username", "LOG IN", JOptionPane.INFORMATION_MESSAGE);
-				String password_login = JOptionPane.showInputDialog(null,"Enter your password", "LOG IN", JOptionPane.INFORMATION_MESSAGE);
-				while(rs.next()){
-					if(rs.getString("B_Username").equals(username_login) && rs.getString("B_password").equals(password_login)){
+				username_login = JOptionPane.showInputDialog(null,"Welcome! Please type your username", "LOG IN", JOptionPane.INFORMATION_MESSAGE);
+				password_login = JOptionPane.showInputDialog(null,"Enter your password", "LOG IN", JOptionPane.INFORMATION_MESSAGE);
+				while (rs.next()){
+					if (rs.getString("B_Username").equals(username_login) && rs.getString("B_password").equals(password_login)){
 						flag = true;
 						break;
 					}
 				}	
-				if(flag == false){
+				if (flag == false){
 					JOptionPane.showMessageDialog(null, "Invalid username or password. Please try again.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
 				}
 			 } catch (InputMismatchException | SQLException e) {
@@ -219,6 +219,7 @@ public class BloodDonor {
                          }
 	
 		}while (flag == false);
+		return username_login;
 	}
 	
 	/**

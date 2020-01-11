@@ -331,7 +331,7 @@ public class BloodDonor {
 					a = Integer.parseInt(JOptionPane.showInputDialog("If you want to change a question press the number of the question or else press 0"));
 	            	 		if (a >= 1 && a <= 51) {
 	            		 		g = false;
-	            		 		changeQuestion (a);
+	            		 		changeQuestion (a, username);
 						updateQuestionnaire();
 	            	 		} else if (a == 0) {
 	            		 		g = true;

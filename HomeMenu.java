@@ -47,7 +47,7 @@ public class HomeMenu {
 				while (f) {
 					int choice = JOptionPane.showConfirmDialog(null, "Would you like to update your questionnaire?");
 					if (choice == 0) {
-						BloodDonor.updateQuestionnaire(username);
+						BloodDonor.updateQuestionnaire();
 						f = false;
 					} else if (choice == 1) {
 						JOptionPane.showMessageDialog(null, "Make sure that your answers don't need renewal");

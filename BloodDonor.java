@@ -179,11 +179,11 @@ public class BloodDonor {
 		Messages.connect();
 		Statement stmt = dbcon.createStatement();
 		ResultSet rs = stmt.executeUpdate("INSERT INTO BloodDonor (B_Name, B_Username, B_email, B_password, Gender, BloodType, SSN, Region)" + 
-				"VALUES (fullname, username, email, gender, bloodtype, AMKA, region)");
+				"VALUES (fullname, username, email, gender, bloodtype, SSN, region)");
 		rs.close();
 		stmt.close();
 		Messages.connect().executeUpdate("INSERT INTO BloodDonor (B_Name, B_Username, B_email, B_password, Gender, BloodType, SSN, Region)" +
-				"VALUES (fullname, username, email, gender, bloodtype, AMKA, region)");
+				"VALUES (fullname, username, email, gender, bloodtype, SSN, region)");
 		Messages.connect().close();
 	}
 	

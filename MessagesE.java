@@ -14,7 +14,7 @@ public class Messages {
 	 * @param region the hospital's region
 	 * @param bloodtype the specific blood type which is lacking in the specific hospital
 	 * @param username the hospital's username*/
-	public void shortageOfBlood(String region, String bloodtype, username) {//must have parametre username and region of hospital!!
+	public void shortageOfBlood(String region, String bloodtype, String username) {//must have parametre username and region of hospital!!
 		JOptionPane.showMessageDialog(null, "SHORTAGE OF BLOOD TYPE " + bloodtype, "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
 		boolean flag = true;
 		while(flag) {

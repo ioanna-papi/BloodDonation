@@ -70,34 +70,35 @@ public class HomeMenu {
 	 * which inclues sign up, log in, create new donation day,
 	 * borrow blood from another hospital and update blood bank stcok*/
 	public static void printHospitalMenu() {
+		String username = null;
 		JOptionPane.showMessageDialog(null, "Welcome to our application!");
-		String[] kind = {"Sign up", "Log in", "Create a new donation day"};
+		String[] kind = {"Sign up", "Log in"};
 		int ans = JOptionPane.showOptionDialog(null, "Please choose one of the following",
                                                                 "HOSPITAL MENU", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, kind, kind[0]);
 		switch (ans) {
 			case 1:
-				Hospital.signUp();
+				username = (Hospital.signUp());
 				JOptionPane.showMessageDialog(null, "Now we would like you to inform us about your blood bank stock");
-				Hospital.bloodBankStock();
+				Hospital.bloodBankStock(username);
 				printHospitalMenu();
 			case 2:
-				Hospital.logIn();
+				username = (Hospital.logIn());
 				Object[] opt = {"Update blood bank stock","Skip this step"};
 				int g = JOptionPane.showOptionDialog(null,"Now we would like you to inform us about your blood bank stock", "HOSPITAL MENU", JOptionPane.YES_NO_OPTION,
 						JOptionPane.PLAIN_MESSAGE, null, opt, null);
 				if (g == 0) {
-					Hospital.bloodBankStock();
+					Hospital.bloodBankStock(username);
 				}
-				String[] k = {"Borrow", "Cancel"};
-				int a2 = JOptionPane.showOptionDialog(null, "If you think you have shortage of stock, you can borrow blood from another hospital",
-                                                                "BLOOD BORROW", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, k, k[0]);
+				String[] k = {"Borrow", "Donation Day"};
+				int a2 = JOptionPane.showOptionDialog(null, "If you think you have shortage of stock, you can borrow blood from another" 
+						+ " hospital, or make a new doantion day","BLOOD BORROW",
+						JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, k, k[0]);
 				if (a2 == 0) {
-					Messages.bloodBorrow();
+					Messages.bloodBorrow(username);
+				} else if (a2 == 1){
+					Hospital.makeDonationDay(username);
+					JOptionPane.showMessageDialog(null, "Thank you! You help us to strengthen our action");
 				}
-				HomeMenu.printHospitalMenu();
-			case 3:
-				Hospital.makeDonationDay();
-				JOptionPane.showMessageDialog(null, "Thank you! You help us to strengthen our action");
 				HomeMenu.printHospitalMenu();
 			default:
 				HomeMenu.printHospitalMenu();	

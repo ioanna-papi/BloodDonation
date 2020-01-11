@@ -31,46 +31,53 @@ public class Hospital {
 	 * This method checks if the given blood limit is valid, meaning blood limit is apositive number
 	 * @param b is the given bloodtype*/
 	public static double limitLiters(String b) {
-                double temp;
-                do{
-                        String t = JOptionPane.showInputDialog(null, "Please enter the limit amount of blood for blood type " + b + " :");
-                        //doesn't perform a test if temp is not a number
-                        temp = Double.valueOf(t);
-                        if (temp < 0)
-                                JOptionPane.showMessageDialog(null, "Please enter a positive number", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
-                }while (temp<0);
-                return temp;
+         double temp = 0;
+         boolean flag = true;
+         do{
+        	 do {
+        		 try {
+        			 String t = JOptionPane.showInputDialog(null, "Please enter the limit amount of blood for blood type " + b + " :");
+                     temp = Double.valueOf(t);
+                     if (temp < 0) {
+                    	 flag = false;
+                         JOptionPane.showMessageDialog(null, "Please enter a positive number", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+                         break;
+                     }
+        		 } catch (InputMismatchException e) {
+        			 JOptionPane.showMessageDialog(null,"Please enter a number","ALERT MESSAGE",JOptionPane.WARNING_MESSAGE);
+        		 }
+        		 
+        	 } while (flag);
+         }while (temp<0);
+         return temp;
+	 }
 
-        }
 	/**
 	 * This method checks if the given blood limit is a number*/
         public static double bloodLimit(int i) {
-                        String b = bloodtype[i];
-                        boolean flag = true;
-                        do {
-                                try {
-                                        double temp = limitLiters(b);
-                                        if (Answer() == true) {
-                                                LimitInLiters = temp;
-                                                flag = false;
-                                        } else {
-                                                LimitInLiters = limitLiters(b);
-                                                break;
-                                        }
-                                }
-                                catch(InputMismatchException e2) {
-                                        JOptionPane.showMessageDialog(null, "The input has to be a number!", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
-                                        double temp = limitLiters(b);
-                                        if (Answer() == true) {
-                                                LimitInLiters =temp;
-                                                flag = false;
-                                                continue;
-                                        } else {
-                                                break;
-                                        }
-                                }
-                        }while (flag);
-                        return LimitInLiters;
+                String b = bloodtype[i];
+         	boolean flag = true;
+         	do {
+        		try {
+        			double temp = limitLiters(b);
+                 		if (Answer() == true) {
+                			LimitInLiters = temp;
+                     			flag = false;
+                 		} else {
+                			LimitInLiters = limitLiters(b);
+                			break;
+                		}
+             		} catch(InputMismatchException e2) {
+                		JOptionPane.showMessageDialog(null, "The input has to be a number!", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+                		flag = true;
+             		} catch (NumberFormatException e) {
+                		JOptionPane.showMessageDialog(null, "The input has to be a number!", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+                		flag = true;
+             		} catch (NullPointerException e) {
+                		flag = true;
+             		}
+         	}while (flag);
+         	return LimitInLiters;
         }
 
 	/**
@@ -93,7 +100,7 @@ public class Hospital {
 
         /**
 	 * This method allows users to sign up to the application*/
-        public static void signUp(){
+        public static String signUp(){
 
                 // Hospital's Name
                 boo lean flag = true;
@@ -111,7 +118,7 @@ public class Hospital {
                 boolean f = true;
                 do {
                         try {
-                                String username = JOptionPane.showInputDialog(null,"Enter your hospital's username: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
+                        	username = JOptionPane.showInputDialog(null,"Enter your hospital's username: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
                         }
                         catch (InputMismatchException e) {
                                 JOptionPane.showMessageDialog(null, "Please enter a valid hospital username.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
@@ -235,7 +242,7 @@ public class Hospital {
 	}
 	
 	/**This method lets hospitals create their own donation day*/
-	public String makeDonationDay() {
+	public String makeDonationDay(String username) {
 		boolean flag = true;
 		String d = null;
 		String m = null;

@@ -1,5 +1,5 @@
 import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import java.io.*;
 import java.sql.Connection;
@@ -21,7 +21,6 @@ public class BloodDonor {
 	private static String password;
 	static String username_login;
 	static String password_login;
-	final static Scanner input = new Scanner(System.in);
 	private static String[] answers = new String[51];
 
 	/** This method lets users sign up to the application*/

@@ -31,7 +31,7 @@ public class HomeMenu {
 	 * which includes sign up, log in fill out and update questionnaire*/
 	public static void printDonorMenu() {
 		JOptionPane.showMessageDialog(null,"Welcome to our application!", "DONOR'S MENU", JOptionPane.PLAIN_MESSAGE);
-		String[] q = {"Fill out our questionnaire", "Update questionnaire", "Log in"};
+		String[] q = {"Fill out our questionnaire", "Log in"};
 		int ans = JOptionPane.showOptionDialog(null, "Please choose one of the following",
                                                                 "DONOR'S MENU", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, q, q[0]);
 		switch (ans) {
@@ -42,20 +42,21 @@ public class HomeMenu {
 				BloodDonor.signUp();
 				printDonorMenu();
 			case 2:
+				String username = (BloodDonor.logIn());
 				boolean f = true;
 				while (f) {
 					int choice = JOptionPane.showConfirmDialog(null, "Would you like to update your questionnaire?");
 					if (choice == 0) {
-						BloodDonor.updateQuestionnaire();
+						BloodDonor.updateQuestionnaire(username);
 						f = false;
 					} else if (choice == 1) {
 						JOptionPane.showMessageDialog(null, "Make sure that your answers don't need renewal");
 						int c2 = JOptionPane.showConfirmDialog(null,"Have you changed your mind?");
 						if (c2 == 0) {
 							HomeMenu.printDonorMenu();
+						} else {
+							flag = false;
 						}
-						JOptionPane.showMessageDialog(null, "Press OK to log in");
-						BloodDonor.logIn();
 					} else {
 						f = true;
 					}
@@ -98,6 +99,7 @@ public class HomeMenu {
 					Messages.bloodBorrow(username);
 				} else if (a2 == 1){
 					Hospital.makeDonationDay(username);
+					Messages.donationDay(date, username);
 					JOptionPane.showMessageDialog(null, "Thank you! You help us to strengthen our action");
 				}
 				HomeMenu.printHospitalMenu();

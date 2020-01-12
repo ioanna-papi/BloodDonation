@@ -52,17 +52,18 @@ public class BloodDonor {
 		flag = true;
 		do {
 			try {
+				ResultSet rs = Messages.connect().executeQuery("SELECT B_Username FROM BloodDonor");
 				String username = JOptionPane.showInputDialog(null,"Enter your username: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
-				if (flag == false) { //add connection to db and check if username is being used
+				if (rs.getString("B_Username").equals(username)) {
 					JOptionPane.showMessageDialog(null, "The username is already used.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
 				} else {
 					flag = false;
 				}
 				if (username.equals("null")) {
-        			throw new NullPointerException();
-        		}
-        		flag = false;
-			} catch (NullPointerException e) {
+        				throw new NullPointerException();
+        			}
+				flag = false;
+			} catch (NullPointerException | SQLException e) {
 				JOptionPane.showMessageDialog(null, "Please enter a username.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
                 		flag = true;
 			}	
@@ -72,15 +73,16 @@ public class BloodDonor {
  	    	flag = true;
  	    	do {
  	    		try {
+				ResultSet rs = Messages.connect().executeQuery("SELECT B_email FROM BloodDonor");
  	    			email = JOptionPane.showInputDialog(null,"Enter your email: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
- 	    			if (flag == false) { //create connection to db and check if given email is being used
+ 	    			if (rs.getString("B_email").equals(email)) {
  	    				JOptionPane.showMessageDialog(null, "The email is already used.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
  	    			}
  	    			if (email.equals("null")) {
         				throw new NullPointerException();
         			}
         			flag = false;
- 	    		} catch (NullPointerException e) {
+ 	    		} catch (NullPointerException | SQLException e) {
  	    			JOptionPane.showMessageDialog(null, "Please enter your email", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
  	    		}	
             	}while (flag);
@@ -184,7 +186,7 @@ public class BloodDonor {
 		try {
 			Messages.connect();
 			Connection dbcon = null;
-			Statement stmt = dbcon.createStatement(); //incorrect syntax of values
+			Statement stmt = dbcon.createStatement();
 			int rs = stmt.executeUpdate("INSERT INTO BloodDonor (B_Name, B_Username, B_email, B_password, Gender, BloodType, SSN, Region)" + 
 				"VALUES ('" + fullname + "', '" + username + "', '" + email + "', '" + gender + "', '" + bloodtype + "', '" + SSN + "', '" + region + "')");
 			stmt.close();

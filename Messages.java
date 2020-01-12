@@ -1,4 +1,5 @@
 import javax.swing.JOptionPane;
+import java.util.Date;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 /**
@@ -102,7 +103,7 @@ public class Messages{
                 try {
                         Messages.connect();
                         Connection dbcon = null;
-                        Statement stmt = dbcon.createStatement(); //incorrect syntax of values
+                        Statement stmt = dbcon.createStatement();
                         ResultSet rs = stmt.executeQuery("SELECT Region, Username FROM Hospital WHERE Username ='" + username +"'");
                         while (rs.next()) {
                                 region = rs.getString("Region");
@@ -117,8 +118,7 @@ public class Messages{
 		while(flag) {
 			String[] options = {"Blood borrow ", "Create donation day "};
 			int choice = JOptionPane.showOptionDialog (null, "You can ask for blood borrow or create a blood donation day",
-					"Message",JOptionPane.YES_NO_CANCEL_OPTION,
-				    JOptionPane.QUESTION_MESSAGE,
+					"Message",JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
 				    null,options,options[1]);
 			if (choice == 0) {
 				flag = false;

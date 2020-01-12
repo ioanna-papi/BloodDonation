@@ -85,7 +85,6 @@ public class Messages{
 					JOptionPane.showMessageDialog(null, day, strDate, JOptionPane.INFORMATION_MESSAGE);					
 				}
 				rs.close();
-				RS.close();
 				Messages.connect().close();
 			}
 		} catch (Exception e) {

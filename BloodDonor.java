@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.util.Date;
 import java.text.ParseException;
 import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
 
 /**
  *This class implements the volunteers of the application*/
@@ -25,7 +26,7 @@ public class BloodDonor {
 	private static String password;
 	static String username_login;
 	static String password_login;
-	private static String[] answers = new String[51];
+	static ArrayList<String> answers = new ArrayList<String>();
 
 	/** This method lets users sign up to the application*/
 	public static void signUp()  {
@@ -191,6 +192,31 @@ public class BloodDonor {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}	
+		updateTableQuestionnaire(username);
+	}
+
+	/**
+	 * This method inserts donor's answers to the questionnaire into data base
+	 * @param username is the donor's username*/
+	public static void updateTableQuestionnaire(String username) {
+		String user = username;
+		String answer = null;
+		String id = null;
+        	try {
+        		Messages.connect();
+            		Connection dbcon = null;
+          		Statement stmt = dbcon.createStatement();
+          		for (int i = 0; i< 51; i++) {
+            			answer = answers.get(i);
+            			id = String.valueOf(answers.indexOf(answer));
+            			int rs = stmt.executeUpdate("INSERT INTO Answers (Q_id, B_Username, Answer)" +
+                      	        	"VALUES ('" + id + "', '" + user +"', '" + answer +"')");
+           		}
+            		stmt.close();
+            		Messages.connect().close();
+         	} catch (Exception e) {
+        		e.printStackTrace();
+         	}
 	}
 	
 	/**This method allows users to log in to the appication*/
@@ -279,8 +305,9 @@ public class BloodDonor {
 					if (checkQuestion(qid, a) == false) {
 						JOptionPane.showMessageDialog(null, "We regret to inform you that you are not compatible as a blood donor.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
 						System.exit(0);
+					} else {
+						answers.add(a);
 					}
-					insertAnswers(qid, username, a);
 				}
 				rs.close();
 				stmt.close();
@@ -300,8 +327,7 @@ public class BloodDonor {
                         	Messages.connect();
                         	Connection dbcon = null;
                         	Statement stmt = dbcon.createStatement();
-                        	int rs = stmt.executeUpdate("INSERT INTO Answers (Q_id, B_Username, Answer)" +
-                        	        "VALUES ('" + qid + "', '" + username +"', '" + a+"')");
+             			int rs = stmt.executeUpdate("UPDATE Answers SET Q_id = '" + qid+ "', B_Username = '" + username + "', Answer = '" + a +"'");
                         	stmt.close();
                         	Messages.connect().close();
                 	} catch (Exception e) {

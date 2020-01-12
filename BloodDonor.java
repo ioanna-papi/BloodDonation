@@ -11,13 +11,13 @@ import java.util.Date;
 import java.text.ParseException;
 import java.util.concurrent.TimeUnit;
 
-
 /**
  *This class implements the volunteers of the application*/
 public class BloodDonor {
 	static String fullname;
 	private static String username;
 	static String gender;
+	static String email;
 	static String bloodtype;
 	static String SSN;
 	private static String region;
@@ -71,7 +71,7 @@ public class BloodDonor {
  	    	flag = true;
  	    	do {
  	    		try {
- 	    			String email = JOptionPane.showInputDialog(null,"Enter your email: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
+ 	    			email = JOptionPane.showInputDialog(null,"Enter your email: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
  	    			if (flag == false) { //create connection to db and check if given email is being used
  	    				JOptionPane.showMessageDialog(null, "The email is already used.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
  	    			}
@@ -182,10 +182,10 @@ public class BloodDonor {
 		//insert user's data into data base
 		try {
 			Messages.connect();
-			Connection dcon = null;
+			Connection dbcon = null;
 			Statement stmt = dbcon.createStatement(); //incorrect syntax of values
 			int rs = stmt.executeUpdate("INSERT INTO BloodDonor (B_Name, B_Username, B_email, B_password, Gender, BloodType, SSN, Region)" + 
-				"VALUES ('" fullname + "', '" username + "', '" + email + "', '" + gender + "', '" + bloodtype + "', '" + SSN + "', '" + region"')");
+				"VALUES ('" + fullname + "', '" + username + "', '" + email + "', '" + gender + "', '" + bloodtype + "', '" + SSN + "', '" + region + "')");
 			stmt.close();
 			Messages.connect().close();
 		} catch (Exception e) {
@@ -222,7 +222,7 @@ public class BloodDonor {
 	
 	/**
 	 * This method lets users answer to the questions of the questionnaire*/
-	public static void questionnaire(username) {
+	public static void questionnaire() {
 		boolean flag = true;
 		String a = null;
 			try {   
@@ -298,10 +298,10 @@ public class BloodDonor {
 		public static void insertAnswers(int qid, String username, String a) {
                 	try {
                         	Messages.connect();
-                        	Connection dcon = null;
+                        	Connection dbcon = null;
                         	Statement stmt = dbcon.createStatement();
                         	int rs = stmt.executeUpdate("INSERT INTO Answers (Q_id, B_Username, Answer)" +
-                        	        "VALUES ('" qid + "', '" username +"', '" a+"')");
+                        	        "VALUES ('" + qid + "', '" + username +"', '" + a+"')");
                         	stmt.close();
                         	Messages.connect().close();
                 	} catch (Exception e) {
@@ -350,9 +350,9 @@ public class BloodDonor {
 		 * This method changes the answer of the given question
 		 * @param qid is the id of the question
 		 * @param username is the donor's username*/
-		public static void changeQuestion(int qid, username) {
+		public static void changeQuestion(int qid, String username) {
 			boolean flag = false;
-			String a2;
+			String a2 = null;
           		int d = 0;
 			do {
 				try {

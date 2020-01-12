@@ -210,7 +210,7 @@ public class BloodDonor {
           		Statement stmt = dbcon.createStatement();
           		for (int i = 0; i< 51; i++) {
             			answer = answers.get(i);
-            			id = String.valueOf(answers.indexOf(answer));
+            			id = String.valueOf(answers.indexOf(answer)) + 1;
             			int rs = stmt.executeUpdate("INSERT INTO Answers (Q_id, B_Username, Answer)" +
                       	        	"VALUES ('" + id + "', '" + user +"', '" + answer +"')");
            		}

@@ -22,7 +22,7 @@ public class Messages{
 	}
 	
 	/**
-	 * This method informs volunteers about a specific donation day a hospital from thier region has created
+	 * This method informs volunteers about a specific donation day a hospital from their region has created
 	 * @param date the donation day date the hospital has created
 	 * @param username is the hospital's username*/
 	public void donationDay(String date, String username){

@@ -24,7 +24,7 @@ public class Messages{
 	 * This method informs volunteers about a specific donation day a hospital from thier region has created
 	 * @param date the donation day date the hospital has created
 	 * @param username is the hospital's username*/
-	public void donationDay(String date, username){
+	public void donationDay(String date, String username){
 		String region = null;
 		try {
 			ResultSet rs = Messages.connect().executeQuery("SELECT Region, Username FROM Hospital WHERE Username = '" + username+ "'");

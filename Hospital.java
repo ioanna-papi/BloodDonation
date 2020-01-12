@@ -373,6 +373,26 @@ public class Hospital {
     		} catch (Exception e) {
     			e.printStackTrace();
     		}	
+	}
+
+		/**
+		 * This method updates the data base with the current blood bank stock
+		 * @param username is the hospital's username
+		 * @param bloodtype is the given bloodtype
+		 * @param blood is the current blood bank stock of the given blood type*/
+		public static void update (String username, String bloodtype, Double blood) {
+			try {
+				Messages.connect();
+                		Connection dbcon = null;
+                		Statement stmt = dbcon.createStatement();
+                		ResultSet rs = stmt.executeQuery("INSERT INTO BloodBankStock (H_Username, BloodType, Blood)" +
+                        		"VALUES ('" + username + "', '" + bloodtype + "', '" + blood +  "')");
+
+                		stmt.close();
+                		Messages.connect().close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}	
 
 	/**This method lets hospitals create their own donation day*/

@@ -1,4 +1,8 @@
 import java.util.InputMismatchException;
+import java.sql.Connection;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 public class Hospital {
@@ -10,6 +14,7 @@ public class Hospital {
 	static double LimitInLiters;
 	static String password;
 	static String Address;
+	static String region;
 	static String hospital_login;
 	static String password_login; 
 	
@@ -83,7 +88,7 @@ public class Hospital {
                         Connection dbcon = null;
                         Statement stmt = dbcon.createStatement();
                         int rs = stmt.executeUpdate("INSERT INTO BloodLimits (H_Username, BloodType, BloodLimit)" +
-                                        "VALUES ('" + username + "', '" + b + "', '" + limitInLiters +  "')");
+                                        "VALUES ('" + username + "', '" + b + "', '" + LimitInLiters +  "')");
 
                         stmt.close();
                         Messages.connect().close();
@@ -116,7 +121,7 @@ public class Hospital {
         public static void signUp(){
 
                 // Hospital's Name
-                boo lean flag = true;
+                boolean flag = true;
                 do {
                         try {
                                 String fullname = JOptionPane.showInputDialog(null,"Enter your hospital's name: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
@@ -325,7 +330,8 @@ public class Hospital {
            		}
 		} while(flag);
                 String date = String.join("-",y, m , d);
-                return date, username;
+                String name = username;
+		return date + name;
 	}
 	
 }	

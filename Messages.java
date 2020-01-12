@@ -101,7 +101,7 @@ public class Messages{
 		String region = null;
                 try {
                         Messages.connect();
-                        Connection dcon = null;
+                        Connection dbcon = null;
                         Statement stmt = dbcon.createStatement(); //incorrect syntax of values
                         ResultSet rs = stmt.executeQuery("SELECT Region, Username FROM Hospital WHERE Username ='" + username +"'");
                         while (rs.next()) {
@@ -143,7 +143,7 @@ public class Messages{
 		String r = null;
 		try {
                         Messages.connect();
-                        Connection dcon = null;
+                        Connection dbcon = null;
                         Statement stmt = dbcon.createStatement(); //incorrect syntax of values
                         ResultSet rs = stmt.executeQuery("SELECT H_name, Region, Username FROM Hospital WHERE Username ='" + username +"'");
 			while (rs.next()) {

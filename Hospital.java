@@ -272,11 +272,13 @@ public class Hospital {
 
 	}
 	
-	/**This method lets hospitals update their blood bank stock*/
-	public void bloodBankStock() {
+	/**This method lets hospitals update their blood bank stock
+	 *@param username is the hospital's username*/
+	public void bloodBankStock(String username) {
 
 		//Asking for BloodBank Update
 		int update;
+		String b;
 		do {
 			update = JOptionPane.showConfirmDialog(null, "Would you like to update your blood-bank?", "BLOOD-BANK UPDATE",
 					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -315,27 +317,26 @@ public class Hospital {
          		} while (amount <= 0);
 
 			//Updating the bloodStock
-			for (int i=0; i<=7; i++) {
-
-				if (bloodtype[i]  == type_update) {
-
-					if (option == 0) {
-						bloodStock[i] += amount;
-					} else {
-						bloodStock[i] -= amount;
-					}
-
-					//Checking if the bloodStock is under the allowed limit of its bloodType
-				   	if(bloodStock[i] <= bloodtypeLimit[i]){ //Maria's part, connection with method signUp in class Hospital
-						// Showing WARNING message
-						Messages m = new Messages();
-						m.shortageOfBlood(type_update); //κλήση μεθόδου shortageOfBlood SOS SOS SOS
-					}
-				}
-			}
-
+         		 try {
+                     		Messages.connect();
+                     		Connection dbcon = null;
+                     		Statement stmt = dbcon.createStatement();
+                     		ResultSet rs = stmt.executeQuery("SELECT * FROM Bloodtypes, BloodLimits WHERE" +
+                                     "BloodLimits.BloodType = Bloodtypes.bloodtype AND BloodLimits.H_Username = '" + username +"'");
+                     		while (rs.next()) {
+                             		b = rs.getString("bloodtype");
+                             		if (b.equals(type_update)) {
+                            	 		updateBloodBankStock(option, amount, b, username);
+             				}
+                     		}	
+                     		rs.close();
+                     		stmt.close();
+         		 } catch (Exception e) {
+                     		e.printStackTrace();
+         		 }				
 		}
-	}
+	}	
+	
 
 		/**
 		 * This method changes hospital's blood bank stock, given the option

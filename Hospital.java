@@ -398,7 +398,7 @@ public class Hospital {
          		} while (amount <= 0);
 
 			//Updating the bloodStock
-         		 try {
+         		try {
                      		Messages.connect();
                      		Connection dbcon = null;
                      		Statement stmt = dbcon.createStatement();
@@ -415,6 +415,9 @@ public class Hospital {
          		 } catch (Exception e) {
                      		e.printStackTrace();
          		 }				
+		} else {
+			JOptionPane.showMessageDialog(null, "You are going to continue without any changes made", "CANCELED UPDATE", JOptionPane.INFORMATION_MESSAGE);
+			HomeMenu.printHospitalMenu();
 		}
 	}	
 	

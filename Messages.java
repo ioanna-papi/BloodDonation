@@ -133,7 +133,7 @@ public class Messages{
 				JOptionPane.showMessageDialog(null, "You have to choose one of the above!", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
 			}
 		}
-
+		return;
 	}
 
 	/**sends message to hospitals in order to borrow blood to a hospital in the same region

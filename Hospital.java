@@ -148,9 +148,9 @@ public class Hospital {
 				}
 			} catch (NullPointerException e) {
                                 JOptionPane.showMessageDialog(null, "Please enter a valid hospital username.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
-                                f = false;
+                                flag = false;
                 }
-                }while (f == false);
+                }while (flag == false);
 
 		 // Hospital's phone number
                         flag = true;

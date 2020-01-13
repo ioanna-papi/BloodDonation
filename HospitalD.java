@@ -6,7 +6,7 @@ public class Hospital {
 
 
 	/**This method lets hospitals update their blood bank stock*/
-	public void bloodBankStock() {
+	public void bloodBankStock(String username) {
 
 		//Asking for BloodBank Update
 		int update;
@@ -48,25 +48,28 @@ public class Hospital {
          		} while (amount <= 0);
 
 			//Updating the bloodStock
-			for (int i=0; i<=7; i++) {
+			updateBloodBankStock(option, amount, type_update, username);
+		} else {
+	                JOptionPane.showMessageDialog(null, "You are going to continue without any changes made", "CANCELED UPADATE", JOptionPanE.INFORMATION_MESSAGE );
+			HomeMenu.printHospitalMenu();
+		}
+	}
 
-				if (bloodtype[i]  == type_update) {
+	/** *This method changes the blood bank stock, given the option */
+	public static void updateBloodBankStock(int option, double amount, String bloodtype, String username) {
+		
+		double blood, b; //connection with database in file Hospital.java
 
-					if (option == 0) {
-						bloodStock[i] += amount;
-					} else {
-						bloodStock[i] -= amount;
-					}
+		if (option == 0) {
+			blood += amount;
+		} else {
+			blood -= amount;
+		}
 
-					//Checking if the bloodStock is under the allowed limit of its bloodType
-				   	if(bloodStock[i] <= bloodtypeLimit[i]){ //Maria's part, connection with method signUp in class Hospital
-						// Showing WARNING message
-						Messages m = new Messages();
-						m.shortageOfBlood(type_update); //κλήση μεθόδου shortageOfBlood SOS SOS SOS
-					}
-				}
-			}
-
+		//Checking if the bloodStock is under the alowed limit
+		if (blood < b) {
+			//Showing warning message
+			Messages.shortageOfBlood(bloodtype, username);
 		}
 	}
 }

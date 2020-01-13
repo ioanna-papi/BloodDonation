@@ -422,8 +422,7 @@ public class Hospital {
 	}	
 	
 
-		/**
-		 * This method changes hospital's blood bank stock, given the option
+		/** * This method changes hospital's blood bank stock, given the option
 		 * @param option is the king of update; income  or outcome
 		 * @param amount is the amount of blood to be subtracted or added to the blood bank stock
 		 * @param bloodtype is the type of blood

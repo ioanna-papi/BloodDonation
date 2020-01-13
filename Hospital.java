@@ -148,9 +148,9 @@ public class Hospital {
 				}
 			} catch (NullPointerException e) {
                                 JOptionPane.showMessageDialog(null, "Please enter a valid hospital username.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
-                                f = false;
+                                flag = false;
                 }
-                }while (f == false);
+                }while (flag == false);
 
 		 // Hospital's phone number
                         flag = true;
@@ -328,22 +328,20 @@ public class Hospital {
                          }
 
                 }while (flag == false);
-		insertBloodBankStock(username);
                 return hospital_login;
 
 	}
 
 	/**
-	 * This method initializes table BloodBankStock in the data base
+	 * This method initializes table BloodBankStock in the data base with the given blood amount
 	 * for the specific hospital
 	 * @param username is the hospital's username*/
-	public static void insertBloodBankStock(String username) {
-		Double blood = 0.0;
+	public static void insertBloodBankStock(String username, String bloodtype, Double blood) {
 		try {
                                 Messages.connect();
                                 Connection dbcon = null;
                                 Statement stmt = dbcon.createStatement();
-                                ResultSet rs = stmt.executeQuery("INSERT INTO BloodBankStock (H_Username, BloodType, Blood)" +
+                                ResultSet r = stmt.executeQuery("INSERT INTO BloodBankStock (H_Username, BloodType, Blood)" +
                                         "VALUES ('" + username + "', '" + bloodtype + "', '" + blood +  "')");
 
                                 stmt.close();
@@ -351,6 +349,7 @@ public class Hospital {
                         } catch (Exception e) {
                                 e.printStackTrace();
                         }
+		return;
 	}
 	
 	/**This method lets hospitals update their blood bank stock

@@ -320,7 +320,8 @@ public class BloodDonor {
 		}
 	
 		/**
-		 * This method updates data base with the donor's answers to the questionnaire
+		 * This method updates data base with the donor's answer
+		 * to the given question of the questionnaire
 		 * @param qid is the id of the question
 		 * @param username is the donor's username
 		 * @param a is the answer to the question*/
@@ -329,7 +330,7 @@ public class BloodDonor {
                         	Messages.connect();
                         	Connection dbcon = null;
                         	Statement stmt = dbcon.createStatement();
-             			int rs = stmt.executeUpdate("UPDATE Answers SET Q_id = '" + qid+ "', B_Username = '" + username + "', Answer = '" + a +"'");
+             			int rs = stmt.executeUpdate("UPDATE Answers SET Q_id = '" + qid + "', B_Username = '" + username + "', Answer = '" + a +"' WHERE B_Username = '" + username + "'");
                         	stmt.close();
                         	Messages.connect().close();
                 	} catch (Exception e) {

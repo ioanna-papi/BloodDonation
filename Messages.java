@@ -82,7 +82,7 @@ public class Messages{
 				}   
 				String messageDate = strDateYear + "-" + strm + "-" + strd;
 				if (formatter.format(date).equals(messageDate)) {
-					String day = rs.getString(i);
+					String day = rs.getString("D_Day");
 					JOptionPane.showMessageDialog(null, day, strDate, JOptionPane.INFORMATION_MESSAGE);					
 				}
 				rs.close();

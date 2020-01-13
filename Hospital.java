@@ -409,7 +409,7 @@ public class Hospital {
                 		Statement stmt = dbcon.createStatement();
                 		ResultSet rs = stmt.executeQuery("UPDATE BloodBankStock  SET H_Username = '" + username + "', BloodType ='" 
 						+ bloodtype + "', Blood = '" + blood +  "' WHERE H_Username = '"
-						+ username "' AND BloodType ='" + bloodtype + "'");
+						+ username + "' AND BloodType ='" + bloodtype + "'");
 
                 		stmt.close();
                 		Messages.connect().close();

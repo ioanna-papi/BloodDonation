@@ -131,8 +131,7 @@ public class Hospital {
 				if (fullname.equals(null)) {
 					throw new NullPointerException();
 				}
-			}
-                        catch (NullPointerException e) {
+			} catch (NullPointerException e) {
                                 JOptionPane.showMessageDialog(null, "Please enter a valid hospital name.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
                                 flag = false;
                         }
@@ -147,8 +146,7 @@ public class Hospital {
 				if (username.equals(null)) {
 					throw new NullPointerException();
 				}
-			}	
-                        catch (NullPointerException e) {
+			} catch (NullPointerException e) {
                                 JOptionPane.showMessageDialog(null, "Please enter a valid hospital username.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
                                 f = false;
                 }
@@ -163,8 +161,7 @@ public class Hospital {
                                         p=Integer.parseInt(phonenumber);
                                         Hospital.correctPhonenumber(phonenumber);
                                         flag = false;
-                                }
-                                catch (NumberFormatException e1) {
+                                } catch (NumberFormatException e1) {
                                         JOptionPane.showMessageDialog(null, "Phone number must contain only numbers.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
                                         phonenumber = JOptionPane.showInputDialog(null,"Enter your hospital's phone number: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
                                 }
@@ -238,7 +235,6 @@ public class Hospital {
 		}
 
 		 // Hospital's blood limit
-                String a = null;
                         try {
                                 Messages.connect();
                                 Connection dbcon = null;
@@ -254,9 +250,58 @@ public class Hospital {
                         } catch (Exception e) {
                                 e.printStackTrace();
                         }
-
+		//Hospital's current blood bank stock
+		bloodType(username);
 		return;
         }
+
+	/**
+	 *This method asks hospital to insert their current blood bank stock
+	 *@param username is the hospital's username*/
+	public static void bloodType(String username) {
+		String bloodtype;
+		Double stock = 0.0;
+		try {
+     		Messages.connect();
+     		Connection dbcon = null;
+     		Statement stmt = dbcon.createStatement();
+     		ResultSet rs = stmt.executeQuery("SELECT * FROM Bloodtypes");
+     		while (rs.next()) {
+             		bloodtype = rs.getString("bloodtype");
+             		String b =JOptionPane.showInputDialog(null, "Please insert your current blood bank stock for blood type "
+             		+ bloodtype, "BLOOD BANK STOCK", JOptionPane.PLAIN_MESSAGE);
+             		boolean flag = true;
+            		double temp = 0;
+                     	do {
+                    		try {
+                    			temp = limitLiters(b);
+                             		if (Answer() == true) {
+                            			stock = temp;
+                                 			flag = false;
+                             		} else {
+                            			stock = limitLiters(b);
+                            			break;
+                            		}
+                         		} catch(InputMismatchException e2) {
+                            		JOptionPane.showMessageDialog(null, "The input has to be a number!", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+                            		flag = true;
+                         		} catch (NumberFormatException e) {
+                            		JOptionPane.showMessageDialog(null, "The input has to be a number!", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+                            		flag = true;
+                         		} catch (NullPointerException e) {
+                            		flag = true;
+                         		}
+                     	}while (flag);
+			//insert data to data base
+                     	insertBloodBankStock(username, b, stock);
+     		}
+     		rs.close();
+     		stmt.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	return;
+	}
 	
 	/**
 	 * This method lets hospitals log in to their account*/

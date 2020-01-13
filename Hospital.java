@@ -128,6 +128,9 @@ public class Hospital {
                         try {
                                 String fullname = JOptionPane.showInputDialog(null,"Enter your hospital's name: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
                         	flag = true;
+				if (fullname.equals(null)) {
+					throw new NullPointerException();
+				}
 			}
                         catch (NullPointerException e) {
                                 JOptionPane.showMessageDialog(null, "Please enter a valid hospital name.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
@@ -141,6 +144,9 @@ public class Hospital {
                         try {
                         	username = JOptionPane.showInputDialog(null,"Enter your hospital's username: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
                         	flag = true;
+				if (username.equals(null)) {
+					throw new NullPointerException();
+				}
 			}	
                         catch (NullPointerException e) {
                                 JOptionPane.showMessageDialog(null, "Please enter a valid hospital username.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);

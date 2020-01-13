@@ -123,11 +123,12 @@ public class Hospital {
         public static void signUp(){
 
                 // Hospital's Name
-                boolean flag = true;
+                boolean flag = false;
                 do {
                         try {
                                 String fullname = JOptionPane.showInputDialog(null,"Enter your hospital's name: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
-                        }
+                        	flag = true;
+			}
                         catch (NumberFormatException e) {
                                 JOptionPane.showMessageDialog(null, "Please enter a valid hospital name.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
                                 flag = false;

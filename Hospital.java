@@ -129,7 +129,7 @@ public class Hospital {
                                 String fullname = JOptionPane.showInputDialog(null,"Enter your hospital's name: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
                         	flag = true;
 			}
-                        catch (NumberFormatException e) {
+                        catch (NullPointerException e) {
                                 JOptionPane.showMessageDialog(null, "Please enter a valid hospital name.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
                                 flag = false;
                         }
@@ -142,7 +142,7 @@ public class Hospital {
                         	username = JOptionPane.showInputDialog(null,"Enter your hospital's username: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
                         	flag = true;
 			}	
-                        catch (InputMismatchException e) {
+                        catch (NullPointerException e) {
                                 JOptionPane.showMessageDialog(null, "Please enter a valid hospital username.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
                                 f = false;
                 }

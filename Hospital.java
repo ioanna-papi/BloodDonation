@@ -204,14 +204,21 @@ public class Hospital {
                 //password
                 flag = true;
                 do {
-                        password = JOptionPane.showInputDialog(null,"Enter your password: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
-                        if (password.matches("^.*(?=.{4,10})(?=.*\\d)(?=.*[a-zA-Z]).*$")) {
-                                flag = false;
-                                break;
-                        } else {
-                                JOptionPane.showMessageDialog(null, "Your password must contain both letters and numbers", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
-
-                        }
+                        try {
+				password = JOptionPane.showInputDialog(null,"Enter your password: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
+                        	if (password.matches("^.*(?=.{4,10})(?=.*\\d)(?=.*[a-zA-Z]).*$")) {
+                                	flag = false;
+                                	break;
+                        	} else {
+                                	JOptionPane.showMessageDialog(null, "Your password must contain both letters and numbers", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+                        	}
+				if (username.equals(null)) {
+                        		throw new NullPointerException();
+                        	}
+			} catch (NullPointerException e) {
+				flag = true;
+                		JOptionPane.showMessageDialog(null, "Please enter your password", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+			}	
 
                 }while(flag);
 

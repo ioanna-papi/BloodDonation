@@ -283,12 +283,13 @@ public class Hospital {
                          }
 
                 }while (flag == false);
+		insertBloodBankStock(username);
                 return hospital_login;
 
 	}
 
 	/**
-	 * This method initializes table BloodBankStock in the data base with the given blood amount
+	 * This method initializes table BloodBankStock in the data base
 	 * for the specific hospital
 	 * @param username is the hospital's username*/
 	public static void insertBloodBankStock(String username) {
@@ -323,7 +324,7 @@ public class Hospital {
 		if (update == JOptionPane.YES_OPTION) {
 
 			//Asking which bloodType to update
-			Object[] types = {"O+", "O-", "A+", "A-", "B+", "B-", "AB+", "AB-"};
+			Object[] types = {"A+", "A-", "AB+", "AB-", "B+", "B-", "O+", "O-"};
 			String type_update;
 			do {
 				type_update = (String)JOptionPane.showInputDialog(null, "BLOOD TYPE UPDATE","Choose a blood-type stock to update",
@@ -396,20 +397,19 @@ public class Hospital {
             				} else {
             					blood -= amount;
             				}
-                        	update(username, bloodtype, blood);
-            			//Checking if the bloodStock is under the allowed limit of its bloodType
-            			if(blood <= b){
-            			// Showing WARNING message
-            				Messages m = new Messages();
-            				m.shortageOfBlood(bloodtype, username);
-            		}
-                }
-                rs.close();
-                stmt.close();
-    		} catch (Exception e) {
-    			e.printStackTrace();
-    		}	
-	}
+                        		update(username, bloodtype, blood);
+            				//Checking if the bloodStock is under the allowed limit of its bloodType
+            				if(blood <= b){
+            					// Showing WARNING message
+            					Messages.shortageOfBlood(bloodtype, username);
+					}	
+            			}	
+                		rs.close();
+                		stmt.close();
+    			} catch (Exception e) {
+    				e.printStackTrace();
+    			}
+		}	
 
 		/**
 		 * This method updates the data base with the current blood bank stock

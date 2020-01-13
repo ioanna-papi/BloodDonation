@@ -283,13 +283,12 @@ public class Hospital {
                          }
 
                 }while (flag == false);
-		insertBloodBankStock(username);
                 return hospital_login;
 
 	}
 
 	/**
-	 * This method initializes table BloodBankStock in the data base
+	 * This method initializes table BloodBankStock in the data base with the given blood amount
 	 * for the specific hospital
 	 * @param username is the hospital's username*/
 	public static void insertBloodBankStock(String username) {

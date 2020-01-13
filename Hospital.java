@@ -131,8 +131,7 @@ public class Hospital {
 				if (fullname.equals(null)) {
 					throw new NullPointerException();
 				}
-			}
-                        catch (NullPointerException e) {
+			} catch (NullPointerException e) {
                                 JOptionPane.showMessageDialog(null, "Please enter a valid hospital name.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
                                 flag = false;
                         }
@@ -147,8 +146,7 @@ public class Hospital {
 				if (username.equals(null)) {
 					throw new NullPointerException();
 				}
-			}	
-                        catch (NullPointerException e) {
+			} catch (NullPointerException e) {
                                 JOptionPane.showMessageDialog(null, "Please enter a valid hospital username.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
                                 f = false;
                 }
@@ -163,8 +161,7 @@ public class Hospital {
                                         p=Integer.parseInt(phonenumber);
                                         Hospital.correctPhonenumber(phonenumber);
                                         flag = false;
-                                }
-                                catch (NumberFormatException e1) {
+                                } catch (NumberFormatException e1) {
                                         JOptionPane.showMessageDialog(null, "Phone number must contain only numbers.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
                                         phonenumber = JOptionPane.showInputDialog(null,"Enter your hospital's phone number: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
                                 }
@@ -238,7 +235,6 @@ public class Hospital {
 		}
 
 		 // Hospital's blood limit
-                String a = null;
                         try {
                                 Messages.connect();
                                 Connection dbcon = null;

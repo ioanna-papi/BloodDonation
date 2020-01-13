@@ -84,7 +84,7 @@ public class Hospital {
                 		flag = true;
              		}
          	}while (flag);
-         	 //Add hospital's blood type limit to the database
+		//Add hospital's blood type limit to the database
                 try {
                         Messages.connect();
                         Connection dbcon = null;
@@ -268,8 +268,29 @@ public class Hospital {
                          }
 
                 }while (flag == false);
+		insertBloodBankStock(username);
                 return hospital_login;
 
+	}
+
+	/**
+	 * This method initializes table BloodBankStock in the data base
+	 * for the specific hospital
+	 * @param username is the hospital's username*/
+	public static void insertBloodBankStock(String username) {
+		Double blood = 0.0;
+		try {
+                                Messages.connect();
+                                Connection dbcon = null;
+                                Statement stmt = dbcon.createStatement();
+                                ResultSet rs = stmt.executeQuery("INSERT INTO BloodBankStock (H_Username, BloodType, Blood)" +
+                                        "VALUES ('" + username + "', '" + bloodtype + "', '" + blood +  "')");
+
+                                stmt.close();
+                                Messages.connect().close();
+                        } catch (Exception e) {
+                                e.printStackTrace();
+                        }
 	}
 	
 	/**This method lets hospitals update their blood bank stock
@@ -347,27 +368,27 @@ public class Hospital {
 		public static void updateBloodBankStock(int option, Double amount, String bloodtype, String username) {
 			Double b, blood = null;
 			try {
-                Messages.connect();
-                Connection dbcon = null;
-                Statement stmt = dbcon.createStatement();
-                ResultSet rs = stmt.executeQuery("SELECT * BloodLimits, BloodBankStock WHERE BloodLimits.BloodType = BloodBankStock.BloodType" +
-                                "AND BloodLimits.H_Username = BloodBankStock.H_Username AND BloodLimits.BloodType = '" 
-                		  + bloodtype + "' AND BloodLimits.H_Username = '" + username +"'");
-                while (rs.next()) {
-                		blood = rs.getDouble("Blood"); 
-                        b = rs.getDouble("BloodLimit");
-                        if (option == 0) {
-            				blood += amount;
-            			} else {
-            				blood -= amount;
-            			}
-                       update(username, bloodtype, blood);
+                		Messages.connect();
+                		Connection dbcon = null;
+                		Statement stmt = dbcon.createStatement();
+                		ResultSet rs = stmt.executeQuery("SELECT * BloodLimits, BloodBankStock WHERE BloodLimits.BloodType = BloodBankStock.BloodType" +
+                                	"AND BloodLimits.H_Username = BloodBankStock.H_Username AND BloodLimits.BloodType = '" 
+                			+ bloodtype + "' AND BloodLimits.H_Username = '" + username +"'");
+                		while (rs.next()) {
+                			blood = rs.getDouble("Blood"); 
+                        		b = rs.getDouble("BloodLimit");
+                        		if (option == 0) {
+            					blood += amount;
+            				} else {
+            					blood -= amount;
+            				}
+                        	update(username, bloodtype, blood);
             			//Checking if the bloodStock is under the allowed limit of its bloodType
-            		   	if(blood <= b){
-            				// Showing WARNING message
+            			if(blood <= b){
+            			// Showing WARNING message
             				Messages m = new Messages();
             				m.shortageOfBlood(bloodtype, username);
-            			}
+            		}
                 }
                 rs.close();
                 stmt.close();
@@ -386,8 +407,9 @@ public class Hospital {
 				Messages.connect();
                 		Connection dbcon = null;
                 		Statement stmt = dbcon.createStatement();
-                		ResultSet rs = stmt.executeQuery("INSERT INTO BloodBankStock (H_Username, BloodType, Blood)" +
-                        		"VALUES ('" + username + "', '" + bloodtype + "', '" + blood +  "')");
+                		ResultSet rs = stmt.executeQuery("UPDATE BloodBankStock  SET H_Username = '" + username + "', BloodType ='" 
+						+ bloodtype + "', Blood = '" + blood +  "' WHERE H_Username = '"
+						+ username "' AND BloodType ='" + bloodtype + "'");
 
                 		stmt.close();
                 		Messages.connect().close();

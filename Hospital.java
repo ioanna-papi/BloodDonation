@@ -295,7 +295,7 @@ public class Hospital {
 	
 	/**This method lets hospitals update their blood bank stock
 	 *@param username is the hospital's username*/
-	public void bloodBankStock(String username) {
+	public static void bloodBankStock(String username) {
 
 		//Asking for BloodBank Update
 		int update;

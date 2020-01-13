@@ -11,7 +11,7 @@ public class Hospital {
 		//Asking for BloodBank Update
 		int update;
 		do {
-			update = JOptionPane.showConfirmDialog(null, "Would you like to update your blood-bank?", "BLOOD-BANK UPDATE",
+			update = JOptionPane.showConfirmDialog(null, "Are you sure you want to update your blood-bank?", "CONFIRMATION",
 					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 		} while ((update != JOptionPane.YES_OPTION) && (update != JOptionPane.NO_OPTION));
 
@@ -31,7 +31,7 @@ public class Hospital {
 			String[] kind = {"INCOME", "OUTCOME"};
 			int option;
 			do {
-				option = JOptionPane.showOptionDialog(null,"Choose the kind of the update", null, JOptionPane.DEFAULT_OPTION,
+				option = JOptionPane.showOptionDialog(null,"Choose the cause of the change: ", null, JOptionPane.DEFAULT_OPTION,
 						JOptionPane.PLAIN_MESSAGE, null, kind, kind[0]);
 			} while ((option != 0) && (option != 1));
 
@@ -39,7 +39,7 @@ public class Hospital {
 			double amount = 0;
          		do {
                  		try {
-                         		amount = Double.parseDouble(JOptionPane.showInputDialog("Insert the amount of blood in liters: "));
+                         		amount = Double.parseDouble(JOptionPane.showInputDialog("Enter the amount of blood in liters: "));
                  		} catch (NullPointerException e1) {
                          		JOptionPane.showMessageDialog(null, "Please enter the amount of blood","ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
                  		} catch (NumberFormatException e2) {

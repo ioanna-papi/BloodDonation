@@ -1,12 +1,9 @@
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import javax.swing.*;
 import java.lang.NullPointerException;
 import java.lang.NumberFormatException;
 
 public class Hospital {
 
-	String[] bloodtype = {"A+","A-","AB+","AB-","B+","B-","0+","O-"};
 
 	/**This method lets hospitals update their blood bank stock*/
 	public void bloodBankStock() {

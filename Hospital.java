@@ -136,11 +136,12 @@ public class Hospital {
                 }while (flag == false);
 
                 //Hospital's username
-                boolean f = true;
+                flag = false;
                 do {
                         try {
                         	username = JOptionPane.showInputDialog(null,"Enter your hospital's username: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
-                        }
+                        	flag = true;
+			}	
                         catch (InputMismatchException e) {
                                 JOptionPane.showMessageDialog(null, "Please enter a valid hospital username.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
                                 f = false;

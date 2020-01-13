@@ -324,7 +324,7 @@ public class Hospital {
 		if (update == JOptionPane.YES_OPTION) {
 
 			//Asking which bloodType to update
-			Object[] types = {"A+", "A-", "AB+", "AB-", "B+", "B-", "O+", "O-"};
+			Object[] types = {"O+", "O-", "A+", "A-", "B+", "B-", "AB+", "AB-"};
 			String type_update;
 			do {
 				type_update = (String)JOptionPane.showInputDialog(null, "BLOOD TYPE UPDATE","Choose a blood-type stock to update",

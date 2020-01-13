@@ -328,7 +328,6 @@ public class Hospital {
                          }
 
                 }while (flag == false);
-		insertBloodBankStock(username);
                 return hospital_login;
 
 	}

@@ -194,13 +194,13 @@ public class BloodDonor {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}	
-		updateTableQuestionnaire(username);
+		insertAnswers(username);
 	}
 
 	/**
 	 * This method inserts donor's answers to the questionnaire into data base
 	 * @param username is the donor's username*/
-	public static void updateTableQuestionnaire(String username) {
+	public static void insertAnswers(String username) {
 		String user = username;
 		String answer = null;
 		String id = null;
@@ -324,7 +324,7 @@ public class BloodDonor {
 		 * @param qid is the id of the question
 		 * @param username is the donor's username
 		 * @param a is the answer to the question*/
-		public static void insertAnswers(int qid, String username, String a) {
+		public static void updateTableAnswers(int qid, String username, String a) {
                 	try {
                         	Messages.connect();
                         	Connection dbcon = null;
@@ -359,7 +359,7 @@ public class BloodDonor {
 					a = Integer.parseInt(JOptionPane.showInputDialog("If you want to change a question press the number of the question or else press 0"));
 	            	 		if (a >= 1 && a <= 51) {
 	            		 		g = false;
-	            		 		changeQuestion (a, username);
+	            		 		changeQuestion(a, username);
 						updateQuestionnaire();
 	            	 		} else if (a == 0) {
 	            		 		g = true;
@@ -400,7 +400,7 @@ public class BloodDonor {
                     			flag = false;
                 		}
             		}while (flag == false);
-			insertAnswers(qid, username, a2);
+			updateTableAnswers(qid, username, a2);
 			return;	
 		}
 

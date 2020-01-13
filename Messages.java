@@ -33,8 +33,7 @@ public class Messages{
 				region = rs.getString("Region");
 				//dispaly message to volunteers
 			}
-			rs.close();
-			RS.close();
+			rs.close();		
 			Messages.connect().close();
 		} catch (Exception e) {
 			e.printStackTrace();

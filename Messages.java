@@ -128,6 +128,7 @@ public class Messages{
 				flag = false;
 				Hospital h = new Hospital();
 	        		h.makeDonationDay(username);
+				//donationDay(); with parametres from makeDonationDay
 			} else {
 				JOptionPane.showMessageDialog(null, "You have to choose one of the above!", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
 			}

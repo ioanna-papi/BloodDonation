@@ -93,25 +93,32 @@ public class Messages{
 		
 	}
 
+	/**
+	 * This method reutrns hospital's region
+	 * @rparam username is the hospital' username */
+	public static String getRegion(String username) {
+		String region = null;
+        try {
+                Messages.connect();
+                Connection dbcon = null;
+                Statement stmt = dbcon.createStatement();
+                ResultSet rs = stmt.executeQuery("SELECT Region, Username FROM Hospital WHERE Username ='" + username +"'");
+                while (rs.next()) {
+                        region = rs.getString("Region");
+                }
+                stmt.close();
+                Messages.connect().close();
+        } catch (Exception e) {
+                e.printStackTrace();
+        }
+        return region;
+	}
+
 		/**
 	 * This method informs a hospital about it's shortage of blood in a specific blood type
 	 * @param bloodtype the specific blood type which is lacking in the specific hospital
 	 * @param username the hospital's username*/
 	public void shortageOfBlood(String bloodtype, String username) {
-		String region = null;
-                try {
-                        Messages.connect();
-                        Connection dbcon = null;
-                        Statement stmt = dbcon.createStatement();
-                        ResultSet rs = stmt.executeQuery("SELECT Region, Username FROM Hospital WHERE Username ='" + username +"'");
-                        while (rs.next()) {
-                                region = rs.getString("Region");
-                        }
-                        stmt.close();
-                        Messages.connect().close();
-                } catch (Exception e) {
-                        e.printStackTrace();
-                }
 		JOptionPane.showMessageDialog(null, "SHORTAGE OF BLOOD TYPE " + bloodtype, "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
 		boolean flag = true;
 		while(flag) {
@@ -121,12 +128,10 @@ public class Messages{
 				    null,options,options[1]);
 			if (choice == 0) {
 				flag = false;
-				Messages mes = new Messages();
-	 		       	mes.bloodBorrow(region,bloodtype, username);
+				Messages.bloodBorrow(Messages.getRegion(username),bloodtype, username);
 			} else if (choice == 1) {
 				flag = false;
-				Hospital h = new Hospital();
-	        		h.makeDonationDay(username);
+				Hospital.makeDonationDay(username);
 				//donationDay(); with parametres from makeDonationDay
 			} else {
 				JOptionPane.showMessageDialog(null, "You have to choose one of the above!", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
@@ -139,7 +144,7 @@ public class Messages{
 	 * @param region is the region the hospital belongs to
 	 * @param bloodtype the type of blood the hospital is lacking
 	 * @param username the hospital's username*/
-	public void bloodBorrow(String region, String bloodtype, String username) {
+	public static void bloodBorrow(String region, String bloodtype, String username) {
 		String r = null;
 		try {
                         Messages.connect();

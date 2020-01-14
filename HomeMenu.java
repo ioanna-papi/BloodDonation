@@ -81,7 +81,7 @@ public class HomeMenu {
 			case 0:
 				Hospital.signUp();
 				username = (Hospital.logIn());
-				JOptionPane.showMessageDialog(null, "Now we would like you to inform us about your blood bank stock");
+				JOptionPane.showMessageDialog(null, "Welcome " + username + "! Now we would like you to inform us about your blood bank stock");
 				Hospital.bloodBankStock(username);
 				hospitalSecondMenu(username);
 			case 1:
@@ -98,8 +98,7 @@ public class HomeMenu {
 	 * meaning after they succesfully log in
 	 * @param username is the hospital's username*/
 	public static void hospitalSecondMenu(String username) {
-		boolean f = true;
-		do {
+		for (;;) {
 			try {
 				Object[] opt = {"Update blood bank stock","Borrow Blood Units from other hospitals", "Create new donation day", "Log out"};
         	        	String g = (String) JOptionPane.showInputDialog(null,"Please choose one of the following",
@@ -107,7 +106,6 @@ public class HomeMenu {
 			
                 		if (g == "Update blood bank stock") {
 	 				Hospital.bloodBankStock(username);
-					f = false;
 				} else if (g.equals ("Borrow Blood Units from other hospitals")) {
 					String bloodtype = null;
                         		String[] bloodtypes = { "O+" , "O-" , "A+" , "A-" , "B+" , "B-" , "AB+" , "AB-" };
@@ -127,23 +125,20 @@ public class HomeMenu {
                                 		}
                         		}	
                         		Messages.bloodBorrow(Messages.getRegion(username),bloodtype,username);
-					f = false;
 				} else if (g.equals ("Create new donation day")) {
                  			BloodDonor.displayDonationDay(username);
                         		JOptionPane.showMessageDialog(null, "Thank you! You help us strengthen our action");
-					f = false;
 				} else if (g.equals ("Log out")){
 					JOptionPane.showMessageDialog(null, "You have successfully log out. Press OK to return to main menu");
 					String [] args = null;
 					HomeMenu.main(args);
-					f = false;
 				} else {
 					throw new NullPointerException();
 				}
 			} catch (NullPointerException e) {
 				JOptionPane.showMessageDialog(null, "Please choose one of the options", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
 			}
-        	} while (f);
+        	}
 	}
 }
 

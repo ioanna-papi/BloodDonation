@@ -30,9 +30,8 @@ public class HomeMenu {
 	 * This method displays blood donors' main menu,
 	 * which includes sign up, log in fill out and update questionnaire*/
 	public static void printDonorMenu() {
-		JOptionPane.showMessageDialog(null,"Welcome to our application!", "DONOR'S MENU", JOptionPane.PLAIN_MESSAGE);
 		String[] q = {"Fill out our questionnaire", "Log in"};
-		int ans = JOptionPane.showOptionDialog(null, "Please choose one of the following",
+		int ans = JOptionPane.showOptionDialog(null, "Welcome to our application! Please choose one of the following",
                                                                 "DONOR'S MENU", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, q, q[0]);
 		switch (ans) {
 			case 0:
@@ -40,6 +39,7 @@ public class HomeMenu {
 				JOptionPane.showMessageDialog(null, "Congratulations! You've already done the first step to become a Blood Donor");
 				JOptionPane.showMessageDialog(null, "Now press OK to sign up to our application");
 				BloodDonor.signUp();
+				JOptionPane.showMessageDialog(null, "Select log in option in the following menu");
 				printDonorMenu();
 			case 1:
 				String username = (BloodDonor.logIn());

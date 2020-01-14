@@ -98,38 +98,52 @@ public class HomeMenu {
 	 * meaning after they succesfully log in
 	 * @param username is the hospital's username*/
 	public static void hospitalSecondMenu(String username) {
-		Object[] opt = {"Update blood bank stock","Borrow Blood Units from other hospitals", "Create new donation day", "Log out"};
-                int g = (int) JOptionPane.showInputDialog(null,"Please choose one of the following", "HOSPITAL MENU", JOptionPane.PLAIN_MESSAGE, null, opt, "Update blood bank stock");
-                if (g == 0) {
-                	Hospital.bloodBankStock(username);
-                }
-                String[] k = {"Borrow", "Donation Day"};
-                int a2 = JOptionPane.showOptionDialog(null, "If you are in need of blood units, you can borrow blood from another"
-                                          + " hospital, or make a new doantion day","BLOOD BORROW",
-                                      JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, k, k[0]);
-                 if (a2 == 0) {
-                 	String bloodtype = null;
-                        String[] bloodtypes = { "O+" , "O-" , "A+" , "A-" , "B+" , "B-" , "AB+" , "AB-" };
-                        boolean flag = true;
-                        while (flag) {
-                        	bloodtype = (String) JOptionPane.showInputDialog(null, "Choose the blood type",
-                                                          "SIGN UP", JOptionPane.PLAIN_MESSAGE, null, bloodtypes , "O+");
-                                try {
-                                	if (bloodtype.equals(null)) {
-                                        	throw new NullPointerException();
-                                        } else {
-                                        	flag = false;
-                                        }
-                                } catch (NullPointerException e) {
-                                	JOptionPane.showMessageDialog(null, "Please choose the blood type",
-                                                                    "ALERT MESSAGE" , JOptionPane.WARNING_MESSAGE);
-                                }
-                        }
-                        Messages.bloodBorrow(Messages.getRegion(username),bloodtype,username);
-                 } else if (a2 == 1) {
-                 	BloodDonor.displayDonationDay(username);
-                        JOptionPane.showMessageDialog(null, "Thank you! You help us strengthen our action");
-                 }
-        }
+		boolean f = true;
+		do {
+			try {
+				Object[] opt = {"Update blood bank stock","Borrow Blood Units from other hospitals", "Create new donation day", "Log out"};
+        	        	g = (String) JOptionPane.showInputDialog(null,"Please choose one of the following",
+					"HOSPITAL MENU", JOptionPane.PLAIN_MESSAGE, null, opt, "Update blood bank stock");
+			
+                		if (g == "Update blood bank stock") {
+	 				Hospital.bloodBankStock(username);
+					f = false;
+				} else if (g.equals ("Borrow Blood Units from other hospitals")) {:
+					String bloodtype = null;
+                        		String[] bloodtypes = { "O+" , "O-" , "A+" , "A-" , "B+" , "B-" , "AB+" , "AB-" };
+                        		boolean flag = true;
+                        		while (flag) {
+                        			bloodtype = (String) JOptionPane.showInputDialog(null, "Choose the blood type", 
+							"SIGN UP", JOptionPane.PLAIN_MESSAGE, null, bloodtypes , "O+");
+                	                	try {
+                        	      			if (bloodtype.equals(null)) {
+                                	        		throw new NullPointerException();
+                                        		} else {
+                                        			flag = false;
+                                       	 		}		
+                                		} catch (NullPointerException e) {
+                                			JOptionPane.showMessageDialog(null, "Please choose the blood type",
+                                                 	"ALERT MESSAGE" , JOptionPane.WARNING_MESSAGE);
+                                		}
+                        		}	
+                        		Messages.bloodBorrow(Messages.getRegion(username),bloodtype,username);
+					f = false
+				} else if (g.equals ("Create new donation day")) {
+                 			BloodDonor.displayDonationDay(username);
+                        		JOptionPane.showMessageDialog(null, "Thank you! You help us strengthen our action");
+					f = false;
+				} else if (g.equals ("Log out")){
+					JOptionPane.showMessageDialog(null, "You have successfully log out. Press OK to return to main menu");
+					String [] args = null;
+					HomeMenu.main(args);
+					f = false;
+				} else {
+					throw new NullPointerException();
+				}
+			} catch (NullPointerException e) {
+				JOptionPane.showMessageDialog(null, "Please choose one of the options", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+			}
+        	} while (f);
+	}
 }
 

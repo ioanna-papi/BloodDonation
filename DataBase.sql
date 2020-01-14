@@ -13,56 +13,56 @@ Drop table Hospital;
 */
 Create table Hospital( 
                 Username varchar(50) not null,
-				H_name varchar(50) not null,
+		H_name varchar(50) not null,
                 H_pass varchar(50) not null,
                 Telephone varchar(10) not null,
                 Address varchar(100) not null,
-				Region varchar(50) not null
-				Primary key (Username));
+		Region varchar(50) not null
+		Primary key (Username));
 			
 
                 
 create  table Bloodtypes (
-				bloodtype varchar(3) primary key); 
+		bloodtype varchar(3) primary key); 
 
 Create table BloodLimits(
-				H_Username varchar(50) not null,
+		H_Username varchar(50) not null,
                 BloodType varchar(3) not null,
                 BloodLimit float not null,
                 Primary key (H_Username, BloodType),
                 Foreign key (H_Username) references Hospital(Username),
-				Foreign key (BloodType) references Bloodtypes(bloodtype));               
+		Foreign key (BloodType) references Bloodtypes(bloodtype));               
 
 
                 
 create table BloodBankStock(
-				H_Username varchar(50) not null,
-				BloodType varchar(5) not null,
+		H_Username varchar(50) not null,
+		BloodType varchar(5) not null,
                 Blood float not null,
                 Primary key (H_Username,BloodType),
                 Foreign key (H_Username) references Hospital(Username));  
                 
                
 Create table BloodDonor(
-				B_Name varchar(50) not null,
+		B_Name varchar(50) not null,
                 B_Username varchar(50) not null,
                 B_email varchar(50) not null,
-				B_password varchar(50) not null,
+		B_password varchar(50) not null,
                 Gender varchar(10) not null,
                 BloodType varchar(10) not null,
                 SSN varchar(11) not null,
                 Region varchar(50) not null
-				Primary key (B_Username));
+		Primary key (B_Username));
                 
                 
  
  create table Questionnaire(
-				Q_id int primary key,
-				Question varchar(100) not null); 
+		Q_id int primary key,
+		Question varchar(100) not null); 
 
       
 create table Answers(
-				Q_id int not null,
+		Q_id int not null,
                 B_Username varchar(50) not null,
                 Answer Varchar(50) not null,
                 primary key (Q_id,B_Username),
@@ -72,7 +72,7 @@ create table Answers(
                 
  
 create table DonationDays(
-				D_Date date not null,
+		D_Date date not null,
                 D_Day varchar(50) not null);	
  
  insert into Bloodtypes(bloodtype)

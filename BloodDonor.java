@@ -421,6 +421,9 @@ public class BloodDonor {
 			boolean flag = false;
 			Date date1 = new Date();
 			if (qid == 14) {
+				if (an.equals("0") {
+					an = "2019/01/01";
+				}
 				try {
 					date1=new SimpleDateFormat("yyyy/MM/dd").parse(an);
 				} catch (ParseException e) {

@@ -48,17 +48,18 @@ public class BloodDonor {
 		flag = true;
 		do {
 			try {
+				ResultSet rs = Messages.connect().executeQuery("SELECT B_Username FROM BloodDonor");
 				String username = JOptionPane.showInputDialog(null,"Enter your username: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
-				if (flag == false) { //add connection to db and check if username is being used
+				if (rs.getString("B_Username").equals(username)) {
 					JOptionPane.showMessageDialog(null, "The username is already used.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
 				} else {
 					flag = false;
 				}
 				if (username.equals("null")) {
-        			throw new NullPointerException();
+        				throw new NullPointerException();
         		}
-        		flag = false;
-			} catch (NullPointerException e) {
+				flag = false;
+			} catch (NullPointerException | SQLException e) {
 				JOptionPane.showMessageDialog(null, "Please enter a username.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
                 		flag = true;
 			}	

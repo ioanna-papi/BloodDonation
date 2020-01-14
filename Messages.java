@@ -60,12 +60,12 @@ public class Messages{
 			while ((rs.next())) {
 				Date d_date = rs.getDate("D_Date");
 				String strDate = formatter.format(d_date);
-				String strDateDay = strDate.substring(8);//from date get day
-				String strDateMonth = strDate.substring(5,6);//from date get month
-				String strDateYear = strDate.substring(0,3);//from date get year
+				String strDateDay = strDate.substring(8);//from current date get day
+				String strDateMonth = strDate.substring(5,6);//from current date get month
+				String strDateYear = strDate.substring(0,3);//from current date get year
 				d = Integer.parseInt(strDateDay);
 				m = Integer.parseInt(strDateMonth);
-				//find date five days before Blood Donation day
+				//find date which is five days before Blood Donation day
 				if (d-5 <= 0) {
 					if(m == 2 || m == 4 || m == 6 || m == 9 || m == 11) {
 						d = 30 + (d-5);
@@ -159,7 +159,7 @@ public class Messages{
 		try {
                         Messages.connect();
                         Connection dbcon = null;
-                        Statement stmt = dbcon.createStatement(); //incorrect syntax of values
+                        Statement stmt = dbcon.createStatement(); 
                         ResultSet rs = stmt.executeQuery("SELECT H_name, Region, Username FROM Hospital WHERE Username ='" + username +"'");
 			while (rs.next()) {
 				String name = rs.getString("H_name");

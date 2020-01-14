@@ -77,13 +77,13 @@ public class HomeMenu {
 		int ans = JOptionPane.showOptionDialog(null, "Please choose one of the following",
                                                                 "HOSPITAL MENU", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, kind, kind[0]);
 		switch (ans) {
-			case 1:
+			case 0:
 				Hospital.signUp();
 				username = (Hospital.logIn());
 				JOptionPane.showMessageDialog(null, "Now we would like you to inform us about your blood bank stock");
 				Hospital.bloodBankStock(username);
 				printHospitalMenu();
-			case 2:
+			case 1:
 				username = (Hospital.logIn());
 				Object[] opt = {"Update blood bank stock","Skip this step"};
 				int g = JOptionPane.showOptionDialog(null,"Now we would like you to inform us about your blood bank stock", "HOSPITAL MENU", JOptionPane.YES_NO_OPTION,

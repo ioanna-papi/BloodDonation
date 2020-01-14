@@ -25,7 +25,7 @@ public class Messages{
 	 * This method informs volunteers about a specific donation day a hospital from their region has created
 	 * @param date the donation day date the hospital has created
 	 * @param username is the hospital's username*/
-	public void donationDay(String date, String username){
+	public static void donationDay(String date, String username){
 		String region = null;
 		try {
 			ResultSet rs = Messages.connect().executeQuery("SELECT Region, Username FROM Hospital WHERE Username = '" + username+ "'");
@@ -43,7 +43,7 @@ public class Messages{
 	
 	/**
 	 * This method informs all volunteers about the default donation days*/
-	public void donationCalendar() {
+	public static void donationCalendar() {
 		try {
 			ResultSet rs = Messages.connect().executeQuery("SELECT * FROM DonationDays");
 			ResultSet RS = Messages.connect().executeQuery("SELECT * FROM BloodDonor");
@@ -118,7 +118,7 @@ public class Messages{
 	 * This method informs a hospital about it's shortage of blood in a specific blood type
 	 * @param bloodtype the specific blood type which is lacking in the specific hospital
 	 * @param username the hospital's username*/
-	public void shortageOfBlood(String bloodtype, String username) {
+	public static void shortageOfBlood(String bloodtype, String username) {
 		JOptionPane.showMessageDialog(null, "SHORTAGE OF BLOOD TYPE " + bloodtype, "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
 		boolean flag = true;
 		while(flag) {

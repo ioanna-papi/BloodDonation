@@ -98,6 +98,7 @@ public class HomeMenu {
 				if (a2 == 0) {
 					String bloodtype = null;
 					String[] bloodtypes = { "O+" , "O-" , "A+" , "A-" , "B+" , "B-" , "AB+" , "AB-" };
+					boolean flag = true;
 					Messages.bloodBorrow(username);
 				} else if (a2 == 1){
 					Hospital.makeDonationDay(username);

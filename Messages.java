@@ -49,6 +49,7 @@ public class Messages{
                 return;
         }
 	public static void donationDayDisplay(){
+		try {
 			String region = null, name = null;
 			String[] month = new String[12];
 			month[0] = "January";

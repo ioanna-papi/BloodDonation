@@ -33,7 +33,8 @@
 6. Password
 7. Blood limits for each blood type
 8. Current Blood Bank Stock for each blood type
- *Accurate data need to be inserted, so that the account can be functional.
+
+*Accurate data need to be inserted, so that the account can be functional.
 
 ### HOSPITAL LOG IN
         To log into your hospital account, you are asked to enter account’s username and password. The app connects the credentials with the database and checks if they are valid. The log-in process is repeated until the matching credentials are inserted.
@@ -72,6 +73,7 @@
 6. SSN
 7. Region
 8. Password
+
 *Accurate details need to be insert, so that the account can be functional.
 
 ### LOG IN

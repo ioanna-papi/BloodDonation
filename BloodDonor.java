@@ -54,11 +54,11 @@ public class BloodDonor {
 					JOptionPane.showMessageDialog(null, "The username is already used.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
 				} else {
 					flag = false;
+					break;
 				}
 				if (username.equals("null")) {
         				throw new NullPointerException();
-        		}
-				flag = false;
+       				}
 			} catch (NullPointerException | SQLException e) {
 				JOptionPane.showMessageDialog(null, "Please enter a username.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
                 		flag = true;
@@ -69,17 +69,21 @@ public class BloodDonor {
  	    	flag = true;
  	    	do {
  	    		try {
- 	    			String email = JOptionPane.showInputDialog(null,"Enter your email: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
- 	    			if (flag == false) { //create connection to db and check if given email is being used
+ 	    			ResultSet rs = Messages.connect().executeQuery("SELECT B_email FROM BloodDonor");
+ 	    			email = JOptionPane.showInputDialog(null,"Enter your email: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
+ 	    			if (rs.getString("B_email").equals(email)) {
  	    				JOptionPane.showMessageDialog(null, "The email is already used.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
- 	    			}
+ 	    			} else {
+					flag = false;
+					break;
+				}
  	    			if (email.equals("null")) {
         				throw new NullPointerException();
         			}
-        			flag = false;
- 	    		} catch (NullPointerException e) {
+ 	    		} catch (NullPointerException | SQLException e) {
  	    			JOptionPane.showMessageDialog(null, "Please enter your email", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
- 	    		}	
+ 	    			flag = true;
+			}	
             	}while (flag);
 
 	    	//donor's gender

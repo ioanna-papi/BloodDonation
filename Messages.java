@@ -69,21 +69,25 @@ public class Messages{
 			ResultSet RS = Messages.connect().executeQuery("SELECT * FROM BloodDonor");
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 			Date date = new Date();
-			int d ,m;
+			int d ,m, don_m, don_d;
 			while ((rs.next())) {
 				Date d_date = rs.getDate("D_Date");
 				String strDate = formatter.format(d_date);
-				String strDateDay = strDate.substring(8);//from current date get day
-				String strDateMonth = strDate.substring(5,6);//from current date get month
-				String strDateYear = strDate.substring(0,3);//from current date get year
+				String strDateDay = strDate.substring(8);//from Donation date get day
+				String strDateMonth = strDate.substring(5,6);//from Donation date get month
+				String strDateYear = strDate.substring(0,3);//from Donation date get year
 				d = Integer.parseInt(strDateDay);
 				m = Integer.parseInt(strDateMonth);
-				if (d - 1 <= 0) {
+				if (d - 1 = 0) {
 					if(m == 2 || m == 4 || m == 6 || m == 9 || m == 11) {
+						don_d = d;
 						d = 30;
+						don_m = m;
 						m -= 1;
 					} else {
+						don_d = d;
 						d = 31;
+						don_m = m;
 						if(m == 1){
 							m = 12;
 						}else{
@@ -104,7 +108,7 @@ public class Messages{
 				//if tomorrow is a Blood Donation day
 				if (formatter.format(date).equals(messageDate)) {
 					String day = rs.getString("D_Day");
-					String message = "Tommorow is " + month[m-1] + " " + d + "th: " + day;
+					String message = "Tommorow is " + month[don_m-1] + " " + don_d + "th: " + day;
 					JFrame dialogExample = new DialogExample(message);
 					dialogExample.setVisible(true);
 				}

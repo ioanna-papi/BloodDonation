@@ -26,7 +26,7 @@ public class Messages{
 	 * This method informs volunteers about a specific donation day a hospital from their region has created
 	 * @param date the donation day date the hospital has created
 	 * @param username is the hospital's username*/
-	public static void donationDay(String date,String username){
+	public static void donationDay(String date, String username) {
 		String region = null;
 		try {
 			ResultSet rs = Messages.connect().executeQuery(
@@ -48,7 +48,8 @@ public class Messages{
                 }
                 return;
         }
-	public static void donationDayDisplay(){
+	//this method shows notification to Blood Donors the day before a Blood Donation created by a Hospital
+	public static void donationDayDisplay() {
 		try {
 			String region = null, name = null;
 			String[] month = new String[12];

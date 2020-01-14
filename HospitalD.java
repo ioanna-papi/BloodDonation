@@ -8,6 +8,7 @@ public class Hospital {
 
 	String[] bloodtype = {"A+","A-","AB+","AB-","B+","B-","0+","O-"};
 
+	/**This method lets hospitals update their blood bank stock*/
 	public void bloodBankStock() {
 
 		//Asking for BloodBank Update
@@ -37,15 +38,17 @@ public class Hospital {
 						JOptionPane.PLAIN_MESSAGE, null, kind, kind[0]);
 			} while ((option != 0) && (option != 1));
 
-			//Asking for the blood-amound
-			double amound = 0;
-			do {
-				try {
-					amound = Double.parseDouble(JOptionPane.showInputDialog("Insert the amound of blood in liters: "));
-				} catch (NullPointerException e1) {
-				} catch (NumberFormatException e2) {
-				}
-			} while (amound <= 0);
+			//Asking for the blood-amount
+			double amount = 0;
+         		do {
+                 		try {
+                         		amount = Double.parseDouble(JOptionPane.showInputDialog("Insert the amount of blood in liters: "));
+                 		} catch (NullPointerException e1) {
+                         		JOptionPane.showMessageDialog(null, "Please enter the amount of blood","ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+                 		} catch (NumberFormatException e2) {
+                	     		JOptionPane.showMessageDialog(null, "Please enter a positive number","ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);               
+                 		}
+         		} while (amount <= 0);
 
 			//Updating the bloodStock
 			for (int i=0; i<=7; i++) {
@@ -53,9 +56,9 @@ public class Hospital {
 				if (bloodtype[i]  == type_update) {
 
 					if (option == 0) {
-						bloodStock[i] += amound;
+						bloodStock[i] += amount;
 					} else {
-						bloodStock[i] -= amound;
+						bloodStock[i] -= amount;
 					}
 
 					//Checking if the bloodStock is under the allowed limit of its bloodType

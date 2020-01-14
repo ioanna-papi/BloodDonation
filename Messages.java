@@ -1,15 +1,100 @@
-import java.sql.*;
 import javax.swing.JOptionPane;
-
-public class Messages {
+import java.sql.*;
+import java.text.SimpleDateFormat;
+/**
+ * This class displays messages to blood donors and hospitals*/
+public class Messages{
 	
-	int choice;
-	
-	public Messages() {
-		super();
+	/**
+	 * This method creates a connection to the data base*/
+	public static Statement connect() {
+		String url = "jdbc:sqlserver://195.251.249.161:1433;databaseName = DB20;user = G520;password = 94we99494";
+		Connection dbcon;
+		Statement stmt = null;
+		try {
+			dbcon = DriverManager.getConnection(url);
+			stmt = dbcon.createStatement();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return stmt;
 	}
 	
 	/**
+	 * This method informs volunteers about a specific donation day a hospital from thier region has created
+	 * @param date the donation day date the hospital has created
+	 * @param username is the hospital's username*/
+	public void donationDay(String date, username){
+		String region = null;
+		try {
+			ResultSet rs = Messages.connect().executeQuery("SELECT Region, Username FROM Hospital WHERE Username = '" + username+ "'");
+			while (rs.next()) {
+				region = rs.getString("Region");
+				//dispaly message to volunteers
+			}
+			rs.close();
+			RS.close();
+			Messages.connect().close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	
+	}
+	
+	/**
+	 * This method informs all volunteers about the default donation days*/
+	public static void donationCalendar() {
+		try {
+			ResultSet rs = Messages.connect().executeQuery("SELECT * FROM DonationDays");
+			ResultSet RS = Messages.connect().executeQuery("SELECT * FROM BloodDonor");
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = new Date();
+			int d ,m;
+			while ((rs.next())) {
+				Date d_date = rs.getDate("D_Date");
+				String strDate = formatter.format(date);
+				String strDateDay = strDate.substring(8);
+				String strDateMonth = strDate.substring(5,6);
+				String strDateYear = strDate.substring(0,3);
+				d = Integer.parseInt(strDateDay);
+				m = Integer.parseInt(strDateMonth);
+				if (d-5 <= 0) {
+					if(m == 2 || m == 4 || m == 6 || m == 9 || m == 11) {
+						d = 30 + (d-5);
+						m -= 1;
+					} else {
+						d = 31 + (d-5);
+						if(m == 1){
+							m = 12;
+						}else{
+							m -= 1;
+						}
+					}
+				}
+				String strd = Integer.toString(d); 
+				String strm = Integer.toString(m);
+				if (d < 10) {
+					 strd = "0" + d;	 
+				}
+				if (m < 10) {
+					 strm = "0" + m;
+				}   
+				String messageDate = strDateYear + "-" + strm + "-" + strd;
+				if (formatter.format(date).equals(messageDate)) {
+					String day = rs.getString(i);
+					JOptionPane.showMessageDialog(null, day, strDate, JOptionPane.INFORMATION_MESSAGE);					
+				}
+				rs.close();
+				RS.close();
+				Messages.connect().close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+		/**
 	 * This method informs a hospital about it's shortage of blood in a specific blood type
 	 * @param bloodtype the specific blood type which is lacking in the specific hospital
 	 * @param username the hospital's username*/
@@ -39,7 +124,7 @@ public class Messages {
 			if (choice == 0) {
 				flag = false;
 				Messages mes = new Messages();
-	 		       	mes.bloodBorrow(region,bloodtype, username); 
+	 		       	mes.bloodBorrow(region,bloodtype, username);
 			} else if (choice == 1) {
 				flag = false;
 				Hospital h = new Hospital();
@@ -50,13 +135,13 @@ public class Messages {
 		}
 
 	}
-	
+
 	/**sends message to hospitals in order to borrow blood to a hospital in the same region
 	 * @param region is the region the hospital belongs to
 	 * @param bloodtype the type of blood the hospital is lacking
 	 * @param username the hospital's username*/
 	public void bloodBorrow(String region, String bloodtype, String username) {
-		String r = null; 
+		String r = null;
 		try {
                         Messages.connect();
                         Connection dcon = null;
@@ -74,7 +159,8 @@ public class Messages {
                         Messages.connect().close();
                 } catch (Exception e) {
                         e.printStackTrace();
-                }	
+                }
 	}
+
 }
 

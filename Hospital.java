@@ -1,5 +1,4 @@
 import java.util.InputMismatchException;
-import java.util.Scanner;
 import javax.swing.JOptionPane;
 
 public class Hospital {
@@ -11,14 +10,11 @@ public class Hospital {
 	static double LimitInLiters;
 	static String password;
 	static String Address;
-	public static ArrayList<Object> Hospitals = new ArrayList<Object>();
-	static Double[] bloodtypeLimit = new Double[8]; //a list with the minimum blood amount the current hospital needs
-	static String[]  bloodtype = {"O+", "O-", "A+", "A-" ,"B+" ,"B-" ,"AB+" ,"AB-"}; 
-	static Scanner input = new Scanner(System.in);
-	public static Object getList;
 	static String hospital_login;
 	static String password_login; 
-
+	
+	/**
+	 * This method asks for confirmation about the given blood limit*/
 	public static boolean Answer() {
 		int answer = JOptionPane.showConfirmDialog(null, "Are you sure this is the correct amount?" , "Blood Bank Update", JOptionPane.PLAIN_MESSAGE);
 		 if (answer == JOptionPane.YES_OPTION) {
@@ -29,48 +25,78 @@ public class Hospital {
 		}
 	}
 	
-	 public static double limitLiters(String b) {
-                double temp;
-                do{
-                        String t = JOptionPane.showInputDialog(null, "Please enter the limit amount of blood for blood type " + b + " :");
-                        //doesn't perform a test if temp is not a number
-                        temp = Double.valueOf(t);
-                        if (temp < 0)
-                                JOptionPane.showMessageDialog(null, "Please enter a positive number", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
-                }while (temp<0);
-                return temp;
+	/**
+	 * This method checks if the given blood limit is valid, meaning blood limit is a positive number
+	 * @param b is the given bloodtype*/
+	public static double limitLiters(String b) {
+         double temp = 0;
+         boolean flag = true;
+         do{
+        	 do {
+        		 try {
+        			String t = JOptionPane.showInputDialog(null, "Please enter the limit amount of blood for blood type " + b + " :");
+                     		temp = Double.valueOf(t);
+                     		if (temp < 0) {
+                    			flag = false;
+                         		JOptionPane.showMessageDialog(null, "Please enter a positive number", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+                         		break;
+                     		}
+        		 } catch (InputMismatchException e) {
+        			 JOptionPane.showMessageDialog(null,"Please enter a number","ALERT MESSAGE",JOptionPane.WARNING_MESSAGE);
+        		 }
+        		 
+        	 } while (flag);
+         }while (temp<0);
+         return temp;
+	 }
 
-        }
-        public static double bloodLimit(int i) throws InputMismatchException{
-                        String b = bloodtype[i];
-                        boolean flag = true;
-                        do {
-                                try {
-                                        double temp = limitLiters(b);
-                                        if (Answer() == true) {
-                                                LimitInLiters = temp;
-                                                flag = false;
-                                        } else {
-                                                LimitInLiters = limitLiters(b);
-                                                break;
-                                        }
-                                }
-                                catch(final InputMismatchException e2) {
-                                        JOptionPane.showMessageDialog(null, "The input has to be a number!", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
-                                        double temp = limitLiters(b);
-                                        if (Answer() == true) {
-                                                LimitInLiters =temp;
-                                                flag = false;
-                                                continue;
-                                        } else {
-                                                break;
-                                        }
-                                }
-                        }while (flag);
-                        return LimitInLiters;
+	/**
+	 * This method checks if the given blood limit is a number
+	 * @param b is the given blood type
+	 * @param username is the hospital's username*/
+        public static void bloodLimit(String b, String username) {
+         	boolean flag = true;
+		double temp = 0;
+         	do {
+        		try {
+        			temp = limitLiters(b);
+                 		if (Answer() == true) {
+                			LimitInLiters = temp;
+                     			flag = false;
+                 		} else {
+                			LimitInLiters = limitLiters(b);
+                			break;
+                		}
+             		} catch(InputMismatchException e2) {
+                		JOptionPane.showMessageDialog(null, "The input has to be a number!", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+                		flag = true;
+             		} catch (NumberFormatException e) {
+                		JOptionPane.showMessageDialog(null, "The input has to be a number!", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+                		flag = true;
+             		} catch (NullPointerException e) {
+                		flag = true;
+             		}
+         	}while (flag);
+         	 //Add hospital's blood type limit to the database
+                try {
+                        Messages.connect();
+                        Connection dbcon = null;
+                        Statement stmt = dbcon.createStatement();
+                        int rs = stmt.executeUpdate("INSERT INTO BloodLimits (H_Username, BloodType, BloodLimit)" +
+                                        "VALUES ('" + username + "', '" + b + "', '" + limitInLiters +  "')");
+
+                        stmt.close();
+                        Messages.connect().close();
+                } catch (Exception e) {
+                        e.printStackTrace();
+                }
+                return;
         }
 
-	 public static boolean correctPhonenumber(String phonenumber) throws HospitalPhoneNumberException{
+	/**
+	 * This method checks if the given phone number is type int and up to 10 digits
+	 * @param phonenumber  the given phone number that the method checks*/
+	 public static boolean correctPhonenumber(String phonenumber) {
                 boolean flag = false;
                 while (flag == false) {
 
@@ -85,7 +111,8 @@ public class Hospital {
                 return flag;
         }
 
-        //sign up method
+        /**
+	 * This method allows users to sign up to the application*/
         public static void signUp(){
 
                 // Hospital's Name
@@ -104,7 +131,7 @@ public class Hospital {
                 boolean f = true;
                 do {
                         try {
-                                String username = JOptionPane.showInputDialog(null,"Enter your hospital's username: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
+                        	username = JOptionPane.showInputDialog(null,"Enter your hospital's username: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
                         }
                         catch (InputMismatchException e) {
                                 JOptionPane.showMessageDialog(null, "Please enter a valid hospital username.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
@@ -141,7 +168,6 @@ public class Hospital {
                         }
                 }while(flag);
 
-
 		 //Hospital's region
                 flag = true;
                 Object[] possibilities = {"Attica","South Aegean Sea","North Aegean Sea","Central Greece","West Greece",
@@ -160,16 +186,10 @@ public class Hospital {
                         }
                 }
 
-
-                // Hospital's blood limit
-                for (int i = 0;i<=7; i++) {
-                        bloodtypeLimit[i] = bloodLimit(i);
-                }
-
                 //password
                 flag = true;
                 do {
-                        String password = JOptionPane.showInputDialog(null,"Enter your password: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
+                        password = JOptionPane.showInputDialog(null,"Enter your password: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
                         if (password.matches("^.*(?=.{4,10})(?=.*\\d)(?=.*[a-zA-Z]).*$")) {
                                 flag = false;
                                 break;
@@ -182,36 +202,72 @@ public class Hospital {
 
 
                 //Add hospital's credentials to the database
-                try{} catch (){}
-                logIn();
-        }
+                try {
+			Messages.connect();
+			Connection dbcon = null;
+			Statement stmt = dbcon.createStatement();
+			int rs = stmt.executeUpdate("INSERT INTO Hospital (Username, H_name, H_pass, Telephone, Address, Region)" + 
+					"VALUES ('" + username + "', '" + fullname + "', '" + password + "', '" + phonenumber + "', '" + Address + "', '" + region +  "')");
+			
+			stmt.close();
+			Messages.connect().close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-	public static void logIn() {
-		
-			boolean flag = true;
-			do {
-				System.out.println("Welcome!Please type your hospital's name. ");
-				hospital_login = input.nextLine();
-				flag = ((String) Hospitals).contains(hospital_login);
-				if (flag) {
-					boolean flag1 = true;
-					do {
-						System.out.println("Enter your password.");
-						password_login = input.nextLine();
-						flag1 = ((String) Hospitals).contains(password_login);
-						if (flag1 == false)
-							System.err.println("Wrong password!");
-					}while (flag1 == false);
-				}
-					
-				else {
-					System.err.println("This username is not registered!");
-				}
-			}while (flag == false);
+		 // Hospital's blood limit
+                flag = true;
+                String a = null;
+                        try {
+                                Messages.connect();
+                                Connection dbcon = null;
+                                Statement stmt = dbcon.createStatement();
+                                ResultSet rs = stmt.executeQuery("SELECT * FROM Bloodtypes, BloodLimits WHERE" +
+                                                "Bloodlimits.BloodType = Bloodtypes.bloodtype AND BloodLimits.H_Username = '" + username +"'");
+                                while (rs.next()) {
+                                        String b = rs.getString("bloodtype");
+                                        bloodLimit(b, username);
+                                }
+                                rs.close();
+                                stmt.close();
+                        } catch (Exception e) {
+                                e.printStackTrace();
+                        }
+
+		return;
+        }
+	
+	/**
+	 * This method lets hospitals log in to their account*/
+	public static String logIn() {
+		boolean flag;
+                do {
+                        flag = false;
+                        try {
+                                ResultSet rs = Messages.connect().executeQuery("SELECT Username, H_Pass FROM Hospital");
+                                hospital_login = JOptionPane.showInputDialog(null,"Welcome! Please type your username", "LOG IN", JOptionPane.INFORMATION_MESSAGE);
+                                password_login = JOptionPane.showInputDialog(null,"Enter your password", "LOG IN", JOptionPane.INFORMATION_MESSAGE);
+                                while (rs.next()){
+                                        if (rs.getString("Username").equals(hospital_login) && rs.getString("H_pass").equals(password_login)){
+                                                flag = true;
+                                                break;
+                                        }
+                                }
+                                if (flag == false){
+                                        JOptionPane.showMessageDialog(null, "Invalid username or password. Please try again.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+                                }
+                         } catch (InputMismatchException | SQLException e) {
+                                JOptionPane.showMessageDialog(null, "Please enter a valid username or password.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+                                flag = false;
+                         }
+
+                }while (flag == false);
+                return hospital_login;
+
 	}
 	
 	/**This method lets hospitals create their own donation day*/
-	public String makeDonationDay() {
+	public String makeDonationDay(String username) {
 		boolean flag = true;
 		String d = null;
 		String m = null;
@@ -269,7 +325,7 @@ public class Hospital {
            		}
 		} while(flag);
                 String date = String.join("-",y, m , d);
-                return date;
+                return date, username;
 	}
 	
 }	

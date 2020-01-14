@@ -1,13 +1,14 @@
-import ava.sql.*;
-
+import javax.swing.JOptionPane;
+import java.sql.*;
+import java.text.SimpleDateFormat;
+/**
+ * This class displays messages to blood donors and hospitals*/
 public class Messages{
 	
-	public Messages(){
-		super();
-	}
-
+	/**
+	 * This method creates a connection to the data base*/
 	public static Statement connect() {
-		String url = "jdbc:sqlserver://195.251.249.161:1433;databaseName = DB56;user = G520;password = 94we99494;
+		String url = "jdbc:sqlserver://195.251.249.161:1433;databaseName = DB20;user = G520;password = 94we99494";
 		Connection dbcon;
 		Statement stmt = null;
 		try {
@@ -19,23 +20,17 @@ public class Messages{
 		return stmt;
 	}
 	
-	public void donationDay(String date){
+	/**
+	 * This method informs volunteers about a specific donation day a hospital from thier region has created
+	 * @param date the donation day date the hospital has created
+	 * @param username is the hospital's username*/
+	public void donationDay(String date, username){
+		String region = null;
 		try {
-			ResultSet rs = Messages.connect().executeQuery("SELECT * FROM BloodDonor");
-			ResultSet RS = Messages.connect().executeQuery("SELECT * FROM DonationDays");
-			String day_name = JOptionPane.showInputDialog(null, "Enter the Donation Day Name",
-			                "MAKE NEW DONATION DAY", JOptionPane.PLAIN_MESSAGE);
-			for (;;) {
-				try {
-					String don_date = JOptionPane.showInputDialog(null, "Enter the Donation Date",
-					                "MAKE NEW DONATION DAY", JOptionPane.PLAIN_MESSAGE);
-					SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-					Date newdate = formatter.parse(don_date);
-					break;
-				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "Please enter a date yyyy-MM-dd.",
-					                "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
-				}
+			ResultSet rs = Messages.connect().executeQuery("SELECT Region, Username FROM Hospital WHERE Username = '" + username+ "'");
+			while (rs.next()) {
+				region = rs.getString("Region");
+				//dispaly message to volunteers
 			}
 			rs.close();
 			RS.close();
@@ -46,6 +41,8 @@ public class Messages{
 	
 	}
 	
+	/**
+	 * This method informs all volunteers about the default donation days*/
 	public void donationCalendar() {
 		try {
 			ResultSet rs = Messages.connect().executeQuery("SELECT * FROM DonationDays");

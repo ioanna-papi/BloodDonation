@@ -98,9 +98,8 @@ public class HomeMenu {
 	 * meaning after they succesfully log in
 	 * @param username is the hospital's username*/
 	public static void hospitalSecondMenu(String username) {
-		Object[] opt = {"Update blood bank stock","Skip this step"};
-                int g = JOptionPane.showOptionDialog(null,"Now we would like you to inform us about your blood bank stock", "HOSPITAL MENU", JOptionPane.YES_NO_OPTION,
-                                          JOptionPane.PLAIN_MESSAGE, null, opt, null);
+		Object[] opt = {"Update blood bank stock","Borrow Blood Units from other hospitals", "Create new donation day", "Log out"};
+                int g = (int) JOptionPane.showInputDialog(null,"Please choose one of the following", "HOSPITAL MENU", JOptionPane.PLAIN_MESSAGE, null, opt, "Update blood bank stock");
                 if (g == 0) {
                 	Hospital.bloodBankStock(username);
                 }
@@ -128,7 +127,7 @@ public class HomeMenu {
                         }
                         Messages.bloodBorrow(Messages.getRegion(username),bloodtype,username);
                  } else if (a2 == 1) {
-                 	Messages.donationDay(Hospital.makeDonationDay(),username);
+                 	BloodDonor.displayDonationDay(username);
                         JOptionPane.showMessageDialog(null, "Thank you! You help us strengthen our action");
                  }
         }

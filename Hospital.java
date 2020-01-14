@@ -300,7 +300,7 @@ public class Hospital {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	return;
+		return;
 	}
 	
 	/**
@@ -416,8 +416,8 @@ public class Hospital {
          		 }				
 		} else {
 			JOptionPane.showMessageDialog(null, "You are going to continue without any changes made", "CANCELED UPDATE", JOptionPane.INFORMATION_MESSAGE);
-			//Return back to Hospital Log-in-Menu
-			HomeMenu.hospitalSecondMenu(username);
+			//Return back to printHospitalMenu or hospitalSecondMenu
+			return;
 		}
 	}	
 	

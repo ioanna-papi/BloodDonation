@@ -1,5 +1,5 @@
 import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import java.io.*;
 import java.sql.Connection;
@@ -7,6 +7,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
+import java.util.Date;
+import java.text.ParseException;
+import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
 
 /**
  *This class implements the volunteers of the application*/
@@ -14,6 +18,7 @@ public class BloodDonor {
 	static String fullname;
 	private static String username;
 	static String gender;
+	static String email;
 	static String bloodtype;
 	static String SSN;
 	private static String region;
@@ -21,8 +26,7 @@ public class BloodDonor {
 	private static String password;
 	static String username_login;
 	static String password_login;
-	final static Scanner input = new Scanner(System.in);
-	private static String[] answers = new String[51];
+	static ArrayList<String> answers = new ArrayList<String>();
 
 	/** This method lets users sign up to the application*/
 	public static void signUp()  {
@@ -54,11 +58,11 @@ public class BloodDonor {
 					JOptionPane.showMessageDialog(null, "The username is already used.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
 				} else {
 					flag = false;
-					break;
 				}
 				if (username.equals("null")) {
         				throw new NullPointerException();
-       				}
+        		}
+				flag = false;
 			} catch (NullPointerException | SQLException e) {
 				JOptionPane.showMessageDialog(null, "Please enter a username.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
                 		flag = true;
@@ -73,17 +77,14 @@ public class BloodDonor {
  	    			email = JOptionPane.showInputDialog(null,"Enter your email: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
  	    			if (rs.getString("B_email").equals(email)) {
  	    				JOptionPane.showMessageDialog(null, "The email is already used.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
- 	    			} else {
-					flag = false;
-					break;
-				}
+ 	    			}
  	    			if (email.equals("null")) {
         				throw new NullPointerException();
         			}
+        			flag = false;
  	    		} catch (NullPointerException | SQLException e) {
  	    			JOptionPane.showMessageDialog(null, "Please enter your email", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
- 	    			flag = true;
-			}	
+ 	    		}	
             	}while (flag);
 
 	    	//donor's gender
@@ -181,78 +182,134 @@ public class BloodDonor {
 			
 		}while(flag);
 
-		Messages.connect().executeUpdate("INSERT INTO BloodDonor (B_Name, B_Username, B_email, B_password, Gender, BloodType, SSN, Region)" +
-				"VALUES (fullname, username, email, gender, bloodtype, AMKA, region)");
-		Messages.connect().close();
+		//insert user's data into data base
+		try {
+			Messages.connect();
+			Connection dbcon = null;
+			Statement stmt = dbcon.createStatement();
+			int rs = stmt.executeUpdate("INSERT INTO BloodDonor (B_Name, B_Username, B_email, B_password, Gender, BloodType, SSN, Region)" + 
+				"VALUES ('" + fullname + "', '" + username + "', '" + email + "', '" + gender + "', '" + bloodtype + "', '" + SSN + "', '" + region + "')");
+			stmt.close();
+			Messages.connect().close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}	
+		insertAnswers(username);
+	}
+
+	/**
+	 * This method inserts donor's answers to the questionnaire into data base
+	 * @param username is the donor's username*/
+	public static void insertAnswers(String username) {
+		String user = username;
+		String answer = null;
+		String id = null;
+        	try {
+        		Messages.connect();
+            		Connection dbcon = null;
+          		Statement stmt = dbcon.createStatement();
+          		for (int i = 0; i< 51; i++) {
+            			answer = answers.get(i);
+            			id = String.valueOf(answers.indexOf(answer)) + 1;
+            			int rs = stmt.executeUpdate("INSERT INTO Answers (Q_id, B_Username, Answer)" +
+                      	        	"VALUES ('" + id + "', '" + user +"', '" + answer +"')");
+           		}
+            		stmt.close();
+            		Messages.connect().close();
+         	} catch (Exception e) {
+        		e.printStackTrace();
+         	}
 	}
 	
-	
-	public static void logIn(Object BloodDonors) {
+	/**This method allows users to log in to the appication*/
+	public static String logIn() {
 		boolean flag;
 		do {
 			flag = false;
 			try {
 				ResultSet rs = Messages.connect().executeQuery("SELECT B_Username, B_Password FROM BloodDonor");
-				String username_login = JOptionPane.showInputDialog(null,"Welcome! Please type your username", "LOG IN", JOptionPane.INFORMATION_MESSAGE);
-				String password_login = JOptionPane.showInputDialog(null,"Enter your password", "LOG IN", JOptionPane.INFORMATION_MESSAGE);
-				while(rs.next()){
-					if(rs.getString("B_Username").equals(username_login) && rs.getString("B_password").equals(password_login)){
+				username_login = JOptionPane.showInputDialog(null,"Welcome! Please type your username", "LOG IN", JOptionPane.INFORMATION_MESSAGE);
+				password_login = JOptionPane.showInputDialog(null,"Enter your password", "LOG IN", JOptionPane.INFORMATION_MESSAGE);
+				while (rs.next()){
+					if (rs.getString("B_Username").equals(username_login) && rs.getString("B_password").equals(password_login)){
 						flag = true;
 						break;
 					}
 				}	
-				if(flag == false){
+				if (flag == false){
 					JOptionPane.showMessageDialog(null, "Invalid username or password. Please try again.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
 				}
-			 } catch (InputMismatchException e) {
+			 } catch (InputMismatchException | SQLException e) {
                                 JOptionPane.showMessageDialog(null, "Please enter a valid username or password.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
                                 flag = false;
                          }
 	
 		}while (flag == false);
+		return username_login;
 	}
 	
 	/**
-	 * This method shows all the questions of the questionnaire*/
+	 * This method lets users answer to the questions of the questionnaire*/
 	public static void questionnaire() {
-		boolean flag;
-		String a;
+		boolean flag = true;
+		String a = null;
 			try {   
 				Messages.connect();
+				Connection dbcon = null;
 				Statement stmt = dbcon.createStatement();
 				int i = 0;
 				ResultSet rs = stmt.executeQuery("SELECT * FROM Questionnaire ");
 				while (rs.next()) {
-					String qid = rs.getString("Q_id");
+					int qid = rs.getInt("Q_id");
 					String r = rs.getString("Question");
-					if (qid.equals("1")) {
-						flag = false;
- 	    					Object[] opt = {"Male", "Female"};
-						do {
-							try {
-								int g = JOptionPane.showOptionDialog(null,"Choose your gender: ", "SIGN UP", JOptionPane.YES_NO_OPTION,
-										JOptionPane.PLAIN_MESSAGE, null, opt, null);
-								if (g == 0) {
-									gender = "male";
-								} else if (g == 1){
-									gender = "female";
-								} else {
+					do {
+						try {
+							if (qid == 1) {
+								flag = false;
+ 	    							Object[] opt = {"Male", "Female"};
+								do {
+									try {
+										int g = JOptionPane.showOptionDialog(null,"Choose your gender: ", "SIGN UP", JOptionPane.YES_NO_OPTION,
+												JOptionPane.PLAIN_MESSAGE, null, opt, null);
+										if (g == 0) {
+											gender = "male";
+										} else if (g == 1){
+											gender = "female";
+										} else {
+											throw new NullPointerException();
+										}
+										flag = false;
+									} catch (NullPointerException e1) {
+										JOptionPane.showMessageDialog(null, "Please choose your gender", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+									}
+								}while (flag == false);
+							} else if (((qid >= 2) && (qid<=12)) || (qid == 14)) {
+								a = JOptionPane.showInputDialog(null, qid + ". " + r, "QUESTIONNAIRE", JOptionPane.PLAIN_MESSAGE);
+								if (a.equals(null)) {
 									throw new NullPointerException();
+								} else {
+									flag = false;
 								}
-								flag = true;
-							} catch (NullPointerException e1) {
-								JOptionPane.showMessageDialog(null, "Please choose your gender", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+							} else {
+								int p = JOptionPane.showConfirmDialog(null, qid + ". " + r, "QUESTIONNAIRE", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
+						 		a = String.valueOf(p);
+						 		if (p == -1) {
+						 			throw new NullPointerException();
+						 		} else {
+						 		flag = false;
+						 		}
 							}
-						}while (flag == false);
-					} else if ((qid.equals("2")) || (qid.equals("3")) || (qid.equals("4")) || 
-						(qid.equals("5")) || (qid.equals("6")) || (qid.equals("7")) || (qid.equals("8")) 
-						|| (qid.equals("9")) || (qid.equals("10")) || (qid.equals("11")) || 
-						(qid.equals("12")) || (qid.equals("14"))) {
-						a = JOptionPane.showInputDialog(null, qid + ". " + r, "QUESTIONNAIRE", JOptionPane.PLAIN_MESSAGE);
+						} catch (NullPointerException e) {
+							JOptionPane.showMessageDialog(null, "Please insert your answer", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+							flag = true;
+						}
+					} while (flag);
+					if (checkQuestion(qid, a) == false) {
+						JOptionPane.showMessageDialog(null, "We regret to inform you that you are not compatible as a blood donor.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+						System.exit(0);
 					} else {
-						 a = JOptionPane.showConfirmDialog(null, qid + ". " + r, "QUESTIONNAIRE", JOptionPane.PLAIN_MESSAGE);
+						answers.add(a);
 					}
-					answers[i++] = a;
 				}
 				rs.close();
 				stmt.close();
@@ -262,6 +319,24 @@ public class BloodDonor {
 		
 		}
 	
+		/**
+		 * This method updates data base with the donor's answer
+		 * to the given question of the questionnaire
+		 * @param qid is the id of the question
+		 * @param username is the donor's username
+		 * @param a is the answer to the question*/
+		public static void updateTableAnswers(int qid, String username, String a) {
+                	try {
+                        	Messages.connect();
+                        	Connection dbcon = null;
+                        	Statement stmt = dbcon.createStatement();
+             			int rs = stmt.executeUpdate("UPDATE Answers SET Q_id = '" + qid + "', B_Username = '" + username + "', Answer = '" + a +"' WHERE B_Username = '" + username + "'");
+                        	stmt.close();
+                        	Messages.connect().close();
+                	} catch (Exception e) {
+                        	e.printStackTrace();
+                	}
+		}
 
 		/**
 		 * This method takes the question that the user wants to change the answer to*/
@@ -285,7 +360,7 @@ public class BloodDonor {
 					a = Integer.parseInt(JOptionPane.showInputDialog("If you want to change a question press the number of the question or else press 0"));
 	            	 		if (a >= 1 && a <= 51) {
 	            		 		g = false;
-	            		 		changeQuestion (a);
+	            		 		changeQuestion(a, username);
 						updateQuestionnaire();
 	            	 		} else if (a == 0) {
 	            		 		g = true;
@@ -301,17 +376,16 @@ public class BloodDonor {
 		}
 		
 		/**
-		 * This method changes the answer of the given question*/
-		public static void changeQuestion(int qid) {
+		 * This method changes the answer of the given question
+		 * @param qid is the id of the question
+		 * @param username is the donor's username*/
+		public static void changeQuestion(int qid, String username) {
 			boolean flag = false;
-			String a2;
+			String a2 = null;
           		int d = 0;
 			do {
 				try {
-					if ((qid == 1) || (qid == 2) || (qid == 3) || (qid == 4) ||
-                              		(qid == 5) || (qid == 6) || (qid == 7) || (qid == 8)
-                                     	|| (qid == 9) || (qid == 10) || (qid == 11) ||
-                                     	(qid == 12) || (qid == 14)) {
+					if ((qid <= 12) || (qid == 14)) {
 						a2 = JOptionPane.showInputDialog(null,  qid + " Update your answer", "QUESTIONNAIRE", JOptionPane.PLAIN_MESSAGE);
                 				flag = true;
 					} else {
@@ -327,9 +401,61 @@ public class BloodDonor {
                     			flag = false;
                 		}
             		}while (flag == false);
-			 //create coonection to db and update table questionnaire
-			//answers[a-1] = a2;
+			updateTableAnswers(qid, username, a2);
 			return;	
 		}
-}
 
+		/**This method checks if the users is compatible as a blood donor by his answers
+		 * @param qid is the id of the question
+		 * @param an is the answer to the question*/
+		public static boolean checkQuestion (int qid, String an) {
+			boolean flag = false;
+			Date date1 = new Date();
+			if (qid == 14) {
+				try {
+					date1=new SimpleDateFormat("yyyy/MM/dd").parse(an);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd");
+				Date date = new Date(System.currentTimeMillis());
+				long diff = getDateDiff(date1,date,TimeUnit.DAYS);
+				if (diff >= 90){
+					flag = true;
+				}
+			} else if (qid > 14) {
+				if (an.equals("1")) {
+					flag = true; //if the users answers no, he is compatible
+				}
+			} else {
+				flag = true; //the rest of the answers don't need checking
+			}
+			return flag;
+		}
+
+
+		/**This method returns the difference between current date and given date
+		 * @param date1 is the given date
+		 * @param date2 is the current date
+		 * @param timeUnit is the selected timeUnit*/
+		public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
+		    long diffInMillies = date2.getTime() - date1.getTime();
+		    return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
+		}
+		
+		/**
+		 * This method displays messages to donors about the default donation days
+		 * */
+		public static void printDonationCalendar() {
+			String [] args = null;
+			Scheduler.main(args);
+		}
+		
+		/**This method calls method donationDay which displays 
+		 * messages to blood donors informing them about
+		 * a donation day a hospital in their region has created
+		 * @param username is the hospital's username*/
+		public static void displayDonationDay (String username) {
+			Messages.donationDay(Hospital.makeDonationDay(),username);
+		}
+}

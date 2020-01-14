@@ -26,91 +26,20 @@ public class Messages{
 	 * This method informs volunteers about a specific donation day a hospital from their region has created
 	 * @param date the donation day date the hospital has created
 	 * @param username is the hospital's username*/
-	public static void donationDay(String date,String username) {
-		String region = null,name = null;
+	public static void donationDay(String date, String username){
+		String region = null;
 		try {
-			ResultSet rs = Messages.connect().executeQuery(
-			                "SELECT Region, Username FROM Hospital WHERE Username = '" + username + "'");
+			ResultSet rs = Messages.connect().executeQuery("SELECT Region, Username FROM Hospital WHERE Username = '" + username+ "'");
 			while (rs.next()) {
-				if (rs.getString("Username").equals(username)) {
-					region = rs.getString("Region");
-					break;
-				}
+				region = rs.getString("Region");
+				//dispaly message to volunteers
 			}
-			Date dateToDate = new SimpleDateFormat("yyyy/MM/dd").parse(date);
-			Messages.connect().executeUpdate("INSERT INTO HospitalDonation" + "VALUES(" + username + ", "
-			                + region + ", " + dateToDate + ")");
-			String[] month = new String[12];
-			month[0] = "January";
-			month[1] = "February";
-			month[2] = "March";
-			month[3] = "April";
-			month[4] = "May";
-			month[5] = "June";
-			month[6] = "July";
-			month[7] = "August";
-			month[8] = "September";
-			month[9] = "October";
-			month[10] = "November";
-			month[11] = "December";
-			ResultSet RS = Messages.connect().executeQuery("SELECT * HospitalDonation");
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-			Date today = new Date();
-			int d,m,don_m = 0,don_d = 0;
-			while (RS.next()) {
-				Date d_date = rs.getDate("Don_Date");
-				String strDate = formatter.format(d_date);
-				String strDateDay = strDate.substring(8);// from Donation date get day
-				String strDateMonth = strDate.substring(5, 6);// from Donation date get month
-				String strDateYear = strDate.substring(0, 3);// from Donation date get year
-				d = Integer.parseInt(strDateDay);
-				m = Integer.parseInt(strDateMonth);
-				if (d - 1 == 0) {
-					if (m == 2 || m == 4 || m == 6 || m == 9 || m == 11) {
-						don_d = d;
-						d = 30;
-						don_m = m;
-						m -= 1;
-					} else {
-						don_d = d;
-						d = 31;
-						don_m = m;
-						if (m == 1) {
-							m = 12;
-						} else {
-							m -= 1;
-						}
-					}
-				}
-				String strd = Integer.toString(d);
-				String strm = Integer.toString(m);
-				if (d < 10) {
-					strd = "0" + d;
-				}
-				if (m < 10) {
-					strm = "0" + m;
-				}
-				String messageDate = strDateYear + "-" + strm + "-" + strd;
-				if (formatter.format(today).equals(messageDate)) {
-					while (rs.next()) {
-						name = rs.getString("H_name");
-						region = rs.getString("Region");
-						String day = rs.getString("D_Day");
-						String message = "Tommorow is " + month[don_m - 1] + " " + don_d
-						                + "th: " + name;
-						JFrame dialogExample = new DialogExample(message);
-						dialogExample.setVisible(true);
-						
-					}
-				}
-			}
-			RS.close();
-			rs.close();
+			rs.close();		
 			Messages.connect().close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return;
+		return;	
 	}
 	
 	/**

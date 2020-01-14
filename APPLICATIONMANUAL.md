@@ -5,8 +5,7 @@
 	To continue further with the application’s services, you have to create an account or log into your already existing one. For that reason, the corresponding options appear in order to choose between sing up or log in.
 
 ### SIGN UP
-	When you first sign up as a Hospital account, you have to fill out the following
-fields*:
+	When you first sign up as a Hospital account, you have to fill out the following fields*:
 1. Hospital’s name
 2. Preferred username 
 3. Phone number

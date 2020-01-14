@@ -1,8 +1,8 @@
 # QUICK VIEW:
-[Blood Donation: Application's manual](#blood-donation:-application's-manual)
-- [About Hospitals](#about-hospitals:) 
-  * [SIGN UP](#sign-up)
-  * [LOG IN](log-in)
+[Blood Donation: Application's manual](#blood-donation-application's-manual)
+- [About Hospitals](#about-hospitals) 
+  * [SIGN UP](#hospital-sign-up)
+  * [LOG IN](#hospital-log-in)
 	- [Blood Bank Update](#blood-bank-update)
 	- [Request blood units](#request-blood-units)
 	- [Create new donation Day](#create-new-donation-day)
@@ -17,13 +17,13 @@
 
 
 
-# Blood Donation: Application's Manual
+# Blood Donation Application's Manual
 
 	Once the application is launched, the main menu appears. You need to choose whether you wish to proceed as a Hospital or as a Blood Donor.  
-## About Hospitals: 
+## About Hospitals 
 	To continue further with the application’s services, you have to create an account or log into your already existing one. For that reason, the corresponding options appear in order to choose between sing up or log in.
 
-### SIGN UP
+### HOSPITAL SIGN UP
 	When you first sign up as a Hospital account, you have to fill out the following fields*:
 1. Hospital’s name
 2. Preferred username 
@@ -33,9 +33,10 @@
 6. Password
 7. Blood limits for each blood type
 8. Current Blood Bank Stock for each blood type
+
 *Accurate data need to be inserted, so that the account can be functional.
 
-### LOG IN
+### HOSPITAL LOG IN
         To log into your hospital account, you are asked to enter account’s username and password. The app connects the credentials with the database and checks if they are valid. The log-in process is repeated until the matching credentials are inserted.
 	When you successfully log in, you are asked to choose one of the following options:
 #### Blood Bank Update
@@ -56,7 +57,7 @@
 
 
 
-## About Blood Donors: 
+## About Blood Donors 
 	When you choose to proceed as a Blood Donor, you are asked if you want to fill out the questionnaire or log in to your already existing account.
 
 ### SUITABILITY QUESTIONNAIRE
@@ -72,6 +73,7 @@
 6. SSN
 7. Region
 8. Password
+
 *Accurate details need to be insert, so that the account can be functional.
 
 ### LOG IN

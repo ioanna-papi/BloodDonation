@@ -96,6 +96,7 @@ public class HomeMenu {
 						+ " hospital, or make a new doantion day","BLOOD BORROW",
 						JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, k, k[0]);
 				if (a2 == 0) {
+					String bloodtype = null;
 					Messages.bloodBorrow(username);
 				} else if (a2 == 1){
 					Hospital.makeDonationDay(username);

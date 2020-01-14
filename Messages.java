@@ -50,7 +50,6 @@ public class Messages{
 			System.out.print("ClassNotFoundException: ");
 			System.out.println(e.getMessage());
 		}
-		do(;;){
 		try {	
 			String[] month = new String[12];
                		month[0] = "January";
@@ -112,13 +111,11 @@ public class Messages{
 					JFrame dialogExample = new DialogExample(message);
 					dialogExample.setVisible(true);
 				}
-				rs.close();
-				Messages.connect().close();
-			}
-			break;
+		}
+		rs.close();
+		Messages.connect().close();
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
 		}
 		return;	
 	}

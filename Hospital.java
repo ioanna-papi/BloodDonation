@@ -300,7 +300,7 @@ public class Hospital {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	return;
+		return;
 	}
 	
 	/**

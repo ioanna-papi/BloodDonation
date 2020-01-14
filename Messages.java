@@ -16,7 +16,8 @@ public class Messages{
 			dbcon = DriverManager.getConnection(url);
 			stmt = dbcon.createStatement();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.print("SQLException: ");
+			System.out.println(e.getMessage());
 		}
 		return stmt;
 	}

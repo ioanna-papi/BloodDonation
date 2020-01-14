@@ -27,7 +27,7 @@ public class Messages{
 	 * @param date the donation day date the hospital has created
 	 * @param username is the hospital's username*/
 	public static void donationDay(String date,String username){
-		String region = null,name = null;
+		String region = null;
 		try {
 			ResultSet rs = Messages.connect().executeQuery(
 			                "SELECT Region, Username FROM Hospital WHERE Username = '" + username + "'");
@@ -37,9 +37,19 @@ public class Messages{
 					break;
 				}
 			}
-			Date dateToDate = new SimpleDateFormat("yyyy/MM/dd").parse(date);
-			Messages.connect().executeUpdate("INSERT INTO HospitalDonation" + "VALUES(" + username + ", "
-			                + region + ", " + dateToDate + ")");
+                        Date dateToDate = new SimpleDateFormat("yyyy/MM/dd").parse(date);
+                        Messages.connect().executeUpdate("INSERT INTO HospitalDonation" + "VALUES(" + username + ", "
+                                        + region + ", " + dateToDate + ")");
+
+                        rs.close();
+                        Messages.connect().close();
+                } catch (Exception e) {
+                        e.printStackTrace();
+                }
+                return;
+        }
+	public static void donationDayDisplay(){
+			String region = null, name = null;
 			String[] month = new String[12];
 			month[0] = "January";
 			month[1] = "February";
@@ -53,12 +63,13 @@ public class Messages{
 			month[9] = "October";
 			month[10] = "November";
 			month[11] = "December";
-			ResultSet RS = Messages.connect().executeQuery("SELECT * HospitalDonation");
+			ResultSet rs = Messages.connect().executeQuery("SELECT * FROM Region");
+			ResultSet RS = Messages.connect().executeQuery("SELECT * FROM HospitalDonation");
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 			Date today = new Date();
-			int d,m,don_m = 0,don_d = 0;
+			int d, m, don_m = 0, don_d = 0;
 			while (RS.next()) {
-				Date d_date = rs.getDate("Don_Date");
+				Date d_date = RS.getDate("Don_Date");
 				String strDate = formatter.format(d_date);
 				String strDateDay = strDate.substring(8);// from Donation date get day
 				String strDateMonth = strDate.substring(5, 6);// from Donation date get month

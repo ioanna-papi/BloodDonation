@@ -35,8 +35,9 @@ public class Messages{
 				name = rs.getString("H_name");
 				region = rs.getString("Region");
 				//dispaly message to volunteers
-				//should be an email, but we can't get it working
-				JOptionPane.showMessageDialog(null, name + "hospital has created a new donation day at " + date );
+				String message = name + "hospital has created a new donation day at " + date ;
+				JFrame dialogExample = new DialogExample(message);
+        			dialogExample.setVisible(true);
 			}
 			rs.close();		
 			Messages.connect().close();
@@ -96,7 +97,9 @@ public class Messages{
 					//if today is five days before the Blood Donation day display message to volunteers 
 					if (formatter.format(date).equals(messageDate)) {
 						String day = rs.getString("D_Day");
-						JOptionPane.showMessageDialog(null, day, strDate, JOptionPane.INFORMATION_MESSAGE);					
+						String message = day + ", " + strDate;
+						JFrame dialogExample = new DialogExample(message);
+        					dialogExample.setVisible(true);
 					}
 					rs.close();
 					Messages.connect().close();

@@ -273,8 +273,12 @@ public class BloodDonor {
 												JOptionPane.PLAIN_MESSAGE, null, opt, null);
 										if (g == 0) {
 											gender = "male";
+											flag = true;
+											break;
 										} else if (g == 1){
 											gender = "female";
+											flag = true;
+											break;
 										} else {
 											throw new NullPointerException();
 										}

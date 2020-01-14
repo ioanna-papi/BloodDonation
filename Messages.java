@@ -110,6 +110,7 @@ public class Messages{
 						         	       + "th. go to the donation section of "  + name + "Hospital and give blood!";
 							JFrame dialogExample = new DialogExample(message);
 							dialogExample.setVisible(true);
+							break;
 						}
 						
 					}

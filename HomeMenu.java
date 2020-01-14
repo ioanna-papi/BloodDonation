@@ -112,7 +112,7 @@ public class HomeMenu {
 										      "ALERT MESSAGE" , JOptionPane.WARNING_MESSAGE);
 						}
 					}
-					Messages.bloodBorrow(username);
+					Messages.bloodBorrow(Messages.getRegion(username),bloodtype,username);
 				} else if (a2 == 1){
 					Hospital.makeDonationDay(username);
 					Messages.donationDay(date, username);

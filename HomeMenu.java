@@ -127,7 +127,7 @@ public class HomeMenu {
                         }
                         Messages.bloodBorrow(Messages.getRegion(username),bloodtype,username);
                  } else if (a2 == 1) {
-                 	Messages.donationDay(Hospital.makeDonationDay(username),username);
+                 	Messages.donationDay(Hospital.makeDonationDay(),username);
                         JOptionPane.showMessageDialog(null, "Thank you! You help us strengthen our action");
                  }
         }

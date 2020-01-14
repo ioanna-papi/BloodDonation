@@ -266,7 +266,7 @@ public class BloodDonor {
 					do {
 						try {
 							if (qid == 1) {
-								flag = false;
+								flag = true;
  	    							Object[] opt = {"Male", "Female"};
 								do {
 									try {
@@ -274,11 +274,11 @@ public class BloodDonor {
 												JOptionPane.PLAIN_MESSAGE, null, opt, null);
 										if (g == 0) {
 											gender = "male";
-											flag = true;
+											flag = false;
 											break;
 										} else if (g == 1){
 											gender = "female";
-											flag = true;
+											flag = false;
 											break;
 										} else {
 											throw new NullPointerException();
@@ -287,7 +287,7 @@ public class BloodDonor {
 									} catch (NullPointerException e1) {
 										JOptionPane.showMessageDialog(null, "Please choose your gender", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
 									}
-								}while (flag == false);
+								}while (flag);
 							} else if (((qid >= 2) && (qid<=12)) || (qid == 14)) {
 								a = JOptionPane.showInputDialog(null, qid + ". " + r, "QUESTIONNAIRE", JOptionPane.PLAIN_MESSAGE);
 								if (a.equals(null)) {

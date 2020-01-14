@@ -537,8 +537,7 @@ public class Hospital {
            		}
 		} while(flag);
                 String date = String.join("-",y, m , d);
-                String name = username;
-		return date + name;
+		return date;
 	}
 	
 }	

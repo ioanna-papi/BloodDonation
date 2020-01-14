@@ -106,9 +106,8 @@ public class Messages{
 					while (rs.next()) {
 						name = rs.getString("H_name");
 						region = rs.getString("Region");
-						String day = rs.getString("D_Day");
-						String message = "Tommorow is " + month[don_m - 1] + " " + don_d
-						                + "th: " + name;
+						String message = "Tommorow " + month[don_m - 1] + " " + don_d
+						                + "th. go to the donation section of "  + name + "Hospital and give blood!";
 						JFrame dialogExample = new DialogExample(message);
 						dialogExample.setVisible(true);
 						

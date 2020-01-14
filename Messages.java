@@ -9,7 +9,7 @@ public class Messages{
 	/**
 	 * This method creates a connection to the data base*/
 	public static Statement connect() {
-		String url = "jdbc:sqlserver://195.251.249.161:1433;databaseName = DB20;user = G520;password = 94we99494";
+		String url = "jdbc:sqlserver://195.251.249.161:1433;" + "databaseName=DB20;user=G520;password=94we99494;"
 		Connection dbcon;
 		Statement stmt = null;
 		try {

@@ -103,13 +103,14 @@ public class Messages{
 				}
 				String messageDate = strDateYear + "-" + strm + "-" + strd;
 				if (formatter.format(today).equals(messageDate)) {
-					while (rs.next()) {
-						name = rs.getString("H_name");
-						region = rs.getString("Region");
-						String message = "Tommorow " + month[don_m - 1] + " " + don_d
-						                + "th. go to the donation section of "  + name + "Hospital and give blood!";
-						JFrame dialogExample = new DialogExample(message);
-						dialogExample.setVisible(true);
+					while(rs.next()){
+						if(rs.getString(H_Username).equals(RS.getString(H_Username))){
+							name = rs.getString("H_name");
+							String message = "Tommorow " + month[don_m - 1] + " " + don_d
+						         	       + "th. go to the donation section of "  + name + "Hospital and give blood!";
+							JFrame dialogExample = new DialogExample(message);
+							dialogExample.setVisible(true);
+						}
 						
 					}
 				}

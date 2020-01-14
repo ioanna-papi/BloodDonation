@@ -2,13 +2,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-class HomeMenuTest {
+class printHospitalTest {
 
 	@Test
 	void test() {
-		HomeMenu.printDonorMenu();
 		HomeMenu.printHospitalMenu();
 	}
 
 }
-

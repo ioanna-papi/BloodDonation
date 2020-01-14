@@ -1,5 +1,11 @@
 import java.util.InputMismatchException;
+import java.sql.Connection;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import java.lang.NullPointerException;
+import java.lang.NumberFormatException;
 
 public class Hospital {
 	
@@ -10,6 +16,7 @@ public class Hospital {
 	static double LimitInLiters;
 	static String password;
 	static String Address;
+	static String region;
 	static String hospital_login;
 	static String password_login; 
 	
@@ -77,13 +84,13 @@ public class Hospital {
                 		flag = true;
              		}
          	}while (flag);
-         	 //Add hospital's blood type limit to the database
+		//Add hospital's blood type limit to the database
                 try {
                         Messages.connect();
                         Connection dbcon = null;
                         Statement stmt = dbcon.createStatement();
                         int rs = stmt.executeUpdate("INSERT INTO BloodLimits (H_Username, BloodType, BloodLimit)" +
-                                        "VALUES ('" + username + "', '" + b + "', '" + limitInLiters +  "')");
+                                        "VALUES ('" + username + "', '" + b + "', '" + LimitInLiters +  "')");
 
                         stmt.close();
                         Messages.connect().close();
@@ -116,28 +123,34 @@ public class Hospital {
         public static void signUp(){
 
                 // Hospital's Name
-                boo lean flag = true;
+                boolean flag = false;
                 do {
                         try {
                                 String fullname = JOptionPane.showInputDialog(null,"Enter your hospital's name: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
-                        }
-                        catch (NumberFormatException e) {
+                        	flag = true;
+				if (fullname.equals(null)) {
+					throw new NullPointerException();
+				}
+			} catch (NullPointerException e) {
                                 JOptionPane.showMessageDialog(null, "Please enter a valid hospital name.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
                                 flag = false;
                         }
                 }while (flag == false);
 
                 //Hospital's username
-                boolean f = true;
+                flag = false;
                 do {
                         try {
                         	username = JOptionPane.showInputDialog(null,"Enter your hospital's username: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
-                        }
-                        catch (InputMismatchException e) {
+                        	flag = true;
+				if (username.equals(null)) {
+					throw new NullPointerException();
+				}
+			} catch (NullPointerException e) {
                                 JOptionPane.showMessageDialog(null, "Please enter a valid hospital username.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
-                                f = false;
+                                flag = false;
                 }
-                }while (f == false);
+                }while (flag == false);
 
 		 // Hospital's phone number
                         flag = true;
@@ -148,8 +161,7 @@ public class Hospital {
                                         p=Integer.parseInt(phonenumber);
                                         Hospital.correctPhonenumber(phonenumber);
                                         flag = false;
-                                }
-                                catch (NumberFormatException e1) {
+                                } catch (NumberFormatException e1) {
                                         JOptionPane.showMessageDialog(null, "Phone number must contain only numbers.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
                                         phonenumber = JOptionPane.showInputDialog(null,"Enter your hospital's phone number: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
                                 }
@@ -189,14 +201,21 @@ public class Hospital {
                 //password
                 flag = true;
                 do {
-                        password = JOptionPane.showInputDialog(null,"Enter your password: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
-                        if (password.matches("^.*(?=.{4,10})(?=.*\\d)(?=.*[a-zA-Z]).*$")) {
-                                flag = false;
-                                break;
-                        } else {
-                                JOptionPane.showMessageDialog(null, "Your password must contain both letters and numbers", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
-
-                        }
+                        try {
+				password = JOptionPane.showInputDialog(null,"Enter your password: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
+                        	if (password.matches("^.*(?=.{4,10})(?=.*\\d)(?=.*[a-zA-Z]).*$")) {
+                                	flag = false;
+                                	break;
+                        	} else {
+                                	JOptionPane.showMessageDialog(null, "Your password must contain both letters and numbers", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+                        	}
+				if (username.equals(null)) {
+                        		throw new NullPointerException();
+                        	}
+			} catch (NullPointerException e) {
+				flag = true;
+                		JOptionPane.showMessageDialog(null, "Please enter your password", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+			}	
 
                 }while(flag);
 
@@ -216,8 +235,6 @@ public class Hospital {
 		}
 
 		 // Hospital's blood limit
-                flag = true;
-                String a = null;
                         try {
                                 Messages.connect();
                                 Connection dbcon = null;
@@ -233,9 +250,58 @@ public class Hospital {
                         } catch (Exception e) {
                                 e.printStackTrace();
                         }
-
+		//Hospital's current blood bank stock
+		bloodType(username);
 		return;
         }
+
+	/**
+	 *This method asks hospital to insert their current blood bank stock
+	 *@param username is the hospital's username*/
+	public static void bloodType(String username) {
+		String bloodtype;
+		Double stock = 0.0;
+		try {
+     		Messages.connect();
+     		Connection dbcon = null;
+     		Statement stmt = dbcon.createStatement();
+     		ResultSet rs = stmt.executeQuery("SELECT * FROM Bloodtypes");
+     		while (rs.next()) {
+             		bloodtype = rs.getString("bloodtype");
+             		String b =JOptionPane.showInputDialog(null, "Please insert your current blood bank stock for blood type "
+             		+ bloodtype, "BLOOD BANK STOCK", JOptionPane.PLAIN_MESSAGE);
+             		boolean flag = true;
+            		double temp = 0;
+                     	do {
+                    		try {
+                    			temp = limitLiters(b);
+                             		if (Answer() == true) {
+                            			stock = temp;
+                                 			flag = false;
+                             		} else {
+                            			stock = limitLiters(b);
+                            			break;
+                            		}
+                         		} catch(InputMismatchException e2) {
+                            		JOptionPane.showMessageDialog(null, "The input has to be a number!", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+                            		flag = true;
+                         		} catch (NumberFormatException e) {
+                            		JOptionPane.showMessageDialog(null, "The input has to be a number!", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+                            		flag = true;
+                         		} catch (NullPointerException e) {
+                            		flag = true;
+                         		}
+                     	}while (flag);
+			//insert data to data base
+                     	insertBloodBankStock(username, b, stock);
+     		}
+     		rs.close();
+     		stmt.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	return;
+	}
 	
 	/**
 	 * This method lets hospitals log in to their account*/
@@ -265,9 +331,155 @@ public class Hospital {
                 return hospital_login;
 
 	}
+
+	/**
+	 * This method initializes table BloodBankStock in the data base with the given blood amount
+	 * for the specific hospital
+	 * @param username is the hospital's username*/
+	public static void insertBloodBankStock(String username, String bloodtype, Double blood) {
+		try {
+                                Messages.connect();
+                                Connection dbcon = null;
+                                Statement stmt = dbcon.createStatement();
+                                ResultSet r = stmt.executeQuery("INSERT INTO BloodBankStock (H_Username, BloodType, Blood)" +
+                                        "VALUES ('" + username + "', '" + bloodtype + "', '" + blood +  "')");
+
+                                stmt.close();
+                                Messages.connect().close();
+                        } catch (Exception e) {
+                                e.printStackTrace();
+                        }
+		return;
+	}
 	
+	/**This method lets hospitals update their blood bank stock
+	 *@param username is the hospital's username*/
+	public static void bloodBankStock(String username) {
+
+		//Asking for BloodBank Update
+		int update;
+		String b;
+		do {
+			update = JOptionPane.showConfirmDialog(null, "Would you like to update your blood-bank?", "BLOOD-BANK UPDATE",
+					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+		} while ((update != JOptionPane.YES_OPTION) && (update != JOptionPane.NO_OPTION));
+
+		//Updating BloodBank-Stock
+		if (update == JOptionPane.YES_OPTION) {
+
+			//Asking which bloodType to update
+			Object[] types = {"A+", "A-", "AB+", "AB-", "B+", "B-", "O+", "O-"};
+			String type_update;
+			do {
+				type_update = (String)JOptionPane.showInputDialog(null, "BLOOD TYPE UPDATE","Choose a blood-type stock to update",
+						JOptionPane.PLAIN_MESSAGE, null, types, "A+");
+			} while (type_update != "A+" && type_update != "A-" && type_update != "AB+" && type_update != "AB-" && 
+					type_update != "B+" && type_update != "B-" && type_update != "0+" && type_update != "0-");
+
+			//Asking for blood INCOME or OUTCOME
+			String[] kind = {"INCOME", "OUTCOME"};
+			int option;
+			do {
+				option = JOptionPane.showOptionDialog(null,"Choose the kind of the update", null, JOptionPane.DEFAULT_OPTION,
+						JOptionPane.PLAIN_MESSAGE, null, kind, kind[0]);
+			} while ((option != 0) && (option != 1));
+
+			//Asking for the blood-amount
+			double amount = 0;
+         		do {
+                 		try {
+                         		amount = Double.parseDouble(JOptionPane.showInputDialog("Insert the amount of blood in liters: "));
+                 		} catch (NullPointerException e1) {
+                         		JOptionPane.showMessageDialog(null, "Please enter the amount of blood","ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+                 		} catch (NumberFormatException e2) {
+                	     		JOptionPane.showMessageDialog(null, "Please enter a positive number","ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);               
+                 		}
+         		} while (amount <= 0);
+
+			//Updating the bloodStock
+         		try {
+                     		Messages.connect();
+                     		Connection dbcon = null;
+                     		Statement stmt = dbcon.createStatement();
+                     		ResultSet rs = stmt.executeQuery("SELECT * FROM Bloodtypes, BloodLimits WHERE" +
+                                     "BloodLimits.BloodType = Bloodtypes.bloodtype AND BloodLimits.H_Username = '" + username +"'");
+                     		while (rs.next()) {
+                             		b = rs.getString("bloodtype");
+                             		if (b.equals(type_update)) {
+                            	 		updateBloodBankStock(option, amount, b, username);
+             				}
+                     		}	
+                     		rs.close();
+                     		stmt.close();
+         		 } catch (Exception e) {
+                     		e.printStackTrace();
+         		 }				
+		} else {
+			JOptionPane.showMessageDialog(null, "You are going to continue without any changes made", "CANCELED UPDATE", JOptionPane.INFORMATION_MESSAGE);
+			//Return back to Hospital Log-in-Menu
+			HomeMenu.hospitalSecondMenu(username);
+		}
+	}	
+	
+
+	/** * This method changes hospital's blood bank stock, given the option
+	 * @param option is the king of update; income  or outcome
+	 * @param amount is the amount of blood to be subtracted or added to the blood bank stock
+	 * @param bloodtype is the type of blood
+	 * @param username is the hospital' username*/
+	public static void updateBloodBankStock(int option, Double amount, String bloodtype, String username) {
+		Double b, blood = null;
+		try {
+               		Messages.connect();
+               		Connection dbcon = null;
+               		Statement stmt = dbcon.createStatement();
+               		ResultSet rs = stmt.executeQuery("SELECT * BloodLimits, BloodBankStock WHERE BloodLimits.BloodType = BloodBankStock.BloodType" +
+                               	"AND BloodLimits.H_Username = BloodBankStock.H_Username AND BloodLimits.BloodType = '" 
+               			+ bloodtype + "' AND BloodLimits.H_Username = '" + username +"'");
+               		while (rs.next()) {
+               			blood = rs.getDouble("Blood"); 
+                       		b = rs.getDouble("BloodLimit");
+                       		if (option == 0) {
+					blood += amount;
+          			} else {
+            				blood -= amount;
+            			}
+                        	update(username, bloodtype, blood);
+            			//Checking if the bloodStock is under the allowed limit of its bloodType
+            			if(blood <= b){
+            				// Showing WARNING message
+            				Messages.shortageOfBlood(bloodtype, username);
+				}	
+            		}	
+                	rs.close();
+                	stmt.close();
+    		} catch (Exception e) {
+    			e.printStackTrace();
+    		}
+	}	
+
+	/**
+	* This method updates the data base with the current blood bank stock
+	* @param username is the hospital's username
+	* @param bloodtype is the given bloodtype
+	* @param blood is the current blood bank stock of the given blood type*/
+	public static void update (String username, String bloodtype, Double blood) {
+		try {
+			Messages.connect();
+                	Connection dbcon = null;
+                	Statement stmt = dbcon.createStatement();
+                	ResultSet rs = stmt.executeQuery("UPDATE BloodBankStock  SET H_Username = '" + username + "', BloodType ='" 
+					+ bloodtype + "', Blood = '" + blood +  "' WHERE H_Username = '"
+					+ username + "' AND BloodType ='" + bloodtype + "'");
+               		stmt.close();
+               		Messages.connect().close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}	
+
 	/**This method lets hospitals create their own donation day*/
-	public String makeDonationDay(String username) {
+	public static String makeDonationDay() {
 		boolean flag = true;
 		String d = null;
 		String m = null;
@@ -325,7 +537,7 @@ public class Hospital {
            		}
 		} while(flag);
                 String date = String.join("-",y, m , d);
-                return date, username;
+		return date;
 	}
 	
 }	

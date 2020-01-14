@@ -1,20 +1,17 @@
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import javax.swing.*;
 import java.lang.NullPointerException;
 import java.lang.NumberFormatException;
 
 public class Hospital {
 
-	String[] bloodtype = {"A+","A-","AB+","AB-","B+","B-","0+","O-"};
 
 	/**This method lets hospitals update their blood bank stock*/
-	public void bloodBankStock() {
+	public void bloodBankStock(String username) {
 
 		//Asking for BloodBank Update
 		int update;
 		do {
-			update = JOptionPane.showConfirmDialog(null, "Would you like to update your blood-bank?", "BLOOD-BANK UPDATE",
+			update = JOptionPane.showConfirmDialog(null, "Are you sure you want to update your blood-bank?", "CONFIRMATION",
 					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 		} while ((update != JOptionPane.YES_OPTION) && (update != JOptionPane.NO_OPTION));
 
@@ -34,7 +31,7 @@ public class Hospital {
 			String[] kind = {"INCOME", "OUTCOME"};
 			int option;
 			do {
-				option = JOptionPane.showOptionDialog(null,"Choose the kind of the update", null, JOptionPane.DEFAULT_OPTION,
+				option = JOptionPane.showOptionDialog(null,"Choose the cause of the change: ", null, JOptionPane.DEFAULT_OPTION,
 						JOptionPane.PLAIN_MESSAGE, null, kind, kind[0]);
 			} while ((option != 0) && (option != 1));
 
@@ -42,7 +39,7 @@ public class Hospital {
 			double amount = 0;
          		do {
                  		try {
-                         		amount = Double.parseDouble(JOptionPane.showInputDialog("Insert the amount of blood in liters: "));
+                         		amount = Double.parseDouble(JOptionPane.showInputDialog("Enter the amount of blood in liters: "));
                  		} catch (NullPointerException e1) {
                          		JOptionPane.showMessageDialog(null, "Please enter the amount of blood","ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
                  		} catch (NumberFormatException e2) {
@@ -51,25 +48,28 @@ public class Hospital {
          		} while (amount <= 0);
 
 			//Updating the bloodStock
-			for (int i=0; i<=7; i++) {
+			updateBloodBankStock(option, amount, type_update, username);
+		} else {
+	                JOptionPane.showMessageDialog(null, "You are going to continue without any changes made", "CANCELED UPADATE", JOptionPanE.INFORMATION_MESSAGE );
+			HomeMenu.hospitalSecondMenu(username);
+		}
+	}
 
-				if (bloodtype[i]  == type_update) {
+	/** *This method changes the blood bank stock, given the option */
+	public static void updateBloodBankStock(int option, double amount, String bloodtype, String username) {
+		
+		double blood, b; //connection with database in file Hospital.java
 
-					if (option == 0) {
-						bloodStock[i] += amount;
-					} else {
-						bloodStock[i] -= amount;
-					}
+		if (option == 0) {
+			blood += amount;
+		} else {
+			blood -= amount;
+		}
 
-					//Checking if the bloodStock is under the allowed limit of its bloodType
-				   	if(bloodStock[i] <= bloodtypeLimit[i]){ //Maria's part, connection with method signUp in class Hospital
-						// Showing WARNING message
-						Messages m = new Messages();
-						m.shortageOfBlood(type_update); //κλήση μεθόδου shortageOfBlood SOS SOS SOS
-					}
-				}
-			}
-
+		//Checking if the bloodStock is under the alowed limit
+		if (blood < b) {
+			//Showing warning message
+			Messages.shortageOfBlood(bloodtype, username);
 		}
 	}
 }

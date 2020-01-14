@@ -87,10 +87,12 @@ public class Messages{
 					 strm = "0" + m;
 				}   
 				String messageDate = strDateYear + "-" + strm + "-" + strd;
-				//if today is five days before the Blood Donation day
+				//if tomorrow is a Blood Donation day
 				if (formatter.format(date).equals(messageDate)) {
 					String day = rs.getString("D_Day");
-					JOptionPane.showMessageDialog(null, day, strDate, JOptionPane.INFORMATION_MESSAGE);					
+					String message = day + ", " + strDate;
+					JFrame dialogExample = new DialogExample(message);
+					dialogExample.setVisible(true);
 				}
 				rs.close();
 				Messages.connect().close();

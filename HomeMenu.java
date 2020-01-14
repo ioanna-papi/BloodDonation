@@ -102,6 +102,13 @@ public class HomeMenu {
 					while (flag) {
 						bloodtype = (String) JOptionPane.showInputDialog(null, "Choose the bloodtype", 
 											 "SIGN UP", JOptionPane.PLAIN_MESSAGE, null, bloodtypes , "O+");
+						try {
+							if (bloodtype.equals(null)) {
+								throw new NullPointerException();
+							} else {
+								flag = false;
+						} catch (NullPointerException e) {
+						}
 					}
 					Messages.bloodBorrow(username);
 				} else if (a2 == 1){

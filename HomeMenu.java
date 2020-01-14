@@ -82,47 +82,54 @@ public class HomeMenu {
 				username = (Hospital.logIn());
 				JOptionPane.showMessageDialog(null, "Now we would like you to inform us about your blood bank stock");
 				Hospital.bloodBankStock(username);
-				printHospitalMenu();
+				hospitalSecondMenu(username);
 			case 1:
-				username = (Hospital.logIn());
-				Object[] opt = {"Update blood bank stock","Skip this step"};
-				int g = JOptionPane.showOptionDialog(null,"Now we would like you to inform us about your blood bank stock", "HOSPITAL MENU", JOptionPane.YES_NO_OPTION,
-						JOptionPane.PLAIN_MESSAGE, null, opt, null);
-				if (g == 0) {
-					Hospital.bloodBankStock(username);
-				}
-				String[] k = {"Borrow", "Donation Day"};
-				int a2 = JOptionPane.showOptionDialog(null, "If you think you have shortage of stock, you can borrow blood from another" 
-						+ " hospital, or make a new doantion day","BLOOD BORROW",
-						JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, k, k[0]);
-				if (a2 == 0) {
-					String bloodtype = null;
-					String[] bloodtypes = { "O+" , "O-" , "A+" , "A-" , "B+" , "B-" , "AB+" , "AB-" };
-					boolean flag = true;
-					while (flag) {
-						bloodtype = (String) JOptionPane.showInputDialog(null, "Choose the blood type", 
-											 "SIGN UP", JOptionPane.PLAIN_MESSAGE, null, bloodtypes , "O+");
-						try {
-							if (bloodtype.equals(null)) {
-								throw new NullPointerException();
-							} else {
-								flag = false;
-							}
-						} catch (NullPointerException e) {
-							JOptionPane.showMessageDialog(null, "Please choose the blood type", 
-										      "ALERT MESSAGE" , JOptionPane.WARNING_MESSAGE);
-						}
-					}
-					Messages.bloodBorrow(Messages.getRegion(username),bloodtype,username);
-				} else if (a2 == 1) {
-					Messages.donationDay(Hospital.makeDonationDay(username),username);
-					JOptionPane.showMessageDialog(null, "Thank you! You help us to strengthen our action");
-				}
+				HomeMenu.hospitalSecondMenu(Hospital.logIn());
 				HomeMenu.printHospitalMenu();
 			default:
 				HomeMenu.printHospitalMenu();	
 		}	
 		
 	}
+	
+	/**
+	 * This method displays hospital's second menu,
+	 * meaning after they succesfully log in
+	 * @param username is the hospital's username*/
+	public static void hospitalSecondMenu(String username) {
+		Object[] opt = {"Update blood bank stock","Skip this step"};
+                int g = JOptionPane.showOptionDialog(null,"Now we would like you to inform us about your blood bank stock", "HOSPITAL MENU", JOptionPane.YES_NO_OPTION,
+                                          JOptionPane.PLAIN_MESSAGE, null, opt, null);
+                if (g == 0) {
+                	Hospital.bloodBankStock(username);
+                }
+                String[] k = {"Borrow", "Donation Day"};
+                int a2 = JOptionPane.showOptionDialog(null, "If you are in need of blood units, you can borrow blood from another"
+                                          + " hospital, or make a new doantion day","BLOOD BORROW",
+                                      JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, k, k[0]);
+                 if (a2 == 0) {
+                 	String bloodtype = null;
+                        String[] bloodtypes = { "O+" , "O-" , "A+" , "A-" , "B+" , "B-" , "AB+" , "AB-" };
+                        boolean flag = true;
+                        while (flag) {
+                        	bloodtype = (String) JOptionPane.showInputDialog(null, "Choose the blood type",
+                                                          "SIGN UP", JOptionPane.PLAIN_MESSAGE, null, bloodtypes , "O+");
+                                try {
+                                	if (bloodtype.equals(null)) {
+                                        	throw new NullPointerException();
+                                        } else {
+                                        	flag = false;
+                                        }
+                                } catch (NullPointerException e) {
+                                	JOptionPane.showMessageDialog(null, "Please choose the blood type",
+                                                                    "ALERT MESSAGE" , JOptionPane.WARNING_MESSAGE);
+                                }
+                        }
+                        Messages.bloodBorrow(Messages.getRegion(username),bloodtype,username);
+                 } else if (a2 == 1) {
+                 	Messages.donationDay(Hospital.makeDonationDay(username),username);
+                        JOptionPane.showMessageDialog(null, "Thank you! You help us strengthen our action");
+                 }
+        }
 }
 

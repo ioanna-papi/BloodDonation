@@ -174,7 +174,9 @@ public class Messages{
 				r = rs.getString("Region");
 				if (r.equals(region)) {
 					//display message to hospitals
-					JOptionPane.showMessageDialog(null, name + " has blood type " + bloodtype+ " shortage. Can you help?", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+					String message = name + " has blood type " + bloodtype+ " shortage. Can you help?";
+					JFrame dialogExample = new DialogExample(message);
+        				dialogExample.setVisible(true);
 				}
 			}
                         stmt.close();

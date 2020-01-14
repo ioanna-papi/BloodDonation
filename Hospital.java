@@ -222,13 +222,9 @@ public class Hospital {
 
                 //Add hospital's credentials to the database
                 try {
-			Messages.connect();
-			Connection dbcon = null;
-			Statement stmt = dbcon.createStatement();
-			int rs = stmt.executeUpdate("INSERT INTO Hospital (Username, H_name, H_pass, Telephone, Address, Region)" + 
+			int rs = Messages.connect().executeUpdate("INSERT INTO Hospital (Username, H_name, H_pass, Telephone, Address, Region)" + 
 					"VALUES ('" + username + "', '" + fullname + "', '" + password + "', '" + phonenumber + "', '" + Address + "', '" + region +  "')");
 			
-			stmt.close();
 			Messages.connect().close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -236,17 +232,14 @@ public class Hospital {
 
 		 // Hospital's blood limit
                         try {
-                                Messages.connect();
-                                Connection dbcon = null;
-                                Statement stmt = dbcon.createStatement();
-                                ResultSet rs = stmt.executeQuery("SELECT * FROM Bloodtypes, BloodLimits WHERE" +
+                                ResultSet rs = Messages.connect().executeQuery("SELECT * FROM Bloodtypes, BloodLimits WHERE" +
                                                 "Bloodlimits.BloodType = Bloodtypes.bloodtype AND BloodLimits.H_Username = '" + username +"'");
                                 while (rs.next()) {
                                         String b = rs.getString("bloodtype");
                                         bloodLimit(b, username);
                                 }
                                 rs.close();
-                                stmt.close();
+                                Messages.connect().close();
                         } catch (Exception e) {
                                 e.printStackTrace();
                         }
@@ -262,41 +255,38 @@ public class Hospital {
 		String bloodtype;
 		Double stock = 0.0;
 		try {
-     		Messages.connect();
-     		Connection dbcon = null;
-     		Statement stmt = dbcon.createStatement();
-     		ResultSet rs = stmt.executeQuery("SELECT * FROM Bloodtypes");
-     		while (rs.next()) {
-             		bloodtype = rs.getString("bloodtype");
-             		String b =JOptionPane.showInputDialog(null, "Please insert your current blood bank stock for blood type "
-             		+ bloodtype, "BLOOD BANK STOCK", JOptionPane.PLAIN_MESSAGE);
-             		boolean flag = true;
-            		double temp = 0;
-                     	do {
-                    		try {
-                    			temp = limitLiters(b);
-                             		if (Answer() == true) {
-                            			stock = temp;
+     			ResultSet rs = Messages.connect().executeQuery("SELECT * FROM Bloodtypes");
+     			while (rs.next()) {
+             			bloodtype = rs.getString("bloodtype");
+             			String b =JOptionPane.showInputDialog(null, "Please insert your current blood bank stock for blood type "
+             			+ bloodtype, "BLOOD BANK STOCK", JOptionPane.PLAIN_MESSAGE);
+             			boolean flag = true;
+            			double temp = 0;
+                     		do {
+                    			try {
+                    				temp = limitLiters(b);
+                             			if (Answer() == true) {
+                            				stock = temp;
                                  			flag = false;
-                             		} else {
-                            			stock = limitLiters(b);
-                            			break;
-                            		}
+                             			} else {
+                            				stock = limitLiters(b);
+                            				break;
+                            			}
                          		} catch(InputMismatchException e2) {
-                            		JOptionPane.showMessageDialog(null, "The input has to be a number!", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
-                            		flag = true;
+                            			JOptionPane.showMessageDialog(null, "The input has to be a number!", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+                            			flag = true;
                          		} catch (NumberFormatException e) {
-                            		JOptionPane.showMessageDialog(null, "The input has to be a number!", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
-                            		flag = true;
+                            			JOptionPane.showMessageDialog(null, "The input has to be a number!", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+                            			flag = true;
                          		} catch (NullPointerException e) {
-                            		flag = true;
+                            			flag = true;
                          		}
-                     	}while (flag);
-			//insert data to data base
-                     	insertBloodBankStock(username, b, stock);
-     		}
-     		rs.close();
-     		stmt.close();
+                     		}while (flag);
+				//insert data to data base
+                     		insertBloodBankStock(username, b, stock);
+     			}
+     			rs.close();
+     			Messages.connect().close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -322,6 +312,7 @@ public class Hospital {
                                 if (flag == false){
                                         JOptionPane.showMessageDialog(null, "Invalid username or password. Please try again.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
                                 }
+				Messages.connect.close();
                          } catch (InputMismatchException | SQLException e) {
                                 JOptionPane.showMessageDialog(null, "Please enter a valid username or password.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
                                 flag = false;
@@ -338,17 +329,12 @@ public class Hospital {
 	 * @param username is the hospital's username*/
 	public static void insertBloodBankStock(String username, String bloodtype, Double blood) {
 		try {
-                                Messages.connect();
-                                Connection dbcon = null;
-                                Statement stmt = dbcon.createStatement();
-                                ResultSet r = stmt.executeQuery("INSERT INTO BloodBankStock (H_Username, BloodType, Blood)" +
+                	ResultSet r = Messages.connect().executeQuery("INSERT INTO BloodBankStock (H_Username, BloodType, Blood)" +
                                         "VALUES ('" + username + "', '" + bloodtype + "', '" + blood +  "')");
-
-                                stmt.close();
-                                Messages.connect().close();
-                        } catch (Exception e) {
-                                e.printStackTrace();
-                        }
+			Messages.connect().close();
+                } catch (Exception e) {
+                	e.printStackTrace();
+                }
 		return;
 	}
 	
@@ -398,10 +384,7 @@ public class Hospital {
 
 			//Updating the bloodStock
          		try {
-                     		Messages.connect();
-                     		Connection dbcon = null;
-                     		Statement stmt = dbcon.createStatement();
-                     		ResultSet rs = stmt.executeQuery("SELECT * FROM Bloodtypes, BloodLimits WHERE" +
+                     		ResultSet rs = Messages.connect().executeQuery("SELECT * FROM Bloodtypes, BloodLimits WHERE" +
                                      "BloodLimits.BloodType = Bloodtypes.bloodtype AND BloodLimits.H_Username = '" + username +"'");
                      		while (rs.next()) {
                              		b = rs.getString("bloodtype");
@@ -410,7 +393,7 @@ public class Hospital {
              				}
                      		}	
                      		rs.close();
-                     		stmt.close();
+                     		Messages.connect().close();
          		 } catch (Exception e) {
                      		e.printStackTrace();
          		 }				
@@ -430,10 +413,7 @@ public class Hospital {
 	public static void updateBloodBankStock(int option, Double amount, String bloodtype, String username) {
 		Double b, blood = null;
 		try {
-               		Messages.connect();
-               		Connection dbcon = null;
-               		Statement stmt = dbcon.createStatement();
-               		ResultSet rs = stmt.executeQuery("SELECT * BloodLimits, BloodBankStock WHERE BloodLimits.BloodType = BloodBankStock.BloodType" +
+               		ResultSet rs = Messages.connect().executeQuery("SELECT * BloodLimits, BloodBankStock WHERE BloodLimits.BloodType = BloodBankStock.BloodType" +
                                	"AND BloodLimits.H_Username = BloodBankStock.H_Username AND BloodLimits.BloodType = '" 
                			+ bloodtype + "' AND BloodLimits.H_Username = '" + username +"'");
                		while (rs.next()) {
@@ -452,7 +432,7 @@ public class Hospital {
 				}	
             		}	
                 	rs.close();
-                	stmt.close();
+                	Messages.connect().close();
     		} catch (Exception e) {
     			e.printStackTrace();
     		}
@@ -465,10 +445,7 @@ public class Hospital {
 	* @param blood is the current blood bank stock of the given blood type*/
 	public static void update (String username, String bloodtype, Double blood) {
 		try {
-			Messages.connect();
-                	Connection dbcon = null;
-                	Statement stmt = dbcon.createStatement();
-                	ResultSet rs = stmt.executeQuery("UPDATE BloodBankStock  SET H_Username = '" + username + "', BloodType ='" 
+                	ResultSet rs = Messages.connect().executeQuery("UPDATE BloodBankStock  SET H_Username = '" + username + "', BloodType ='" 
 					+ bloodtype + "', Blood = '" + blood +  "' WHERE H_Username = '"
 					+ username + "' AND BloodType ='" + bloodtype + "'");
                		stmt.close();

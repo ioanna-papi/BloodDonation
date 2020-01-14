@@ -405,42 +405,48 @@ public class BloodDonor {
 			return;	
 		}
 
-		/**This method checks if the users is compatible as a blood donor by his answers
-		 * @param qid is the id of the question
-		 * @param an is the answer to the question*/
-		public static boolean checkQuestion (int qid, String an) {
-			boolean flag = false;
-			Date date1 = new Date();
-			if (qid == 14) {
-				try {
-					date1=new SimpleDateFormat("yyyy/MM/dd").parse(an);
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-				SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd");
-				Date date = new Date(System.currentTimeMillis());
-				long diff = getDateDiff(date1,date,TimeUnit.DAYS);
-				if (diff >= 90){
-					flag = true;
-				}
-			} else if (qid > 14) {
-				if (an.equals("1")) {
-					flag = true; //if the users answers no, he is compatible
-				}
-			} else {
-				flag = true; //the rest of the answers don't need checking
+	/**This method checks if the users is compatible as a blood donor by his answers
+	 * @param qid is the id of the question
+	 * @param an is the answer to the question*/
+	public static boolean checkQuestion (int qid, String an) {
+		boolean flag = false;
+		Date date1 = new Date();
+		if (qid == 14) {
+			try {
+				date1=new SimpleDateFormat("yyyy/MM/dd").parse(an);
+			} catch (ParseException e) {
+				e.printStackTrace();
 			}
-			return flag;
+			SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd");
+			Date date = new Date(System.currentTimeMillis());
+			long diff = getDateDiff(date1,date,TimeUnit.DAYS);
+			if (diff >= 90){
+				flag = true;
+			}
+		} else if (qid > 14) {
+			if (an.equals("1")) {
+				flag = true; //if the users answers no, he is compatible
+			}
+		} else {
+			flag = true; //the rest of the answers don't need checking
 		}
-
-
-		/**This method returns the difference between current date and given date
-		 * @param date1 is the given date
-		 * @param date2 is the current date
-		 * @param timeUnit is the selected timeUnit*/
-		public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
-		    long diffInMillies = date2.getTime() - date1.getTime();
-		    return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
-		}
+		return flag;
+	}
+	
+	/**This method returns the difference between current date and given date
+	 * @param date1 is the given date
+	 * @param date2 is the current date
+	 * @param timeUnit is the selected timeUnit*/
+	public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
+	    long diffInMillies = date2.getTime() - date1.getTime();
+	    return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
+	}
+	
+	/**
+	* This method displays messages to donors about the default donation days*/
+	public static void printDonationCalendar() {
+		String [] args = null;
+		Scheduler.main(args);
+	}	
 }
 

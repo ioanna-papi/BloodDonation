@@ -102,13 +102,13 @@ public class HomeMenu {
 		do {
 			try {
 				Object[] opt = {"Update blood bank stock","Borrow Blood Units from other hospitals", "Create new donation day", "Log out"};
-        	        	g = (String) JOptionPane.showInputDialog(null,"Please choose one of the following",
+        	        	String g = (String) JOptionPane.showInputDialog(null,"Please choose one of the following",
 					"HOSPITAL MENU", JOptionPane.PLAIN_MESSAGE, null, opt, "Update blood bank stock");
 			
                 		if (g == "Update blood bank stock") {
 	 				Hospital.bloodBankStock(username);
 					f = false;
-				} else if (g.equals ("Borrow Blood Units from other hospitals")) {:
+				} else if (g.equals ("Borrow Blood Units from other hospitals")) {
 					String bloodtype = null;
                         		String[] bloodtypes = { "O+" , "O-" , "A+" , "A-" , "B+" , "B-" , "AB+" , "AB-" };
                         		boolean flag = true;
@@ -127,7 +127,7 @@ public class HomeMenu {
                                 		}
                         		}	
                         		Messages.bloodBorrow(Messages.getRegion(username),bloodtype,username);
-					f = false
+					f = false;
 				} else if (g.equals ("Create new donation day")) {
                  			BloodDonor.displayDonationDay(username);
                         		JOptionPane.showMessageDialog(null, "Thank you! You help us strengthen our action");

@@ -58,6 +58,7 @@ public class BloodDonor {
 					JOptionPane.showMessageDialog(null, "The username is already used.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
 				} else {
 					flag = false;
+					break;
 				}
 				if (username.equals("null")) {
         				throw new NullPointerException();
@@ -77,7 +78,10 @@ public class BloodDonor {
  	    			email = JOptionPane.showInputDialog(null,"Enter your email: ", "SIGN UP", JOptionPane.INFORMATION_MESSAGE);
  	    			if (rs.getString("B_email").equals(email)) {
  	    				JOptionPane.showMessageDialog(null, "The email is already used.", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
- 	    			}
+ 	    			} else {
+					flag = false;
+					break;
+				}
  	    			if (email.equals("null")) {
         				throw new NullPointerException();
         			}
@@ -254,11 +258,8 @@ public class BloodDonor {
 		boolean flag = true;
 		String a = null;
 			try {   
-				Messages.connect();
-				Connection dbcon = null;
-				Statement stmt = dbcon.createStatement();
 				int i = 0;
-				ResultSet rs = stmt.executeQuery("SELECT * FROM Questionnaire ");
+				ResultSet rs = Messages.connect().executeQuery("SELECT * FROM Questionnaire ");
 				while (rs.next()) {
 					int qid = rs.getInt("Q_id");
 					String r = rs.getString("Question");
@@ -316,7 +317,7 @@ public class BloodDonor {
 					}
 				}
 				rs.close();
-				stmt.close();
+				Messages.connect().close();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

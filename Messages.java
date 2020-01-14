@@ -2,6 +2,7 @@ import javax.swing.JOptionPane;
 import java.util.Date;
 import java.sql.*;
 import java.text.SimpleDateFormat;
+import javax.swing.JFrame;
 /**
  * This class displays messages to blood donors and hospitals*/
 public class Messages{
@@ -9,7 +10,7 @@ public class Messages{
 	/**
 	 * This method creates a connection to the data base*/
 	public static Statement connect() {
-		String url = "jdbc:sqlserver://195.251.249.161:1433;" + "databaseName=DB20;user=G520;password=94we99494;"
+		String url = "jdbc:sqlserver://195.251.249.161:1433;" + "databaseName=DB20;user=G520;password=94we99494;";
 		Connection dbcon;
 		Statement stmt = null;
 		try {
@@ -50,27 +51,42 @@ public class Messages{
 			System.out.print("ClassNotFoundException: ");
 			System.out.println(e.getMessage());
 		}
-		do(;;){
-		try {
+		try {	
+			String[] month = new String[12];
+               		month[0] = "January";
+        	        month[1] = "February";
+			month[2] = "March";
+			month[3] = "April";
+			month[4] = "May";
+			month[5] = "June";
+			month[6] = "July";
+			month[7] = "August";
+			month[8] = "September";
+			month[9] = "October";
+			month[10] = "November";
+			month[11] = "December";
 			ResultSet rs = Messages.connect().executeQuery("SELECT * FROM DonationDays");
-			ResultSet RS = Messages.connect().executeQuery("SELECT * FROM BloodDonor");
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 			Date date = new Date();
-			int d ,m;
+			int d ,m, don_m = 0, don_d = 0;
 			while ((rs.next())) {
 				Date d_date = rs.getDate("D_Date");
 				String strDate = formatter.format(d_date);
-				String strDateDay = strDate.substring(8);//from current date get day
-				String strDateMonth = strDate.substring(5,6);//from current date get month
-				String strDateYear = strDate.substring(0,3);//from current date get year
+				String strDateDay = strDate.substring(8);//from Donation date get day
+				String strDateMonth = strDate.substring(5,6);//from Donation date get month
+				String strDateYear = strDate.substring(0,3);//from Donation date get year
 				d = Integer.parseInt(strDateDay);
 				m = Integer.parseInt(strDateMonth);
-				if (d - 1 <= 0) {
+				if (d - 1 == 0) {
 					if(m == 2 || m == 4 || m == 6 || m == 9 || m == 11) {
+						don_d = d;
 						d = 30;
+						don_m = m;
 						m -= 1;
 					} else {
+						don_d = d;
 						d = 31;
+						don_m = m;
 						if(m == 1){
 							m = 12;
 						}else{
@@ -86,21 +102,20 @@ public class Messages{
 				if (m < 10) {
 					 strm = "0" + m;
 				}   
+				
 				String messageDate = strDateYear + "-" + strm + "-" + strd;
 				//if tomorrow is a Blood Donation day
 				if (formatter.format(date).equals(messageDate)) {
 					String day = rs.getString("D_Day");
-					String message = day + ", " + strDate;
+					String message = "Tommorow is " + month[don_m-1] + " " + don_d + "th: " + day;
 					JFrame dialogExample = new DialogExample(message);
 					dialogExample.setVisible(true);
 				}
-				rs.close();
-				Messages.connect().close();
-			}
-			break;
+		}
+		rs.close();
+		Messages.connect().close();
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
 		}
 		return;	
 	}

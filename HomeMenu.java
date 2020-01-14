@@ -100,7 +100,7 @@ public class HomeMenu {
 					String[] bloodtypes = { "O+" , "O-" , "A+" , "A-" , "B+" , "B-" , "AB+" , "AB-" };
 					boolean flag = true;
 					while (flag) {
-						bloodtype = (String) JOptionPane.showInputDialog(null, "Choose the bloodtype", 
+						bloodtype = (String) JOptionPane.showInputDialog(null, "Choose the blood type", 
 											 "SIGN UP", JOptionPane.PLAIN_MESSAGE, null, bloodtypes , "O+");
 						try {
 							if (bloodtype.equals(null)) {
@@ -108,6 +108,8 @@ public class HomeMenu {
 							} else {
 								flag = false;
 						} catch (NullPointerException e) {
+							JOptionPane.showMessageDialog(null, "Please choose the blood type", 
+										      "ALERT MESSAGE" , JOptionPane.WARNING_MESSAGE);
 						}
 					}
 					Messages.bloodBorrow(username);

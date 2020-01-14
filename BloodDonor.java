@@ -326,10 +326,11 @@ public class BloodDonor {
                 			JOptionPane.showMessageDialog(null, "Please insert your answer", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
                     			flag = false;
                 		}
-            		}while (flag == false);
-			 //create coonection to db and update table questionnaire
-			//answers[a-1] = a2;
-			return;	
-		}
+	       		}while (flag == false);
+		 //create coonection to db and update table questionnaire
+		//answers[a-1] = a2;
+		return;	
+	}
+	
 }
 

@@ -416,7 +416,8 @@ public class Hospital {
          		 }				
 		} else {
 			JOptionPane.showMessageDialog(null, "You are going to continue without any changes made", "CANCELED UPDATE", JOptionPane.INFORMATION_MESSAGE);
-			HomeMenu.printHospitalMenu();
+			//Return back to Hospital Log-in-Menu
+			HomeMenu.hospitalSecondMenu(username);
 		}
 	}	
 	
@@ -537,7 +538,8 @@ public class Hospital {
            		}
 		} while(flag);
                 String date = String.join("-",y, m , d);
-		return date;
+                String name = username;
+		return date + name;
 	}
 	
 }	

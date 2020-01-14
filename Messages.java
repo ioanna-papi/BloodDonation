@@ -38,8 +38,8 @@ public class Messages{
 				}
 			}
                         Date dateToDate = new SimpleDateFormat("yyyy/MM/dd").parse(date);
-                        Messages.connect().executeUpdate("INSERT INTO HospitalDonation" + "VALUES(" + username + ", "
-                                        + region + ", " + dateToDate + ")");
+                        Messages.connect().executeUpdate("INSERT INTO HospitalDonation (H_Username, Region, Don_Date)" + "VALUES('" + username + "', '"
+                                        + region + "', '" + dateToDate + "')");
 
                         rs.close();
                         Messages.connect().close();
@@ -109,7 +109,7 @@ public class Messages{
 						if(rs.getString(Username).equals(RS.getString(H_Username))){
 							name = rs.getString("H_name");
 							String message = "Tommorow " + month[don_m - 1] + " " + don_d
-						         	       + "th. go to the donation section of "  + name + "Hospital and give blood!";
+						         	       + "th. go to the donation section of "  + name + "Hospital and donate blood!";
 							JFrame dialogExample = new DialogExample(message);
 							dialogExample.setVisible(true);
 							break;

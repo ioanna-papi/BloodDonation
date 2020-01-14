@@ -35,13 +35,13 @@ public class HomeMenu {
 		int ans = JOptionPane.showOptionDialog(null, "Please choose one of the following",
                                                                 "DONOR'S MENU", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, q, q[0]);
 		switch (ans) {
-			case 1:
+			case 0:
 				BloodDonor.questionnaire();
 				JOptionPane.showMessageDialog(null, "Congratulations! You've already done the first step to become a Blood Donor");
 				JOptionPane.showMessageDialog(null, "Now press OK to sign up to our application");
 				BloodDonor.signUp();
 				printDonorMenu();
-			case 2:
+			case 1:
 				String username = (BloodDonor.logIn());
 				boolean f = true;
 				while (f) {

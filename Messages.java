@@ -35,6 +35,7 @@ public class Messages{
 				name = rs.getString("H_name");
 				region = rs.getString("Region");
 				//dispaly message to volunteers
+				//should be an email, but we can't get it working
 				JOptionPane.showMessageDialog(null, name + "hospital has created a new donation day at " + date );
 			}
 			rs.close();		

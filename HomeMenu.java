@@ -55,7 +55,7 @@ public class HomeMenu {
 						if (c2 == 0) {
 							HomeMenu.printDonorMenu();
 						} else {
-							flag = false;
+							f = false;
 						}
 					} else {
 						f = true;

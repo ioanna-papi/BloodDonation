@@ -65,13 +65,12 @@ public class Messages{
 				String strDateYear = strDate.substring(0,3);//from current date get year
 				d = Integer.parseInt(strDateDay);
 				m = Integer.parseInt(strDateMonth);
-				//find date which is five days before Blood Donation day
-				if (d-5 <= 0) {
+				if (d = 1) {
 					if(m == 2 || m == 4 || m == 6 || m == 9 || m == 11) {
-						d = 30 + (d-5);
+						d = 30;
 						m -= 1;
 					} else {
-						d = 31 + (d-5);
+						d = 31;
 						if(m == 1){
 							m = 12;
 						}else{

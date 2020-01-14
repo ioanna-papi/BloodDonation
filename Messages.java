@@ -131,7 +131,7 @@ public class Messages{
 				Messages.bloodBorrow(Messages.getRegion(username),bloodtype, username);
 			} else if (choice == 1) {
 				flag = false;
-				donationDay(Hospital.makeDonationDay(username), username);
+				donationDay(Hospital.makeDonationDay(), username);
 			} else {
 				JOptionPane.showMessageDialog(null, "You have to choose one of the above!", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
 			}

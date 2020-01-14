@@ -9,14 +9,15 @@ public class Messages{
 	/**
 	 * This method creates a connection to the data base*/
 	public static Statement connect() {
-		String url = "jdbc:sqlserver://195.251.249.161:1433;databaseName = DB20;user = G520;password = 94we99494";
+		String url = "jdbc:sqlserver://195.251.249.161:1433;" + "databaseName=DB20;user=G520;password=94we99494;"
 		Connection dbcon;
 		Statement stmt = null;
 		try {
 			dbcon = DriverManager.getConnection(url);
 			stmt = dbcon.createStatement();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.print("SQLException: ");
+			System.out.println(e.getMessage());
 		}
 		return stmt;
 	}
@@ -88,7 +89,7 @@ public class Messages{
 					 strm = "0" + m;
 				}   
 				String messageDate = strDateYear + "-" + strm + "-" + strd;
-				//if today is five days before the Blood Donation day
+				//if today is five days before the Blood Donation day display message to volunteers 
 				if (formatter.format(date).equals(messageDate)) {
 					String day = rs.getString("D_Day");
 					JOptionPane.showMessageDialog(null, day, strDate, JOptionPane.INFORMATION_MESSAGE);					

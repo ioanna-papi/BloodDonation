@@ -51,7 +51,20 @@ public class Messages{
 			System.out.println(e.getMessage());
 		}
 		do(;;){
-		try {
+		try {	
+			String[] month = new String[12];
+               		month[0] = "January";
+        	        month[1] = "February";
+			month[2] = "March";
+			month[3] = "April";
+			month[4] = "May";
+			month[5] = "June";
+			month[6] = "July";
+			month[7] = "August";
+			month[8] = "September";
+			month[9] = "October";
+			month[10] = "November";
+			month[11] = "December";
 			ResultSet rs = Messages.connect().executeQuery("SELECT * FROM DonationDays");
 			ResultSet RS = Messages.connect().executeQuery("SELECT * FROM BloodDonor");
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -86,11 +99,12 @@ public class Messages{
 				if (m < 10) {
 					 strm = "0" + m;
 				}   
+				
 				String messageDate = strDateYear + "-" + strm + "-" + strd;
 				//if tomorrow is a Blood Donation day
 				if (formatter.format(date).equals(messageDate)) {
 					String day = rs.getString("D_Day");
-					String message = day + ", " + strDate;
+					String message = "Tommorow is " + month[m-1] + " " + d + "th: " + day;
 					JFrame dialogExample = new DialogExample(message);
 					dialogExample.setVisible(true);
 				}

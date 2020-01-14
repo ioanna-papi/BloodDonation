@@ -107,6 +107,7 @@ public class HomeMenu {
 								throw new NullPointerException();
 							} else {
 								flag = false;
+							}
 						} catch (NullPointerException e) {
 							JOptionPane.showMessageDialog(null, "Please choose the blood type", 
 										      "ALERT MESSAGE" , JOptionPane.WARNING_MESSAGE);

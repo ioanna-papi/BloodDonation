@@ -45,6 +45,7 @@ public class HomeMenu {
 				String username = (BloodDonor.logIn());
 				boolean f = true;
 				while (f) {
+					BloodDonor.printDonationCalendar();
 					int choice = JOptionPane.showConfirmDialog(null, "Would you like to update your questionnaire?");
 					if (choice == 0) {
 						BloodDonor.updateQuestionnaire();

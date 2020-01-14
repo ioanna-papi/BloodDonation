@@ -1,0 +1,13 @@
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+class hospitalSecondMenuTest {
+
+	@Test
+	void test() {
+		String a = "Diomidis Spinellis";
+		HomeMenu.hospitalSecondMenu(a);
+	}
+
+}

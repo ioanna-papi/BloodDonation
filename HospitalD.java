@@ -51,7 +51,7 @@ public class Hospital {
 			updateBloodBankStock(option, amount, type_update, username);
 		} else {
 	                JOptionPane.showMessageDialog(null, "You are going to continue without any changes made", "CANCELED UPADATE", JOptionPanE.INFORMATION_MESSAGE );
-			HomeMenu.printHospitalMenu();
+			HomeMenu.hospitalSecondMenu(username);
 		}
 	}
 

@@ -479,7 +479,7 @@ public class Hospital {
 		}	
 
 	/**This method lets hospitals create their own donation day*/
-	public static String makeDonationDay(String username) {
+	public static String makeDonationDay() {
 		boolean flag = true;
 		String d = null;
 		String m = null;

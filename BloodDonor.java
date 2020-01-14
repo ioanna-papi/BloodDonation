@@ -406,7 +406,11 @@ public class BloodDonor {
                     			flag = false;
                 		}
             		}while (flag == false);
-			updateTableAnswers(qid, username, a2);
+			if (checkQuestion(qid, a2) == false) {
+				JOptionPane.showMessageDialod(null, "We regret to imform you that you are no longer compatible as a blood donor.","ALERT MESSAGE",JOptionPane.WARNING_MESSAGE);
+				System.exit(0)
+			} else {
+				updateTableAnswers(qid, username, a2);
 			return;	
 		}
 

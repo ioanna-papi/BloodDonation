@@ -45,6 +45,13 @@ public class Messages{
 	 * This method informs all volunteers about the default donation days*/
 	public static void donationCalendar() {
 		try {
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+		} catch (java.lang.ClassNotFoundException e) {
+			System.out.print("ClassNotFoundException: ");
+			System.out.println(e.getMessage());
+		}
+		do(;;){
+		try {
 			ResultSet rs = Messages.connect().executeQuery("SELECT * FROM DonationDays");
 			ResultSet RS = Messages.connect().executeQuery("SELECT * FROM BloodDonor");
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -89,8 +96,10 @@ public class Messages{
 				rs.close();
 				Messages.connect().close();
 			}
+			break;
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
 		}
 		return;	
 	}

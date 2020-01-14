@@ -2,6 +2,7 @@ import javax.swing.JOptionPane;
 import java.util.Date;
 import java.sql.*;
 import java.text.SimpleDateFormat;
+import javax.swing.JFrame;
 /**
  * This class displays messages to blood donors and hospitals*/
 public class Messages{
@@ -9,7 +10,7 @@ public class Messages{
 	/**
 	 * This method creates a connection to the data base*/
 	public static Statement connect() {
-		String url = "jdbc:sqlserver://195.251.249.161:1433;" + "databaseName=DB20;user=G520;password=94we99494;"
+		String url = "jdbc:sqlserver://195.251.249.161:1433;" + "databaseName=DB20;user=G520;password=94we99494;";
 		Connection dbcon;
 		Statement stmt = null;
 		try {
@@ -65,10 +66,9 @@ public class Messages{
 			month[10] = "November";
 			month[11] = "December";
 			ResultSet rs = Messages.connect().executeQuery("SELECT * FROM DonationDays");
-			ResultSet RS = Messages.connect().executeQuery("SELECT * FROM BloodDonor");
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 			Date date = new Date();
-			int d ,m, don_m, don_d;
+			int d ,m, don_m = 0, don_d = 0;
 			while ((rs.next())) {
 				Date d_date = rs.getDate("D_Date");
 				String strDate = formatter.format(d_date);
@@ -77,7 +77,7 @@ public class Messages{
 				String strDateYear = strDate.substring(0,3);//from Donation date get year
 				d = Integer.parseInt(strDateDay);
 				m = Integer.parseInt(strDateMonth);
-				if (d - 1 = 0) {
+				if (d - 1 == 0) {
 					if(m == 2 || m == 4 || m == 6 || m == 9 || m == 11) {
 						don_d = d;
 						d = 30;

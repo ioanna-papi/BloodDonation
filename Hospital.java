@@ -422,62 +422,61 @@ public class Hospital {
 	}	
 	
 
-		/** * This method changes hospital's blood bank stock, given the option
-		 * @param option is the king of update; income  or outcome
-		 * @param amount is the amount of blood to be subtracted or added to the blood bank stock
-		 * @param bloodtype is the type of blood
-		 * @param username is the hospital' username*/
-		public static void updateBloodBankStock(int option, Double amount, String bloodtype, String username) {
-			Double b, blood = null;
-			try {
-                		Messages.connect();
-                		Connection dbcon = null;
-                		Statement stmt = dbcon.createStatement();
-                		ResultSet rs = stmt.executeQuery("SELECT * BloodLimits, BloodBankStock WHERE BloodLimits.BloodType = BloodBankStock.BloodType" +
-                                	"AND BloodLimits.H_Username = BloodBankStock.H_Username AND BloodLimits.BloodType = '" 
-                			+ bloodtype + "' AND BloodLimits.H_Username = '" + username +"'");
-                		while (rs.next()) {
-                			blood = rs.getDouble("Blood"); 
-                        		b = rs.getDouble("BloodLimit");
-                        		if (option == 0) {
-            					blood += amount;
-            				} else {
-            					blood -= amount;
-            				}
-                        		update(username, bloodtype, blood);
-            				//Checking if the bloodStock is under the allowed limit of its bloodType
-            				if(blood <= b){
-            					// Showing WARNING message
-            					Messages.shortageOfBlood(bloodtype, username);
-					}	
-            			}	
-                		rs.close();
-                		stmt.close();
-    			} catch (Exception e) {
-    				e.printStackTrace();
-    			}
-		}	
+	/** * This method changes hospital's blood bank stock, given the option
+	 * @param option is the king of update; income  or outcome
+	 * @param amount is the amount of blood to be subtracted or added to the blood bank stock
+	 * @param bloodtype is the type of blood
+	 * @param username is the hospital' username*/
+	public static void updateBloodBankStock(int option, Double amount, String bloodtype, String username) {
+		Double b, blood = null;
+		try {
+               		Messages.connect();
+               		Connection dbcon = null;
+               		Statement stmt = dbcon.createStatement();
+               		ResultSet rs = stmt.executeQuery("SELECT * BloodLimits, BloodBankStock WHERE BloodLimits.BloodType = BloodBankStock.BloodType" +
+                               	"AND BloodLimits.H_Username = BloodBankStock.H_Username AND BloodLimits.BloodType = '" 
+               			+ bloodtype + "' AND BloodLimits.H_Username = '" + username +"'");
+               		while (rs.next()) {
+               			blood = rs.getDouble("Blood"); 
+                       		b = rs.getDouble("BloodLimit");
+                       		if (option == 0) {
+					blood += amount;
+          			} else {
+            				blood -= amount;
+            			}
+                        	update(username, bloodtype, blood);
+            			//Checking if the bloodStock is under the allowed limit of its bloodType
+            			if(blood <= b){
+            				// Showing WARNING message
+            				Messages.shortageOfBlood(bloodtype, username);
+				}	
+            		}	
+                	rs.close();
+                	stmt.close();
+    		} catch (Exception e) {
+    			e.printStackTrace();
+    		}
+	}	
 
-		/**
-		 * This method updates the data base with the current blood bank stock
-		 * @param username is the hospital's username
-		 * @param bloodtype is the given bloodtype
-		 * @param blood is the current blood bank stock of the given blood type*/
-		public static void update (String username, String bloodtype, Double blood) {
-			try {
-				Messages.connect();
-                		Connection dbcon = null;
-                		Statement stmt = dbcon.createStatement();
-                		ResultSet rs = stmt.executeQuery("UPDATE BloodBankStock  SET H_Username = '" + username + "', BloodType ='" 
-						+ bloodtype + "', Blood = '" + blood +  "' WHERE H_Username = '"
-						+ username + "' AND BloodType ='" + bloodtype + "'");
-
-                		stmt.close();
-                		Messages.connect().close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}	
+	/**
+	* This method updates the data base with the current blood bank stock
+	* @param username is the hospital's username
+	* @param bloodtype is the given bloodtype
+	* @param blood is the current blood bank stock of the given blood type*/
+	public static void update (String username, String bloodtype, Double blood) {
+		try {
+			Messages.connect();
+                	Connection dbcon = null;
+                	Statement stmt = dbcon.createStatement();
+                	ResultSet rs = stmt.executeQuery("UPDATE BloodBankStock  SET H_Username = '" + username + "', BloodType ='" 
+					+ bloodtype + "', Blood = '" + blood +  "' WHERE H_Username = '"
+					+ username + "' AND BloodType ='" + bloodtype + "'");
+               		stmt.close();
+               		Messages.connect().close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}	
 
 	/**This method lets hospitals create their own donation day*/
 	public static String makeDonationDay() {

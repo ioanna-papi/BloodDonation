@@ -99,6 +99,10 @@ public class HomeMenu {
 					String bloodtype = null;
 					String[] bloodtypes = { "O+" , "O-" , "A+" , "A-" , "B+" , "B-" , "AB+" , "AB-" };
 					boolean flag = true;
+					while (flag) {
+						bloodtype = (String) JOptionPane.showInputDialog(null, "Choose the bloodtype", 
+											 "SIGN UP", JOptionPane.PLAIN_MESSAGE, null, bloodtypes , "O+");
+					}
 					Messages.bloodBorrow(username);
 				} else if (a2 == 1){
 					Hospital.makeDonationDay(username);

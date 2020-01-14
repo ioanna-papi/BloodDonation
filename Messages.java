@@ -63,7 +63,7 @@ public class Messages{
 			month[9] = "October";
 			month[10] = "November";
 			month[11] = "December";
-			ResultSet rs = Messages.connect().executeQuery("SELECT * FROM Region");
+			ResultSet rs = Messages.connect().executeQuery("SELECT * FROM Hospital");
 			ResultSet RS = Messages.connect().executeQuery("SELECT * FROM HospitalDonation");
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 			Date today = new Date();

@@ -9,6 +9,7 @@ Drop table BloodDonor;
 Drop table BloodBankStock;
 Drop table BloodLimits;
 Drop table Bloodtypes;
+Drop table HospitalDonation;
 Drop table Hospital;
 */
 Create table Hospital( 
@@ -20,6 +21,12 @@ Create table Hospital(
 		Region varchar(50) not null
 		Primary key (Username));
 			
+create table HospitalDonation(
+		H_Username varchar(50) not null,
+		Region varchar(50) not null,
+		Don_Date date not null,
+		Primare key (H_Username),
+		Foreign key (H_Username) references Hospital(H_Username));
 
                 
 create  table Bloodtypes (

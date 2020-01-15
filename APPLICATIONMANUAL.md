@@ -20,6 +20,9 @@
 # Blood Donation Application's Manual
 
 	Once the application is launched, the main menu appears. You need to choose whether you wish to proceed as a Hospital or as a Blood Donor.  
+
+# Run the application
+	Run the application simply by typing java HomeMenu.java at cmd line.
 ## About Hospitals 
 	To continue further with the application’s services, you have to create an account or log into your already existing one. For that reason, the corresponding options appear in order to choose between sing up or log in.
 

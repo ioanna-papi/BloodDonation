@@ -6,8 +6,8 @@ import java.awt.event.ActionListener;
  * when needed*/
 public class DialogExample extends JFrame
 {
-    private final static String DIALOG_TITLE = "Warning Dialog";
-    private final static int DIALOG_ICON = JOptionPane.WARNING_MESSAGE;
+    private final static String DIALOG_TITLE = "Message Dialog";
+    private final static int DIALOG_ICON = JOptionPane.PLAIN_MESSAGE;
     private final JButton openPopupBtn;
 	
     /**

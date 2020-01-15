@@ -10,8 +10,8 @@ public class Scheduler {
   
       Calendar calendar = Calendar.getInstance();
       calendar.set(Calendar.HOUR_OF_DAY, 10);
-      calendar.set(Calendar.MINUTE, 50);
-      calendar.set(Calendar.SECOND, 20);
+      calendar.set(Calendar.MINUTE, 00);
+      calendar.set(Calendar.SECOND, 00);
       Date time = calendar.getTime();
   
       timer.schedule(new PrintTask(),

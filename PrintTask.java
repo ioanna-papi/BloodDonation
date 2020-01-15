@@ -5,7 +5,8 @@ import java.util.TimerTask;
  * default donation days*/
 public class PrintTask extends TimerTask {
       public void run() {
-         Messages.donationCalendar();
+        Messages.donationCalendar();
+      	Messages.donationDayDisplay();
       }
 }
 
